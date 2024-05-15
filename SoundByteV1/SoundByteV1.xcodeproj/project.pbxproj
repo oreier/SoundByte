@@ -14,6 +14,8 @@
 		3AEE2C022BF5275C007A51E7 /* SoundByteV1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE2C012BF5275C007A51E7 /* SoundByteV1Tests.swift */; };
 		3AEE2C0C2BF5275D007A51E7 /* SoundByteV1UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE2C0B2BF5275D007A51E7 /* SoundByteV1UITests.swift */; };
 		3AEE2C0E2BF5275D007A51E7 /* SoundByteV1UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE2C0D2BF5275D007A51E7 /* SoundByteV1UITestsLaunchTests.swift */; };
+		F42199602BF52B5B00BD0A09 /* StartScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421995F2BF52B5B00BD0A09 /* StartScreen.swift */; };
+		F42199642BF5353800BD0A09 /* Visual.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42199632BF5353800BD0A09 /* Visual.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,8 @@
 		3AEE2C072BF5275D007A51E7 /* SoundByteV1UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoundByteV1UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AEE2C0B2BF5275D007A51E7 /* SoundByteV1UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundByteV1UITests.swift; sourceTree = "<group>"; };
 		3AEE2C0D2BF5275D007A51E7 /* SoundByteV1UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundByteV1UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		F421995F2BF52B5B00BD0A09 /* StartScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScreen.swift; sourceTree = "<group>"; };
+		F42199632BF5353800BD0A09 /* Visual.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visual.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +99,8 @@
 			isa = PBXGroup;
 			children = (
 				3AEE2BF02BF5274F007A51E7 /* SoundByteV1App.swift */,
+				F42199632BF5353800BD0A09 /* Visual.swift */,
+				F421995F2BF52B5B00BD0A09 /* StartScreen.swift */,
 				3AEE2BF22BF5274F007A51E7 /* ContentView.swift */,
 				3AEE2BF42BF5275C007A51E7 /* Assets.xcassets */,
 				3AEE2BF62BF5275C007A51E7 /* Preview Content */,
@@ -191,7 +197,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					3AEE2BEC2BF5274F007A51E7 = {
 						CreatedOnToolsVersion = 14.3;
@@ -258,7 +264,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3AEE2BF32BF5274F007A51E7 /* ContentView.swift in Sources */,
+				F42199602BF52B5B00BD0A09 /* StartScreen.swift in Sources */,
 				3AEE2BF12BF5274F007A51E7 /* SoundByteV1App.swift in Sources */,
+				F42199642BF5353800BD0A09 /* Visual.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +339,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -391,6 +400,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -417,6 +427,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SoundByteV1/Preview Content\"";
+				DEVELOPMENT_TEAM = ZRLJ26H2AQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -429,7 +440,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.apple.examplecode.SoundByteV1;
+				PRODUCT_BUNDLE_IDENTIFIER = SoundByteV1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -445,6 +456,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SoundByteV1/Preview Content\"";
+				DEVELOPMENT_TEAM = ZRLJ26H2AQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -457,7 +469,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.apple.examplecode.SoundByteV1;
+				PRODUCT_BUNDLE_IDENTIFIER = SoundByteV1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -472,10 +484,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZRLJ26H2AQ;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.apple.examplecode.SoundByteV1Tests;
+				PRODUCT_BUNDLE_IDENTIFIER = SoundByteV1Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -491,10 +504,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZRLJ26H2AQ;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.apple.examplecode.SoundByteV1Tests;
+				PRODUCT_BUNDLE_IDENTIFIER = SoundByteV1Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -509,9 +523,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZRLJ26H2AQ;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.apple.examplecode.SoundByteV1UITests;
+				PRODUCT_BUNDLE_IDENTIFIER = SoundByteV1UITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -526,9 +541,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZRLJ26H2AQ;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.apple.examplecode.SoundByteV1UITests;
+				PRODUCT_BUNDLE_IDENTIFIER = SoundByteV1UITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;

@@ -7,12 +7,18 @@
 
 import SwiftUI
 
-struct StartScree: View {
+struct StartScreen: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Image("music_note")
+                .resizable()
+                .frame(width: 30, height: 50)
+                .aspectRatio(contentMode: .fit)
+            Text("Tap to start")
+        }
     }
 }
 
 #Preview {
-    StartScree()
+    StartScreen()
 }
