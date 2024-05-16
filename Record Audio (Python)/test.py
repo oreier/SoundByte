@@ -5,6 +5,7 @@ from WaveToWav import wave_to_wav
 from pitch import pitch_to_freq
 from pitch import freq_to_pitch
 from SongToWav import read_song
+from UnitTesting import main
 
 def record_to_wave():
     device_index = select_microphone()
@@ -18,8 +19,10 @@ def create_wav(freq=440):
 
 
 if __name__ == "__main__":
+    #record_audio()
     #record_to_wave()
     #create_wav()
     #print (pitch_to_freq("Ab4"))
     #print (freq_to_pitch(415))
-    read_song("Python Files\\HotCrossBuns.txt")
+    #read_song("Python Files\\HotCrossBuns.txt")
+    pass
