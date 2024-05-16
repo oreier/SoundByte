@@ -21,13 +21,11 @@ struct StartView: View {
     // state variable tells us if the user has tapped the screen yet
     @State private var isTapped = false
     
-    private let BACKGROUND_COLOR = Color(red: 0.0, green: 0.8, blue: 0.8)
-    
     var body: some View {
         // ZStack contains transparent layer to detect taps and back layer for text and images
         ZStack {
             // background color
-            BACKGROUND_COLOR
+            Color.gray
                 .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             
             // VStack contains music note image and text that tells user what to do
@@ -36,12 +34,19 @@ struct StartView: View {
                     // music note image
                     Image("music_note")
                         .resizable()
-                        .frame(width: 30, height: 50)
                         .aspectRatio(contentMode: .fit)
+                        .frame(width: 50)
                     
                     // text tells user to tap
                     Text("Tap anywhere to start")
                         .font(.title)
+                    
+                    // text tells user to use landscape mode
+                    Text("For best results, use landscape")
+                    Image(systemName: "rectangle.landscape.rotate")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: 100)
                 }
             }
             
