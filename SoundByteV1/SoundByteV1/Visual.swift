@@ -9,7 +9,9 @@
  TO DO:
  - Clean up code for changing orientations so that they are in different structs
     -> This might not be possible/ hard to do but it would make the code cleaner and more readable
+    -> One way would be to put all elements into their own variables and then organize them differently at setup
  - Make tap guestures work by not duplicating the code twice
+ - try to make recording indicator code more concise
  */
 
 import SwiftUI
@@ -19,6 +21,8 @@ struct Visual: View {
     @State var elapsedTime: Double = 0.0
     
     @State var isTiming = false
+    
+    @State var opacVal = 1.0
     
     // tracks the orientation of the device
     @Environment(\.verticalSizeClass) var verticalSizeClass
@@ -72,12 +76,31 @@ struct Visual: View {
             VStack {
                 HStack {
                     // recording indicator
-                    Image(systemName: "record.circle.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: REC_DOT_SIZE)
-                        .foregroundColor(isTiming ? REC_DOT_COLOR_ON : REC_DOT_COLOR_OFF)
-                        .padding([.top, .leading], PADDING_SIZE)
+                    if #available(iOS 17.0, *) {
+                        Image(systemName: "record.circle")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: REC_DOT_SIZE)
+                            .foregroundColor(isTiming ? REC_DOT_COLOR_ON : REC_DOT_COLOR_OFF)
+                            .padding([.top, .leading], PADDING_SIZE)
+                            .opacity(opacVal)
+                            .onChange(of: isTiming) {
+                                if isTiming {
+                                    withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {
+                                        opacVal = 0.3
+                                    }
+                                } else {
+                                    opacVal = 1.0
+                                }
+                            }
+                    } else {
+                        Image(systemName: "record.circle")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: REC_DOT_SIZE)
+                            .foregroundColor(isTiming ? REC_DOT_COLOR_ON : REC_DOT_COLOR_OFF)
+                            .padding([.top, .leading], PADDING_SIZE)
+                    }
                     
                     // text to display timer
                     Text(timeToString(from: elapsedTime))
@@ -123,12 +146,31 @@ struct Visual: View {
             VStack {
                 HStack {
                     // recording indicator
-                    Image(systemName: "record.circle.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: REC_DOT_SIZE)
-                        .foregroundColor(isTiming ? REC_DOT_COLOR_ON : REC_DOT_COLOR_OFF)
-                        .padding([.top, .leading], PADDING_SIZE)
+                    if #available(iOS 17.0, *) {
+                        Image(systemName: "record.circle")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: REC_DOT_SIZE)
+                            .foregroundColor(isTiming ? REC_DOT_COLOR_ON : REC_DOT_COLOR_OFF)
+                            .padding([.top, .leading], PADDING_SIZE)
+                            .opacity(opacVal)
+                            .onChange(of: isTiming) {
+                                if isTiming {
+                                    withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {
+                                        opacVal = 0.3
+                                    }
+                                } else {
+                                    opacVal = 1.0
+                                }
+                            }
+                    } else {
+                        Image(systemName: "record.circle")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: REC_DOT_SIZE)
+                            .foregroundColor(isTiming ? REC_DOT_COLOR_ON : REC_DOT_COLOR_OFF)
+                            .padding([.top, .leading], PADDING_SIZE)
+                    }
                     
                     // text to display timer
                     Text(timeToString(from: elapsedTime))
@@ -194,6 +236,21 @@ struct Visual: View {
         let milliseconds = Int((elapsedTime * 100).truncatingRemainder(dividingBy: 100))
         
         return String(format: "%02d:%02d:%02d", minutes, seconds, milliseconds)
+    }
+}
+
+struct DemoImagePulsate: View {
+    @State private var value = 1.0
+    var body: some View {
+        Image(systemName: "record.circle" )
+            .foregroundColor(.blue)
+            .opacity(value)
+            .onAppear {
+                withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {
+                    value = 0.3
+                }
+            }
+//        .onAppear { self.value = 0.3 }
     }
 }
 
