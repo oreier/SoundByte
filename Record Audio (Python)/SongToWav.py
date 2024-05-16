@@ -5,7 +5,7 @@ from WaveGenerator import generate_sine_wave
 from WaveToWav import wave_to_wav
 
 
-def read_song(input):
+def read_song(input='Python Files\\HotCrossBuns.txt', output = 'Python Files\\generated_wave.wav'):
     f = open (input, "r")
     bpm = f.readline()
     notes = []
@@ -14,6 +14,7 @@ def read_song(input):
         if line:
             pitch,duration = line.split(", ")
             notes.append((pitch, float(duration)))
+    f.close()
     song = []
     all_notes = []
     for i in range(len(notes)):
@@ -26,4 +27,4 @@ def read_song(input):
             song.append(element)
 
     song = np.array(song)
-    wave_to_wav(song)
+    wave_to_wav(song, output_file=output)

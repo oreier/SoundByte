@@ -1,6 +1,14 @@
 import pyaudio
 import numpy as np
 import wave
+import logging
+
+#Levels of in Tune measured in Cents away from "perfect"
+#1. 2-4   : Perfect              #59933e
+#2. 5-12  : Is it cold outside?  #659126
+#3. 13-25 : Eep                  #988200
+#4. 26-45 : Ow                   #c16d00
+#5. 46-99 : Whole different note #ff0000
 
 #Records audio and saves it to a .wav file
 #Arguments: (string) output file path
@@ -11,7 +19,7 @@ import wave
 #           (int) number of channels microphone has
 #           (int) samples per second
 #Returns: N/A
-def record_audio(output_filename, device_index, duration=5, chunk_size=1024, sample_format=pyaudio.paInt16, channels=1, sample_rate=44100):
+def record_audio(output_filename = 'Python Files\\recorded_audio.wav', device_index = 0, duration=5, chunk_size=1024, sample_format=pyaudio.paInt16, channels=1, sample_rate=44100):
     p = pyaudio.PyAudio()
     chunk_size = duration * sample_rate
     stream = p.open(format=sample_format,
@@ -24,7 +32,7 @@ def record_audio(output_filename, device_index, duration=5, chunk_size=1024, sam
     frames = []
     all_frequencies = []
 
-    print("Recording...")
+    logging.info("Recording...")
     #print("Sample Rate:", sample_rate)
 
     for _ in range(0, int(sample_rate / chunk_size * duration)):
@@ -40,10 +48,13 @@ def record_audio(output_filename, device_index, duration=5, chunk_size=1024, sam
         all_frequencies.append(frequencies)
 
     # Print frequencies
-    print ("Finished Recording")
+    logging.info("Finished Recording")
     stream.stop_stream()
     stream.close()
     p.terminate()
+
+    # Log that streams have been closed
+    logging.info("Streams closed")
 
     wf = wave.open(output_filename, 'wb')
     wf.setnchannels(channels)
