@@ -20,22 +20,31 @@ struct ContentView: View {
 struct StartView: View {
     // state variable tells us if the user has tapped the screen yet
     @State private var isTapped = false
+    @State var noteOpacVal = 1.0
+    
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         // ZStack contains transparent layer to detect taps and back layer for text and images
         ZStack {
             // background color
-            Color.gray
-                .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+            Color(uiColor: colorScheme == .dark ? .black : .white)
+                .ignoresSafeArea()
             
             // VStack contains music note image and text that tells user what to do
             VStack {
                 if !isTapped {
                     // music note image
-                    Image("music_note")
+                    Image(systemName: "music.note")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 50)
+                        .opacity(noteOpacVal)
+                        .onAppear() {
+                            withAnimation(.easeInOut(duration: 1) .repeatForever(autoreverses: true)) {
+                                noteOpacVal = 0.3
+                            }
+                        }
                     
                     // text tells user to tap
                     Text("Tap anywhere to start")
