@@ -11,6 +11,17 @@ def generate_sine_wave(duration=5, sample_rate=44100, frequency=440):
     wave = np.sin(2 * np.pi * frequency * timeVector)
     return wave
 
+
+def generate_chord(duration=5, sample_rate=44100, frequencies=[440, 554.37, 659.25]):
+    time_vector = np.linspace(0, duration, int(duration * sample_rate), endpoint=False)
+    chord_wave = np.zeros(len(time_vector))
+    
+    for frequency in frequencies:
+        sine_wave = np.sin(2 * np.pi * frequency * time_vector)
+        chord_wave += sine_wave
+    
+    return chord_wave
+
 #Returns the frequency of a sine wave
 #Arguments: (numpy array) sine wave
 #Returns: (int) maximum frequency 

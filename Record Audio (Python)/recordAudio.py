@@ -3,12 +3,8 @@ import numpy as np
 import wave
 import logging
 
-#Levels of in Tune measured in Cents away from "perfect"
-#1. 2-4   : Perfect              #59933e
-#2. 5-12  : Is it cold outside?  #659126
-#3. 13-25 : Eep                  #988200
-#4. 26-45 : Ow                   #c16d00
-#5. 46-99 : Whole different note #ff0000
+
+
 
 #Records audio and saves it to a .wav file
 #Arguments: (string) output file path
@@ -47,7 +43,7 @@ def record_audio(output_filename = 'Python Files\\recorded_audio.wav', device_in
         frequencies = np.fft.fftfreq(len(audio_data), 1/sample_rate)
         all_frequencies.append(frequencies)
 
-    # Print frequencies
+
     logging.info("Finished Recording")
     stream.stop_stream()
     stream.close()

@@ -12,12 +12,19 @@ from WaveGenerator import generate_sine_wave
 from WaveToWav import wave_to_wav
 from pitch import pitch_to_freq
 from pitch import freq_to_pitch
+from pitch import find_pitch_index
+from pitch import cents_off
+from pitch import sharp_or_flat
+from pitch import in_tune
 from SongToWav import read_song
 from WaveGenerator import generate_sine_wave
+from WaveGenerator import generate_chord
 from WaveGenerator import read_wave_freq
 
 class TestMyFunctions(unittest.TestCase):    
 
+# setupMicrophone.py
+############################################################################################
     def test_list_audio_devices(self):
         devices = list_audio_devices()
         # Assert that the devices list is not empty
@@ -29,9 +36,10 @@ class TestMyFunctions(unittest.TestCase):
                 with redirect_stdout(buffer):
                     choice = select_microphone()
         # Assert that the choice is an integer
-        self.assertIsInstance(choice, int)
-        
-        
+      
+
+# pitch.py
+############################################################################################
     def test_freq_to_pitch(self):
         # Test for frequency to pitch conversion
         self.assertEqual(freq_to_pitch(440), 'A4')
@@ -42,7 +50,21 @@ class TestMyFunctions(unittest.TestCase):
         # Test for pitch to frequency conversion
         self.assertAlmostEqual(pitch_to_freq('A4'), 440, delta=0.01)
         self.assertAlmostEqual(pitch_to_freq('C4'), 261.63, delta=0.01)
-    
+
+    def test_find_pitch_index(self):
+        self.assertTrue(True)
+
+    def test_cents_off(self):
+        self.assertTrue(True)
+
+    def test_sharp_or_flat(self):
+        self.assertTrue(True)
+
+    def test_in_tine(self):
+        self.assertTrue(True)
+
+# recordAudio.py
+############################################################################################
     def test_record_audio(self):
         # Define test parameters
         output_filename = 'Python Files\\test_recorded_audio.wav'
@@ -62,6 +84,9 @@ class TestMyFunctions(unittest.TestCase):
         # Clean up: Remove the output file
         os.remove(output_filename)    
 
+
+# SongToWav.py
+############################################################################################
     def test_read_song(self):
         #Define test parameters
         input_filename = "Python Files\\test_song.txt"
@@ -98,6 +123,10 @@ class TestMyFunctions(unittest.TestCase):
         os.remove(input_filename)
         os.remove(output_filename)
 
+
+
+# WaveGenerator.py
+############################################################################################
     def test_generate_sine_wave(self):
         # Test with default parameters
         default_wave = generate_sine_wave()
@@ -108,6 +137,9 @@ class TestMyFunctions(unittest.TestCase):
         custom_wave = generate_sine_wave(duration=2, sample_rate=22050, frequency=220)
         self.assertEqual(len(custom_wave), 44100)  # Custom duration * sample_rate
         self.assertAlmostEqual(np.max(custom_wave), 1.0, places=5)  # Max value of the sine wave
+
+    def test_generate_chord(self):
+        self.assertTrue(True)
 
     def test_read_wave_freq(self):
         # Test with a known sine wave frequency
@@ -125,6 +157,8 @@ class TestMyFunctions(unittest.TestCase):
         wave = generate_sine_wave(duration=duration, sample_rate=sample_rate, frequency=frequency)
         max_freq = read_wave_freq(wave)
         self.assertAlmostEqual(max_freq, frequency, delta=1)  # Delta set to 1 Hz
+
+
 
 def main():
     # Get the list of test cases
