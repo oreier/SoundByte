@@ -1,5 +1,5 @@
 //
-//  StartScree.swift
+//  StartScreen.swift
 //  SoundByteV1
 //
 //  Created by Jack Durfee on 5/15/24.
@@ -7,15 +7,66 @@
 
 import SwiftUI
 
+/*
+ struct creates the start screen that is displayed when
+ the user first opens the app
+ */
 struct StartScreen: View {
+    // state variable tells us if the user has tapped the screen yet
+    @State private var isTapped = false
+    @State private var landscapeImgScale = 1.0
+    
+    // tracks the orientation of the device
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
+    // tracks the color scheme of the device
+    @Environment(\.colorScheme) var colorScheme
+    
+    // constructs the start screen
     var body: some View {
-        VStack {
-            Image("music_note")
-                .resizable()
-                .frame(width: 30, height: 50)
-                .aspectRatio(contentMode: .fit)
-            Text("Tap to start")
+        ZStack {
+            // sets the background color based off device color scheme
+            Color(uiColor: colorScheme == .dark ? .black : .white)
+                .ignoresSafeArea()
+            
+            // VStack contains music note image and text that tells user what to do
+            VStack {
+                // music note image
+                Image(systemName: "music.note")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 50)
+                
+                // text tells user to tap
+                Text("Tap anywhere to start")
+                    .font(.title)
+                
+                // displays text to rotate screen if device is in portrait mode
+                if verticalSizeClass != .compact {
+                    Text("For best results use landscape")
+                    Image(systemName: "rectangle.landscape.rotate")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: 100)
+                        .scaleEffect(CGSize(width: landscapeImgScale, height: landscapeImgScale))
+                        .onAppear() {
+                            withAnimation(.bouncy(duration: 1, extraBounce: 0.5).repeatForever()) {
+                                landscapeImgScale = 1.1
+                            }
+                        }
+                }
+            }
+            
+            // clear layer to deteck taps
+            Color.clear
+                .ignoresSafeArea()
         }
+            .onTapGesture {
+                withAnimation {
+                    self.isTapped.toggle()
+                }
+            }
+            .opacity(isTapped ? 0 : 1)
     }
 }
 
