@@ -1,6 +1,9 @@
-import unittest
-import os
 import numpy as np
+import datetime
+import unittest
+import colorlog
+import logging
+import os
 from unittest.mock import patch
 from scipy.io import wavfile
 from io import StringIO
@@ -20,6 +23,7 @@ from SongToWav import read_song
 from WaveGenerator import generate_sine_wave
 from WaveGenerator import generate_chord
 from WaveGenerator import read_wave_freq
+from LoggingSetup import log_setup
 
 class TestMyFunctions(unittest.TestCase):    
 
@@ -51,17 +55,50 @@ class TestMyFunctions(unittest.TestCase):
         self.assertAlmostEqual(pitch_to_freq('A4'), 440, delta=0.01)
         self.assertAlmostEqual(pitch_to_freq('C4'), 261.63, delta=0.01)
 
+
     def test_find_pitch_index(self):
-        self.assertTrue(True)
+        # Check that improper input will result in -1
+        self.assertEqual(find_pitch_index("Z#4"),-1)
+        self.assertEqual(find_pitch_index("Cd9"),-1)
+        # Check for correct index  
+        self.assertEqual(find_pitch_index("E"),4)
+        # Check for correct index sharp
+        self.assertEqual(find_pitch_index("C#9"),1)
+        # Check for correct index flat
+        self.assertEqual(find_pitch_index("Gb"),6)
 
     def test_cents_off(self):
-        self.assertTrue(True)
+        # Frequency matches
+        self.assertAlmostEqual(cents_off(440), 0, delta=0.001)
+        # Frequency is close
+        self.assertAlmostEqual(cents_off(445), -19.562,delta=0.001)
+        # Frequency is not close
+        self.assertAlmostEqual(cents_off(1200),-336.951,delta=0.001)
+        # Frequency of 0 returns error value 
+        self.assertAlmostEqual(cents_off(0),-1)
+
 
     def test_sharp_or_flat(self):
-        self.assertTrue(True)
+        #Test Flat
+        self.assertEqual(sharp_or_flat(435),0)
+        #Test Sharp
+        self.assertEqual(sharp_or_flat(445),1)
+        #Test On Pitch
+        self.assertEqual(sharp_or_flat(440),-1)
 
-    def test_in_tine(self):
-        self.assertTrue(True)
+    def test_in_tune(self):
+        # Test cases where the frequency is in tune
+        self.assertEqual(in_tune(440), "\033[32m♪ In Tune ♪ \033[0m")
+        self.assertEqual(in_tune(439), "\033[32m♪ In Tune ♪ \033[0m")
+        # Test cases where the frequency is slightly out of tune
+        self.assertEqual(in_tune(442), "\033[33m♪ Out of Tune ♪ \033[0m")
+        self.assertEqual(in_tune(438), "\033[33m♪ Out of Tune ♪ \033[0m")
+        # Test cases where the frequency is significantly out of tune
+        self.assertEqual(in_tune(446), "\033[31m♪ Really Out of Tune ♪ \033[0m")
+        self.assertEqual(in_tune(435), "\033[31m♪ Really Out of Tune ♪ \033[0m")
+        # Test cases where the frequency is very out of tune
+        self.assertEqual(in_tune(450), "\033[35m♪ :( ♪ \033[0m")
+        self.assertEqual(in_tune(430), "\033[35m♪ :( ♪ \033[0m")
 
 # recordAudio.py
 ############################################################################################
@@ -72,7 +109,7 @@ class TestMyFunctions(unittest.TestCase):
         sample_rate = 44100
         
         # Call the function to record audio using a context manager
-        with self.assertLogs(level='INFO') as cm:
+        with self.assertLogs(level='DEBUG') as cm:
             record_audio(output_filename=output_filename, duration=duration, sample_rate=sample_rate)
         
         # Check if the output file exists
@@ -139,7 +176,21 @@ class TestMyFunctions(unittest.TestCase):
         self.assertAlmostEqual(np.max(custom_wave), 1.0, places=5)  # Max value of the sine wave
 
     def test_generate_chord(self):
-        self.assertTrue(True)
+        # Test default chord generation
+        duration = 5
+        sample_rate = 44100
+        frequencies = [440, 554.37, 659.25]
+        chord_wave = generate_chord(duration, sample_rate, frequencies)
+        self.assertEqual(len(chord_wave), 220500)  # Default duration * sample_rate
+        self.assertLessEqual(np.max(chord_wave), 3.0)  # Max value of the sine wave
+        # Test custom chord generation
+        duration = 3
+        sample_rate = 48000
+        frequencies = [220, 330, 440, 550]
+        chord_wave = generate_chord(duration, sample_rate, frequencies)
+        self.assertEqual(len(chord_wave), sample_rate * duration)  # Default duration * sample_rate
+        self.assertLessEqual(np.max(chord_wave), float(len(frequencies)))  # Max value of the sine wave
+        
 
     def test_read_wave_freq(self):
         # Test with a known sine wave frequency
@@ -161,6 +212,11 @@ class TestMyFunctions(unittest.TestCase):
 
 
 def main():
+    allTestPassed = 1
+    # Set up log file
+    log_setup(logging.INFO,{'INFO' : 'blue'})
+    
+    logging.info("\033[33m UNIT TEST : START    " + str(datetime.datetime.now()) + " \033[0m")
     # Get the list of test cases
     test_cases = unittest.TestLoader().loadTestsFromTestCase(TestMyFunctions)
     
@@ -175,8 +231,22 @@ def main():
         # Print the test name in green if the test was successful
         if result.wasSuccessful():
             print("\033[92m" + test_name + " passed\033[0m")
+            #logging.info("\033[92m" + test_name + " passed\033[0m")
         else:
             print("\033[91m" + test_name + " failed\033[0m")
+            logging.info("\033[91m" + test_name + " failed\033[0m")
+            allTestPassed = 0
+
+    if allTestPassed == 1:
+        logging.info("\033[92m All test passed \033[92m")
+
+    logging.info("\033[33m UNIT TEST : END \033[0m")
 
 if __name__ == "__main__":
     main()
+
+"""
+        @patch('builtins.input', return_value='C#2') #Mock User Input
+        def test_sharp_input():
+            find_pitch_index()
+"""

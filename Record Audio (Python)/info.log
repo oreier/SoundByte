@@ -1,0 +1,8 @@
+[34mINFO    [0m [33m UNIT TEST : START    2024-05-20 11:26:03.313579 [0m
+[34mINFO    [0m [92m All test passed [92m[0m
+[34mINFO    [0m [33m UNIT TEST : END [0m
+INFO    [0m [33m TEST : START [0m
+[31mDEBUG   [0m [38;5;208m redord_audio:Recording... [38;5;208m[0m
+[31mDEBUG   [0m [38;5;208m redord_audio:Finished Recording [38;5;208m[0m
+[31mDEBUG   [0m [38;5;208m record_audio:Streams closed  [38;5;208m[0m
+INFO    [0m [33m TEST : END [0m
