@@ -28,7 +28,7 @@ def record_audio(output_filename = 'Python Files\\recorded_audio.wav', device_in
     frames = []
     all_frequencies = []
 
-    logging.info("Recording...")
+    logging.debug("\033[38;5;208m redord_audio:Recording... \033[38;5;208m")
     #print("Sample Rate:", sample_rate)
 
     for _ in range(0, int(sample_rate / chunk_size * duration)):
@@ -44,13 +44,13 @@ def record_audio(output_filename = 'Python Files\\recorded_audio.wav', device_in
         all_frequencies.append(frequencies)
 
 
-    logging.info("Finished Recording")
+    logging.debug("\033[38;5;208m redord_audio:Finished Recording \033[38;5;208m")
     stream.stop_stream()
     stream.close()
     p.terminate()
 
     # Log that streams have been closed
-    logging.info("Streams closed")
+    logging.debug("\033[38;5;208m record_audio:Streams closed  \033[38;5;208m")
 
     wf = wave.open(output_filename, 'wb')
     wf.setnchannels(channels)

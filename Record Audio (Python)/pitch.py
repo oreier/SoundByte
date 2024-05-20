@@ -1,3 +1,4 @@
+import logging
 import math
 import re
 import numpy as np
@@ -58,26 +59,48 @@ def pitch_to_freq(pitch):
         print ("Improper format")
 
 def find_pitch_index(pitch):
-    try:
-        index = all_sharp.index(pitch)
-        return index
-    except ValueError:
+    match = re.match(r'([A-G][#b]?+)(\d+)',pitch)
+    if match: # If pitch contains octave
+        note = match.group(1)
+        octave = match.group(2)
         try:
-            index = all_flat.index(pitch)
+            index = all_sharp.index(note)
             return index
         except ValueError:
-            return -1
+            try:
+                index = all_flat.index(note)
+                return index
+            except ValueError:
+                return -1
+    else: # If pitch doesn't contain octave
+        try:
+            index = all_sharp.index(pitch)
+            return index
+        except ValueError:
+            try:
+                index = all_flat.index(pitch)
+                return index
+            except ValueError:
+                return -1
         
 def cents_off (f1):
+   if f1==0:
+       logging.debug(" \033[38;5;208m cents_off:Improper frequency of 0\033[0m")
+       return -1
    f2 = min(frequencies_C2_to_C5, key=lambda x: abs(x - f1))
    return 1200 * math.log2(f2 / f1)
 
 def sharp_or_flat (freq):
-    cents = cents_off(freq)
+    cents = round(cents_off(freq))
     if cents < 0:
         flat = 1
-    else:
+    elif cents > 0:
         flat = 0
+    elif cents == 0:
+        flat = -1
+    else:
+        flat = -2
+        logging.debug("Returned NAN")
     return flat
 
 
@@ -90,11 +113,11 @@ def sharp_or_flat (freq):
 def in_tune(freq):
     cents = abs(cents_off(freq))
     if cents < 4:
-        return("\033[32m" + "♪ In Tune ♪ \033[0m")
+        return ("\033[32m" + "♪ In Tune ♪ \033[0m")
     elif cents < 13:
-        return("\033[33m" + "♪ Out of Tune ♪ \033[0m")
+        return ("\033[33m" + "♪ Out of Tune ♪ \033[0m")
     elif cents < 26:
-        return("\033[31m" + "♪ Really Out of Tune ♪ \033[0m")
+        return ("\033[31m" + "♪ Really Out of Tune ♪ \033[0m")
     elif cents < 99:
-        return("\033[35m" + "♪ :( ♪ \033[0m")
+        return ("\033[35m" + "♪ :( ♪ \033[0m")
 
