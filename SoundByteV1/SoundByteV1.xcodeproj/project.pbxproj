@@ -99,9 +99,9 @@
 			isa = PBXGroup;
 			children = (
 				3AEE2BF02BF5274F007A51E7 /* SoundByteV1App.swift */,
-				F42199632BF5353800BD0A09 /* ToolBar.swift */,
-				F421995F2BF52B5B00BD0A09 /* StartScreen.swift */,
 				3AEE2BF22BF5274F007A51E7 /* ContentView.swift */,
+				F421995F2BF52B5B00BD0A09 /* StartScreen.swift */,
+				F42199632BF5353800BD0A09 /* ToolBar.swift */,
 				3AEE2BF42BF5275C007A51E7 /* Assets.xcassets */,
 				3AEE2BF62BF5275C007A51E7 /* Preview Content */,
 			);

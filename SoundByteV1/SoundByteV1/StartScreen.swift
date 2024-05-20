@@ -5,6 +5,11 @@
 //  Created by Jack Durfee on 5/15/24.
 //
 
+/*
+ TO-DO:
+ - Fix bug where landscape image stops animating when you swtich from lanspace orientation to portrait
+ */
+
 import SwiftUI
 
 /*
@@ -13,8 +18,8 @@ import SwiftUI
  */
 struct StartScreen: View {
     // state variable tells us if the user has tapped the screen yet
-    @State private var isTapped = false
-    @State private var landscapeImgScale = 1.0
+    @State private var isTapped: Bool = false
+    @State private var landscapeImgScale: CGFloat = 1.0
     
     // tracks the orientation of the device
     @Environment(\.verticalSizeClass) var verticalSizeClass

@@ -1,5 +1,5 @@
 //
-//  Visual.swift
+//  ToolBar.swift
 //  SoundByteV1
 //
 //  Created by Jack Durfee on 5/15/24.
@@ -9,6 +9,7 @@
  TO DO:
  - Use a protocol to remove repetitive code (will need to do research on this, and it may not be as neccessary now)
  - Move timer functions into timer element struct (might be pretty difficult)
+ - Timer gets hung up on the first 0.9
  */
 
 import SwiftUI
@@ -23,7 +24,7 @@ struct RecordingDotElement: View {
     @Binding var isTiming: Bool
     
     // state variable keeps track of the current opacity of the dot
-    @State private var recDotOpacVal = 1.0
+    @State private var recDotOpacVal: CGFloat = 1.0
     
     // constants that set recording dot size and color
     private let REC_DOT_SIZE: CGFloat       = 20
@@ -36,7 +37,7 @@ struct RecordingDotElement: View {
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(width: REC_DOT_SIZE)
-            .foregroundColor(isTiming ? REC_DOT_COLOR_ON : REC_DOT_COLOR_OFF)
+            .foregroundStyle(isTiming ? REC_DOT_COLOR_ON : REC_DOT_COLOR_OFF)
             .opacity(recDotOpacVal)
             .onReceive([isTiming].publisher) { _ in
                 if isTiming { animate() }
@@ -75,6 +76,7 @@ struct TimerElement: View {
                 .frame(width: TIMER_FONT_SIZE * WIDTH_MULTIPLIER)
             Text(":")
                 .font(.system(size: TIMER_FONT_SIZE))
+                .padding(.bottom, TIMER_FONT_SIZE / 8)
             Text(String(format: "%02d", TIME_COMPONENTS.seconds))
                 .font(.system(size: TIMER_FONT_SIZE))
                 .frame(width: TIMER_FONT_SIZE * WIDTH_MULTIPLIER)
@@ -87,7 +89,7 @@ struct TimerElement: View {
     }
     
     // decomposes the elapsed time into minutes, seconds and milliseconds
-    func getTimeComponents(from elapsedTime: Double) -> (minutes: Int, seconds: Int, milliseconds: Int) {
+    private func getTimeComponents(from elapsedTime: Double) -> (minutes: Int, seconds: Int, milliseconds: Int) {
         let MINUTES = Int(elapsedTime / 60)
         let SECONDS = Int(elapsedTime.truncatingRemainder(dividingBy: 60))
         let MILLISECONDS = Int((elapsedTime * 10).truncatingRemainder(dividingBy: 10))
@@ -125,7 +127,7 @@ struct ControlsElement: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: CONTROLS_SIZE * 1.25)
-                    .foregroundColor(isTiming ? PAUSE_BUTTON_COLOR : PLAY_BUTTON_COLOR)
+                    .foregroundStyle(isTiming ? PAUSE_BUTTON_COLOR : PLAY_BUTTON_COLOR)
             }
             
             // stop button that pauses and resets the timer
@@ -134,7 +136,7 @@ struct ControlsElement: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: CONTROLS_SIZE)
-                    .foregroundColor(STOP_BUTTON_COLOR)
+                    .foregroundStyle(STOP_BUTTON_COLOR)
             }
         }
     }
@@ -175,7 +177,7 @@ struct Landscape: View {
     let TIMER_ELEMENT: TimerElement
     let CONTROLS_ELEMENT: ControlsElement
     
-    let PADDING_SIZE: CGFloat = 10
+    private let PADDING_SIZE: CGFloat = 10
     
     // constructs landscape view
     var body: some View {
@@ -203,7 +205,7 @@ struct ToolBar: View {
     // state variables to keep track of the timer
     @State var timer: Timer?
     @State var elapsedTime: Double = 0.0
-    @State var isTiming = false
+    @State var isTiming: Bool = false
     
     // tracks the orientation of the device
     @Environment(\.verticalSizeClass) var verticalSizeClass
@@ -217,15 +219,15 @@ struct ToolBar: View {
     }
     
     // visual elements to display
-    var recDotElement: RecordingDotElement { return RecordingDotElement(isTiming: $isTiming) }
-    var timerElement: TimerElement { return TimerElement(ELAPSED_TIME: elapsedTime) }
-    var controlsElement: ControlsElement { return ControlsElement(isTiming: $isTiming, 
+    private var recDotElement: RecordingDotElement { return RecordingDotElement(isTiming: $isTiming) }
+    private var timerElement: TimerElement { return TimerElement(ELAPSED_TIME: elapsedTime) }
+    private var controlsElement: ControlsElement { return ControlsElement(isTiming: $isTiming,
                                                                   playTimer: playTimer,
                                                                   pauseTimer: pauseTimer,
                                                                   stopTimer: stopTimer) }
     
     // the type of tool bar that will be displayed
-    var toolBar: some View { 
+    private var toolBar: some View {
         return (verticalSizeClass == .compact) ?
         AnyView(Landscape(REC_DOT_ELEMENT: recDotElement,
                           TIMER_ELEMENT: timerElement,
