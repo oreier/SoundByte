@@ -37,13 +37,17 @@ def get_note_name(frequency):
     notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
     
     # Calculate the number of half steps from A4
-    half_steps = round(12 * np.log2(frequency / A4_frequency))
+    if( frequency == 0 ):  # when frequency = 0, log2(0) would cuase error
+        return f'{'None'}'
     
-    # Calculate the octave and note
-    octave = 4 + half_steps // 12
-    note_index = int(half_steps % 12)
+    else:
+        half_steps = round(12 * np.log2(frequency / A4_frequency)) # (round to 1 decimal ?)
     
-    return f'{notes[note_index]}{octave}'
+        # Calculate the octave and note
+        octave = 4 + half_steps // 12
+        note_index = int(half_steps % 12)
+    
+        return f'{notes[note_index]}{octave}'
 
 # Parameters
 FORMAT = pyaudio.paInt16
