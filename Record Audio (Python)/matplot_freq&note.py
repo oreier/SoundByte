@@ -39,7 +39,7 @@ def get_note_name(frequency):
 
     # when frequency = 0, log2(0) would cuase error 
     # (also if frequency / A4_frequency is very close to 0 cuases round(infinity) so just keep frequecny above some min value)
-    if( frequency == 0 ):
+    if( frequency < 1 ):
         return f'{'None'}'
     
     else:
