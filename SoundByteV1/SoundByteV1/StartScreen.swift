@@ -8,6 +8,7 @@
 /*
  TO-DO:
  - Fix bug where landscape image stops animating when you swtich from lanspace orientation to portrait
+ - Change animation of landscape icon to be smother (see animation in SFSymbols)
  */
 
 import SwiftUI

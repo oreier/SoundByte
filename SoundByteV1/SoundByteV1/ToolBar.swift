@@ -147,7 +147,7 @@ struct ControlsElement: View {
  is in portrait mode
  */
 struct Portrait: View {
-    // visual elements passed by callee
+    // visual elements passed by caller
     let REC_DOT_ELEMENT: RecordingDotElement
     let TIMER_ELEMENT: TimerElement
     let CONTROLS_ELEMENT: ControlsElement
@@ -172,7 +172,7 @@ struct Portrait: View {
  is in landscape mode
  */
 struct Landscape: View {
-    // visual elements passed by callee
+    // visual elements passed by caller
     let REC_DOT_ELEMENT: RecordingDotElement
     let TIMER_ELEMENT: TimerElement
     let CONTROLS_ELEMENT: ControlsElement
@@ -205,7 +205,8 @@ struct ToolBar: View {
     // state variables to keep track of the timer
     @State var timer: Timer?
     @State var elapsedTime: Double = 0.0
-    @State var isTiming: Bool = false
+    @Binding var isTiming: Bool
+    @Binding var isStop: Bool
     
     // tracks the orientation of the device
     @Environment(\.verticalSizeClass) var verticalSizeClass
@@ -275,9 +276,10 @@ struct ToolBar: View {
             pauseTimer()
         }
         elapsedTime = 0
+        self.isStop.toggle()
     }
 }
 
-#Preview {
-    ToolBar()
-}
+//#Preview {
+//    ToolBar()
+//}
