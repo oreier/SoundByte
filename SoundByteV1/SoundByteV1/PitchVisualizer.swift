@@ -8,10 +8,9 @@
 /*
  TO-DO:
  - Make changing orientations scale correctly for history line
- - Add axis labels
- - Make axis generic so that it can be scaled
  - Have the slider be frequencies and transform frequencies to fit the graph
     -> Remember, this is not a linear scale so we will have to account for that
+ - Color the line according to how close it is to a note
  */
 
 import SwiftUI
@@ -86,7 +85,9 @@ struct NotesAxis: View {
     // constants passed to the struct by the caller
     let FRAME_HEIGHT: Double
     let START_X: Double
-    let Y_OFFSET: Double
+    let LANDSCAPE_OFFSET: Double
+    let NUM_NOTES_IN_RANGE: Int
+    let MIDDLE_NOTE: (String, Int)
     
     // constants determine the size of the bars
     private let MAIN_BAR_WIDTH: Double = 5.0
@@ -95,25 +96,30 @@ struct NotesAxis: View {
     // constructs the notes axis
     var body: some View {
         // array to place horizontal bars
-        let OFFSET_ARRAY: [Double] = Array(stride(from: 0, through: FRAME_HEIGHT, by: 40))
+        let MAPPER = FreqGraphMapper(middleNote: MIDDLE_NOTE, graphBounds: (0, FRAME_HEIGHT), numNotes: NUM_NOTES_IN_RANGE)
+        let PLOT_ARR = MAPPER.mapToGraph()
         
         GeometryReader { proxy in
             // vertical bar on the right
-            RoundedRectangle(cornerRadius: 25.0, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/)
+            RoundedRectangle(cornerRadius: 25.0, style: .continuous)
                 .frame(width: MAIN_BAR_WIDTH, height: FRAME_HEIGHT)
                 .offset(x: START_X + 25)
             
             // builds each horizontal bar for each of the offsets
-            ForEach(OFFSET_ARRAY, id:\.self) { offset in
-                RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/, style: .continuous)
+            ForEach(PLOT_ARR.indices, id:\.self) { i in
+                RoundedRectangle(cornerRadius: 25.0, style: .continuous)
                     .frame(width: START_X + 50, height: SUB_BAR_HEIGHT)
                     .foregroundStyle(.secondary)
                     .opacity(0.5)
-                    .offset(y: offset)
+                    .offset(y: PLOT_ARR[i].1)
+                
+                Text(PLOT_ARR[i].0)
+                    .font(.system(size: PLOT_ARR[PLOT_ARR.count-1].1 / 1.5))
+                    .offset(x: START_X + 55, y: PLOT_ARR[i].1 - PLOT_ARR[PLOT_ARR.count-1].1 / 3)
             }
         }
         .frame(height: FRAME_HEIGHT)
-        .offset(y: Y_OFFSET)
+        .offset(y: LANDSCAPE_OFFSET)
     }
 }
 
@@ -135,12 +141,12 @@ struct SizePreferenceKey: PreferenceKey {
  */
 struct PitchVisualizer: View {
     // binding variables passed by ContentView
-    @Binding var isRecording: Bool
-    @Binding var isStop: Bool
+//    @Binding var isRecording: Bool
+//    @Binding var isStop: Bool
     
     // variables for seeing preview
-//    @State var isRecording: Bool   = true
-//    @State var isStop: Bool        = false
+    @State var isRecording: Bool   = true
+    @State var isStop: Bool        = false
     
     // state variables to track various aspects of the live indicator and history line
     @State private var screenSize: CGSize = .zero
@@ -148,6 +154,7 @@ struct PitchVisualizer: View {
     @State private var history: [Double] = []
     @State private var advanceBy: Double = 2
     @State private var sliderOpacVal: Double = 1.0
+    @State private var currFreq: Double = 0
     
     // gets the orientation of the device
     @Environment(\.verticalSizeClass) var verticalSizeClass
@@ -164,10 +171,18 @@ struct PitchVisualizer: View {
         let VERTICAL_OFFSET: Double = { return verticalSizeClass == .compact ? screenSize.height / 15 : 0 }()
         
         ZStack {
-            NotesAxis(FRAME_HEIGHT: GRAPH_SIZE, START_X: DOT_START_X, Y_OFFSET: VERTICAL_OFFSET)
+            // displays the axis and note labels
+            NotesAxis(FRAME_HEIGHT: GRAPH_SIZE,
+                      START_X: DOT_START_X,
+                      LANDSCAPE_OFFSET: VERTICAL_OFFSET,
+                      NUM_NOTES_IN_RANGE: 7,
+                      MIDDLE_NOTE: ("C", 5))
             
-            // indicator records information to the history array every time the timer object fires and resets the array when recording is stopped
-            IndicatorDot(FRAME_HEIGHT: GRAPH_SIZE, DOT_X: DOT_START_X, DOT_Y: yCoord, Y_OFFSET: VERTICAL_OFFSET)
+            // displays indicator of where the current pitch is
+            IndicatorDot(FRAME_HEIGHT: GRAPH_SIZE,
+                         DOT_X: DOT_START_X,
+                         DOT_Y: yCoord,
+                         Y_OFFSET: VERTICAL_OFFSET)
                 .onReceive(TIMER) { _ in
                     if isRecording {
                         history.append(yCoord)
@@ -177,14 +192,27 @@ struct PitchVisualizer: View {
                     }
                 }
             
-            // history path
-            HistoryPath(FRAME_HEIGHT: GRAPH_SIZE, START_X: DOT_START_X, HISTORY: history, ADVANCE_INTERVAL: advanceBy, Y_OFFSET: VERTICAL_OFFSET)
+            // displays the history path as a line
+            HistoryPath(FRAME_HEIGHT: GRAPH_SIZE,
+                        START_X: DOT_START_X,
+                        HISTORY: history,
+                        ADVANCE_INTERVAL: advanceBy,
+                        Y_OFFSET: VERTICAL_OFFSET)
             
             // temporary slider for controlling movement of dot
             VStack {
                 Spacer()
                 
-                Slider (value: $yCoord, in: 0...GRAPH_SIZE)
+                HStack {
+                    Text("Current Frequency:")
+                    Text("\(String(format: "%.0f", currFreq)) Hz")
+                        .frame(width: 100)
+                        .background(.blue)
+                        .clipShape(RoundedRectangle(cornerRadius: 5.0))
+                }
+                
+                // for controlling y-coordinate through frequency
+                Slider (value: $currFreq, in: 440...622.25)
                     .frame(width: 300)
                     .opacity(sliderOpacVal)
                     .onReceive([isRecording].publisher) { _ in
@@ -192,6 +220,16 @@ struct PitchVisualizer: View {
                             sliderOpacVal = isRecording ? 1 : 0
                         }
                     }
+                
+                // for controlling y-coordinate directly
+//                Slider (value: $yCoord, in: 0...GRAPH_SIZE)
+//                    .frame(width: 300)
+//                    .opacity(sliderOpacVal)
+//                    .onReceive([isRecording].publisher) { _ in
+//                        withAnimation {
+//                            sliderOpacVal = isRecording ? 1 : 0
+//                        }
+//                    }
             }
         }
         .overlay(
@@ -205,6 +243,7 @@ struct PitchVisualizer: View {
     }
 }
 
-//#Preview {
-//    PitchVisualizer()
-//}
+#Preview {
+    PitchVisualizer()
+//    NotesAxis(FRAME_HEIGHT: 300, START_X: 300, LANDSCAPE_OFFSET: 0, NUM_NOTES_IN_RANGE: 5)
+}

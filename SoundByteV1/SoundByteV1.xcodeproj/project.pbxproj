@@ -17,6 +17,7 @@
 		F42199602BF52B5B00BD0A09 /* StartScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421995F2BF52B5B00BD0A09 /* StartScreen.swift */; };
 		F42199642BF5353800BD0A09 /* ToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42199632BF5353800BD0A09 /* ToolBar.swift */; };
 		F4F8FBBA2BFBC8AF0064D330 /* PitchVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8FBB92BFBC8AF0064D330 /* PitchVisualizer.swift */; };
+		F4F8FBBE2BFD0C760064D330 /* FreqGraphMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8FBBD2BFD0C760064D330 /* FreqGraphMapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,8 @@
 		F421995F2BF52B5B00BD0A09 /* StartScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScreen.swift; sourceTree = "<group>"; };
 		F42199632BF5353800BD0A09 /* ToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBar.swift; sourceTree = "<group>"; };
 		F4F8FBB92BFBC8AF0064D330 /* PitchVisualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchVisualizer.swift; sourceTree = "<group>"; };
+		F4F8FBBD2BFD0C760064D330 /* FreqGraphMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreqGraphMapper.swift; sourceTree = "<group>"; };
+		F4F8FBBF2BFD17BA0064D330 /* Test.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Test.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +103,9 @@
 		3AEE2BEF2BF5274F007A51E7 /* SoundByteV1 */ = {
 			isa = PBXGroup;
 			children = (
+				F4F8FBBF2BFD17BA0064D330 /* Test.playground */,
 				3AEE2BF02BF5274F007A51E7 /* SoundByteV1App.swift */,
+				F4F8FBBD2BFD0C760064D330 /* FreqGraphMapper.swift */,
 				3AEE2BF22BF5274F007A51E7 /* ContentView.swift */,
 				F4F8FBB92BFBC8AF0064D330 /* PitchVisualizer.swift */,
 				F421995F2BF52B5B00BD0A09 /* StartScreen.swift */,
@@ -270,6 +275,7 @@
 				3AEE2BF32BF5274F007A51E7 /* ContentView.swift in Sources */,
 				F42199602BF52B5B00BD0A09 /* StartScreen.swift in Sources */,
 				3AEE2BF12BF5274F007A51E7 /* SoundByteV1App.swift in Sources */,
+				F4F8FBBE2BFD0C760064D330 /* FreqGraphMapper.swift in Sources */,
 				F42199642BF5353800BD0A09 /* ToolBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
