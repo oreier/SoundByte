@@ -1,0 +1,93 @@
+//
+//  ContentView.swift
+//  BennettTest
+//
+//  Created by Trevor Sheehy (Student) on 5/22/24.
+//
+
+import SwiftUI
+import AVFoundation
+import Accelerate
+
+struct ContentView: View {
+    @State private var currentFrequency: Double = 0.0
+    
+    let audioEngine = AVAudioEngine()
+    
+    func setupAudio() {
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(.record, mode: .default)
+            try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+        } catch {
+            print("Error setting up audio session: \(error.localizedDescription)")
+        }
+        
+        if audioEngine.inputNode.inputFormat(forBus: 0) != nil {
+            let format = audioEngine.inputNode.inputFormat(forBus: 0)
+            
+            audioEngine.inputNode.installTap(onBus: 0, bufferSize: 1024, format: format) { buffer, _ in
+                let bufferArray = Array(UnsafeBufferPointer(start: buffer.floatChannelData?[0], count:Int(buffer.frameLength)))
+                let fft = FFT(bufferArray)
+                let frequency = fft.frequency
+                DispatchQueue.main.async {
+                    self.currentFrequency = frequency
+                }
+            }
+            
+            do {
+                try audioEngine.start()
+            } catch {
+                print("Error starting audio engine: \(error.localizedDescription)")
+            }
+        } else {
+            print("Audio input node is not available.")
+        }
+    }
+    
+    var body: some View {
+        VStack {
+            Text("Current Frequency: \(Int(currentFrequency)) Hz")
+                .font(.title)
+                .padding()
+        }
+        .onAppear {
+            self.setupAudio()
+        }
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
+
+struct FFT {
+    var frequency: Double
+    
+    init(_ samples: [Float]) {
+        let sampleRate = 44100.0
+        let nyquist = sampleRate / 2
+        let count = vDSP_Length(samples.count)
+        let log2n = vDSP_Length(log2(Float(count)))
+        guard let fftSetup = vDSP_create_fftsetup(log2n, FFTRadix(kFFTRadix2)) else {
+            fatalError("Unable to create FFT setup")
+        }
+        var real = [Float](repeating: 0, count: Int(count))
+        var imaginary = [Float](repeating: 0, count: Int(count))
+        var splitComplex = DSPSplitComplex(realp: &real, imagp: &imaginary)
+        samples.withUnsafeBytes { bufferPtr in
+            guard let floatBufferPtr = bufferPtr.bindMemory(to: DSPComplex.self).baseAddress else {
+                fatalError("Unable to bind memory to DSPComplex.")
+            }
+            vDSP_ctoz(floatBufferPtr, 2, &splitComplex, 1, count / 2)
+        }
+        vDSP_fft_zrip(fftSetup, &splitComplex, 1, log2n, FFTDirection(FFT_FORWARD))
+        var magnitudes = [Float](repeating: 0.0, count: Int(count))
+        vDSP_zvmags(&splitComplex, 1, &magnitudes, 1, count / 2)
+        vDSP_destroy_fftsetup(fftSetup)
+        let index = magnitudes.firstIndex(of: magnitudes.max()!) ?? 0
+        frequency = Double(index) * (nyquist / Double(count))
+    }
+}
