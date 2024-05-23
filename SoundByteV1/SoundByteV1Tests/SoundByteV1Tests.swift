@@ -32,5 +32,49 @@ final class SoundByteV1Tests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
-
+    
+    // PitchVisualizer.swift
+    //###########################################################
+    // Test that Pitch Visualizer is set up correctly
+    func testInitialState() {
+        XCTAssertEqual(true,false)
+    }
+    // Test the SetUp function
+    func testSetUP() {
+        XCTAssertEqual(true,false)
+    }
+    // Test the updateGraphNoteAxis function
+    func testUpdateGraphNoteAxis() {
+        XCTAssertEqual(true,false)
+    }
+    // Test the calculatePosition function
+    func testCalculatePosition() {
+        // Mock data
+        var pitchVisualizer = PitchVisualizer()
+        // call calculatePosition
+        // calculate expected values
+        // Assert whether function is working properly
+        XCTAssertEqual(true,false)
+    }
+    // Test the updateHistory function
+    func testUpdateHistory() {
+        XCTAssertEqual(true,false)
+    }
+    // Test the resetHistory function
+    func testResetHistory() {
+        XCTAssertEqual(true,false)
+    }
+    // Test the centsOff function
+    func testCentsOff() {
+        XCTAssertEqual(true,false)
+    }
+    // Test the calculateColor function
+    func testCalculateColor() {
+        XCTAssertEqual(true,false)
+    }
+    // Test the UIColor extension
+    func testUIColor () {
+        XCTAssertEqual(true,false)
+    }
+    
 }
