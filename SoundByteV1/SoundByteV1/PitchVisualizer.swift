@@ -13,8 +13,6 @@
  - Figure out how to make a changing frequency call calculatePosition using didSet
  - Try to better understand how the onPreferenceChange modifier detects the orientation of the display
  - Organize all the files used for the pitch visualizer into one folder
- - Adjust color of line
- - Make work for when the frequency is zero
  */
 
 import SwiftUI
@@ -26,27 +24,27 @@ import SwiftUI
  */
 struct PitchVisualizer: View {
     // binding variables passed in by ContentView
-//    @Binding var isRecording: Bool
-//    @Binding var isStop: Bool
-//    
-//    @Binding var selectedNote: String
-//    @Binding var selectedOctave: Int
+    @Binding var _isRecording: Bool
+    @Binding var _isStop: Bool
+    
+    @Binding var _selectedNote: String
+    @Binding var _selectedOctave: Int
     
     // variables for seeing preview
-    @State var _isRecording: Bool   = true
-    @State var _isStop: Bool        = false
-    
-    @State var selectedNote: String = "C"
-    @State var selectedOctave: Int  = 5
+//    @State var _isRecording: Bool   = true
+//    @State var _isStop: Bool        = false
+//    
+//    @State var _selectedNote: String = "C"
+//    @State var _selectedOctave: Int  = 5
     
     // state variables track changing parameters during execution
     @State private var _pitchHistory: [CGPoint]  = []
     @State private var _colorHistory: [Color]    = []
-    @State private var _currFreq: Double         = 440.0
+    @State private var _currFreq: Double         = 0.0
     @State private var _screenSize: CGSize       = .zero
     
     // state variables to allow dynamic graph size
-    @State private var numDataStored: Int       = 0
+    @State private var _numDataStored: Int       = 0
     @State private var _graphSize: Double        = 0.0
     @State private var _horizontalOffset: Double = 0.0
     @State private var _verticalOffset: Double   = 0.0
@@ -63,6 +61,7 @@ struct PitchVisualizer: View {
     
     // temporary parameter for slider
     @State private var sliderOpacVal: Double    = 1.0
+    @State private var isFreqZero: Bool         = false
     
     // gets the orientation of the device
     @Environment(\.verticalSizeClass) var verticalSizeClass
@@ -114,25 +113,35 @@ struct PitchVisualizer: View {
                 }
                 
                 // for controlling y-coordinate through frequency
-                Slider (value: $_currFreq, in: ((_mappedFreqs.first?.freq ?? 0) - 10)...((_mappedFreqs.last?.freq ?? 0) + 10))
-                    .frame(width: 300)
-                    .opacity(sliderOpacVal)
-                    .onReceive([_isRecording].publisher) { _ in
-                        withAnimation {
-                            sliderOpacVal = _isRecording ? 1 : 0
-                        }
+                HStack {
+                    Toggle("", isOn: $isFreqZero)
+                        .frame(width: 50)
+                        .padding()
+                    Spacer()
+                    Slider (value: $_currFreq, in: ((_mappedFreqs.first?.freq ?? 0) - 10)...((_mappedFreqs.last?.freq ?? 0) + 10))
+                        .frame(width: 250)
+                        .opacity(sliderOpacVal)
+                        .padding()
+                        .onReceive([_isRecording].publisher) { _ in
+                            withAnimation {
+                                sliderOpacVal = _isRecording ? 1 : 0
+                            }
                     }
+                }
             }
         }
         // on build of view, set the center note
         .onAppear() {
-            _centerNote = (selectedNote, selectedOctave)
+            _centerNote = (_selectedNote, _selectedOctave)
         }
         
         // when the timer fires, update neccessary variables
         .onReceive(TIMER) { _ in
+            // temp code for setting frequency to zero
+            if isFreqZero { _currFreq = 0.0 }
+            
             if _isRecording {
-                calculatePosition()
+                if currFreq != 0 { calculatePosition() }
                 updateHistory()
                 
             } else if _isStop {
@@ -157,7 +166,7 @@ struct PitchVisualizer: View {
     
     // sets parameters for the graph based off device orientation
     func setUp() {
-        numDataStored = Int(screenSize.width / SHIFT_BY)
+        _numDataStored = Int(screenSize.width / SHIFT_BY)
         _graphSize = _screenSize.height / { verticalSizeClass == .compact ? 1.5 : 2 }()
         _horizontalOffset = _screenSize.width * { verticalSizeClass == .compact ? 7/8 : 3/4 }()
         _verticalOffset = { verticalSizeClass == .compact ? _screenSize.height / 15 : 0 }()
@@ -179,15 +188,15 @@ struct PitchVisualizer: View {
     func updateHistory() {
         if _pitchHistory.count > 0 {
             // limits the history arrays to 500 elements or less
-            _pitchHistory = _pitchHistory[(_pitchHistory.count < numDataStored ? 0 : 1)..._pitchHistory.count-1].map{ $0 }
-            _colorHistory = _colorHistory[(_colorHistory.count < numDataStored ? 0 : 1)..._colorHistory.count-1].map{ $0 }
+            _pitchHistory = _pitchHistory[(_pitchHistory.count < _numDataStored ? 0 : 1)..._pitchHistory.count-1].map{ $0 }
+            _colorHistory = _colorHistory[(_colorHistory.count < _numDataStored ? 0 : 1)..._colorHistory.count-1].map{ $0 }
             
             // subtracts a value from the x component of every point in this array
             _pitchHistory = _pitchHistory.map{ CGPoint(x: ($0.x - SHIFT_BY), y: $0.y) }
         }
         
         // append values to the history arrays
-        _colorHistory.append(calculateColor(centsOff: abs(_positioning.cents)))
+        _colorHistory.append(_currFreq != 0 ? calculateColor(centsOff: abs(_positioning.cents)) : .clear)
         _pitchHistory.append(CGPoint(x: _horizontalOffset, y: _indicatorPosY))
     }
     
@@ -210,78 +219,90 @@ struct PitchVisualizer: View {
     // calculates the color the line should be when off by a certain amount of cents
     func calculateColor(centsOff: Double) -> Color {
         let CENTS = min(max(centsOff, 0), 50)
-        let FACTOR = Double(CENTS / 50)
         
-        // Define the RGB values for the colors in the gradient
-        let startColor = UIColor(.green)
-        let middleColor = UIColor(red: 189.0/255.0, green: 173.0/255.0, blue: 3.0/255.0, alpha: 1.0)
-        let endColor = UIColor(.red)
+        // defines the RGB values for the colors in the gradient
+        let START_COLOR = UIColor(.green)
+        let MIDDLE_COLOR = UIColor(.yellow)
+        let END_COLOR = UIColor(.red)
         
-        let interpolateColor = UIColor.interpolate(from: startColor, to: endColor, with: FACTOR)
+        let INTERPOLATE_COLOR: UIColor
         
-        return Color(interpolateColor)
+        // determines what gradient to calculate
+        if CENTS <= 35 {
+            let FACTOR = CGFloat(CENTS / 35.0)
+            INTERPOLATE_COLOR = UIColor.interpolate(from: START_COLOR, to: MIDDLE_COLOR, with: FACTOR)
+        } else {
+            let FACTOR = CGFloat((CENTS - 35) / 25.0)
+            INTERPOLATE_COLOR = UIColor.interpolate(from: MIDDLE_COLOR, to: END_COLOR, with: FACTOR)
+        }
+                    
+        return Color(INTERPOLATE_COLOR)
     }
     
     // Getters and setters
     internal var isRecording: Bool {
-        get { return _isRecording}
-        set {_isRecording = newValue}
+        get { return _isRecording }
+        set { _isRecording = newValue }
     }
     internal var isStop: Bool {
-        get {return _isStop}
-        set {_isStop = newValue}
+        get { return _isStop }
+        set { _isStop = newValue }
     }
     internal var pitchHistory: [CGPoint] {
-        get {return _pitchHistory}
-        set {_pitchHistory = newValue}
+        get { return _pitchHistory }
+        set { _pitchHistory = newValue }
     }
     internal var colorHistory: [Color] {
-            get {return _colorHistory}
-            set {_colorHistory = newValue}
+            get { return _colorHistory }
+            set { _colorHistory = newValue }
     }
     internal var currFreq: Double {
-        get {return _currFreq}
-        set {_currFreq = newValue}
+        get { return _currFreq }
+        set { _currFreq = newValue }
     }
     internal var screenSize: CGSize {
-        get {return _screenSize}
-        set {_screenSize = newValue}
+        get { return _screenSize }
+        set { _screenSize = newValue }
+    }
+    internal var numDataStore: Int {
+        get { return _numDataStored }
+        set { _numDataStored = newValue }
     }
     internal var graphSize: Double {
-        get {return _graphSize}
-        set {_graphSize = newValue}
+        get { return _graphSize }
+        set { _graphSize = newValue }
     }
     internal var horizontalOffset: Double {
-        get {return _horizontalOffset}
-        set {_horizontalOffset = newValue}
+        get { return _horizontalOffset }
+        set { _horizontalOffset = newValue }
     }
     internal var verticalOffset: Double {
-        get {return _verticalOffset}
-        set {_verticalOffset = newValue}
+        get { return _verticalOffset }
+        set { _verticalOffset = newValue }
     }
     internal var mappedFreqs: [(note: String, pos: Double, freq: Double)] {
-        get {return _mappedFreqs}
-        set {_mappedFreqs = newValue}
+        get { return _mappedFreqs }
+        set { _mappedFreqs = newValue }
     }
     internal var positioning: (cents: Double, closestFrequency: Double) {
-        get {return _positioning}
-        set {_positioning = newValue}
+        get { return _positioning }
+        set { _positioning = newValue }
     }
     internal var pixelsPerCent: Double {
-        get {return _pixelsPerCent}
-        set {_pixelsPerCent = newValue}
+        get { return _pixelsPerCent }
+        set { _pixelsPerCent = newValue }
     }
     internal var indicatorPosY: Double {
-        get {return _indicatorPosY}
-        set {_indicatorPosY = newValue}
+        get { return _indicatorPosY }
+        set { _indicatorPosY = newValue }
     }
     internal var centerNote: (note: String, octave: Int) {
-        get {return _centerNote}
-        set {_centerNote = newValue}
+        get { return _centerNote }
+        set { _centerNote = newValue }
     }
     internal var numNotesInRange: Int {
-        get {return _numNotesInRange}
-        set {_numNotesInRange = newValue}
+        get { return _numNotesInRange }
+        set { _numNotesInRange = newValue }
     }
 }
 
@@ -315,6 +336,6 @@ struct SizePreferenceKey: PreferenceKey {
 
 
 
-#Preview {
-    PitchVisualizer()
-}
+//#Preview {
+//    PitchVisualizer()
+//}

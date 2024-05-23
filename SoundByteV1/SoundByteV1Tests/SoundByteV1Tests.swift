@@ -50,7 +50,7 @@ final class SoundByteV1Tests: XCTestCase {
     // Test the calculatePosition function
     func testCalculatePosition() {
         // Mock data
-        var pitchVisualizer = PitchVisualizer()
+//        var pitchVisualizer = PitchVisualizer()
         // call calculatePosition
         // calculate expected values
         // Assert whether function is working properly

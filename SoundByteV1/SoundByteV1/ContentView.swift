@@ -22,31 +22,31 @@ struct ContentView: View {
     // constructs app UI
     var body: some View {
         NavigationStack {
-//            ZStack {
-//                NoteSelecter(
-//                    selectedNote: $selectedNote,
-//                    selectedOctave: $selectedOctave,
-//                    isSubmit: $isSubmit
-//                )
-//                .navigationDestination(isPresented: $isSubmit) {
-//                    ZStack {
-//                        PitchVisualizer(
-//                            isRecording: $isRecording,
-//                            isStop: $isStop,
-//                            selectedNote: $selectedNote,
-//                            selectedOctave: $selectedOctave
-//                        )
-//                        
-//                        ToolBar(
-//                            isTiming: $isRecording,
-//                            isStop: $isStop
-//                        )
-//                    }
-//                    .navigationBarBackButtonHidden(true)
-//                }
-//                
-//                StartScreen()
-//            }
+            ZStack {
+                NoteSelecter(
+                    selectedNote: $selectedNote,
+                    selectedOctave: $selectedOctave,
+                    isSubmit: $isSubmit
+                )
+                .navigationDestination(isPresented: $isSubmit) {
+                    ZStack {
+                        PitchVisualizer(
+                            _isRecording: $isRecording,
+                            _isStop: $isStop,
+                            _selectedNote: $selectedNote,
+                            _selectedOctave: $selectedOctave
+                        )
+                        
+                        ToolBar(
+                            isTiming: $isRecording,
+                            isStop: $isStop
+                        )
+                    }
+                    .navigationBarBackButtonHidden(true)
+                }
+                
+                StartScreen()
+            }
         }
     }
 }
