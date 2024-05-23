@@ -17,8 +17,16 @@ struct ContentView: View {
     // constructs app UI
     var body: some View {
         ZStack {
-//            PitchVisualizer(isRecording: $isRecording, isStop: $isStop)
-            ToolBar(isTiming: $isRecording, isStop: $isStop)
+//            PitchVisualizer(
+//                isRecording: $isRecording,
+//                isStop: $isStop
+//            )
+            
+            ToolBar(
+                isTiming: $isRecording,
+                isStop: $isStop
+            )
+            
             StartScreen()
         }
     }

@@ -7,9 +7,12 @@
 
 /*
  TO DO:
- - Use a protocol to remove repetitive code (will need to do research on this, and it may not be as neccessary now)
  - Move timer functions into timer element struct (might be pretty difficult)
  - Timer gets hung up on the first 0.9
+ - Separate each element into its own file
+ - Oranize all files that create the tool bar into their own folder
+ - Create initializers for all of the elements so that you can make variables private
+ - Folow coding standards set in the pitch visualizer files and apply new knowledge to these files
  */
 
 import SwiftUI

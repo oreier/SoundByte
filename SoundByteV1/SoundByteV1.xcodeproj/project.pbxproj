@@ -16,6 +16,9 @@
 		3AEE2C0E2BF5275D007A51E7 /* SoundByteV1UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE2C0D2BF5275D007A51E7 /* SoundByteV1UITestsLaunchTests.swift */; };
 		F42199602BF52B5B00BD0A09 /* StartScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421995F2BF52B5B00BD0A09 /* StartScreen.swift */; };
 		F42199642BF5353800BD0A09 /* ToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42199632BF5353800BD0A09 /* ToolBar.swift */; };
+		F4CB61042BFE6040004140E9 /* HistoryPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB61032BFE6040004140E9 /* HistoryPath.swift */; };
+		F4CB610A2BFE6391004140E9 /* PitchIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB61092BFE6391004140E9 /* PitchIndicator.swift */; };
+		F4CB610C2BFE64D7004140E9 /* NoteAxis.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB610B2BFE64D7004140E9 /* NoteAxis.swift */; };
 		F4F8FBBA2BFBC8AF0064D330 /* PitchVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8FBB92BFBC8AF0064D330 /* PitchVisualizer.swift */; };
 		F4F8FBBE2BFD0C760064D330 /* FreqGraphMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8FBBD2BFD0C760064D330 /* FreqGraphMapper.swift */; };
 /* End PBXBuildFile section */
@@ -37,6 +40,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		F4CB61012BFE5C13004140E9 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		3AEE2BED2BF5274F007A51E7 /* SoundByteV1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoundByteV1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AEE2BF02BF5274F007A51E7 /* SoundByteV1App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundByteV1App.swift; sourceTree = "<group>"; };
@@ -50,6 +66,10 @@
 		3AEE2C0D2BF5275D007A51E7 /* SoundByteV1UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundByteV1UITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F421995F2BF52B5B00BD0A09 /* StartScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScreen.swift; sourceTree = "<group>"; };
 		F42199632BF5353800BD0A09 /* ToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBar.swift; sourceTree = "<group>"; };
+		F4CB60F02BFE5C13004140E9 /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
+		F4CB61032BFE6040004140E9 /* HistoryPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HistoryPath.swift; path = SoundByteV1/HistoryPath.swift; sourceTree = SOURCE_ROOT; };
+		F4CB61092BFE6391004140E9 /* PitchIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchIndicator.swift; sourceTree = "<group>"; };
+		F4CB610B2BFE64D7004140E9 /* NoteAxis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteAxis.swift; sourceTree = "<group>"; };
 		F4F8FBB92BFBC8AF0064D330 /* PitchVisualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchVisualizer.swift; sourceTree = "<group>"; };
 		F4F8FBBD2BFD0C760064D330 /* FreqGraphMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreqGraphMapper.swift; sourceTree = "<group>"; };
 		F4F8FBBF2BFD17BA0064D330 /* Test.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Test.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -86,6 +106,7 @@
 				3AEE2BEF2BF5274F007A51E7 /* SoundByteV1 */,
 				3AEE2C002BF5275C007A51E7 /* SoundByteV1Tests */,
 				3AEE2C0A2BF5275D007A51E7 /* SoundByteV1UITests */,
+				F4CB60EF2BFE5C13004140E9 /* Frameworks */,
 				3AEE2BEE2BF5274F007A51E7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -103,13 +124,16 @@
 		3AEE2BEF2BF5274F007A51E7 /* SoundByteV1 */ = {
 			isa = PBXGroup;
 			children = (
-				F4F8FBBF2BFD17BA0064D330 /* Test.playground */,
+				F4F8FBB92BFBC8AF0064D330 /* PitchVisualizer.swift */,
+				F4CB61092BFE6391004140E9 /* PitchIndicator.swift */,
+				F4CB61032BFE6040004140E9 /* HistoryPath.swift */,
+				F4CB610B2BFE64D7004140E9 /* NoteAxis.swift */,
 				3AEE2BF02BF5274F007A51E7 /* SoundByteV1App.swift */,
 				F4F8FBBD2BFD0C760064D330 /* FreqGraphMapper.swift */,
 				3AEE2BF22BF5274F007A51E7 /* ContentView.swift */,
-				F4F8FBB92BFBC8AF0064D330 /* PitchVisualizer.swift */,
 				F421995F2BF52B5B00BD0A09 /* StartScreen.swift */,
 				F42199632BF5353800BD0A09 /* ToolBar.swift */,
+				F4F8FBBF2BFD17BA0064D330 /* Test.playground */,
 				3AEE2BF42BF5275C007A51E7 /* Assets.xcassets */,
 				3AEE2BF62BF5275C007A51E7 /* Preview Content */,
 			);
@@ -141,6 +165,14 @@
 			path = SoundByteV1UITests;
 			sourceTree = "<group>";
 		};
+		F4CB60EF2BFE5C13004140E9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F4CB60F02BFE5C13004140E9 /* UniformTypeIdentifiers.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -151,6 +183,7 @@
 				3AEE2BE92BF5274F007A51E7 /* Sources */,
 				3AEE2BEA2BF5274F007A51E7 /* Frameworks */,
 				3AEE2BEB2BF5274F007A51E7 /* Resources */,
+				F4CB61012BFE5C13004140E9 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -204,7 +237,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1430;
+				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					3AEE2BEC2BF5274F007A51E7 = {
@@ -273,9 +306,12 @@
 			files = (
 				F4F8FBBA2BFBC8AF0064D330 /* PitchVisualizer.swift in Sources */,
 				3AEE2BF32BF5274F007A51E7 /* ContentView.swift in Sources */,
+				F4CB61042BFE6040004140E9 /* HistoryPath.swift in Sources */,
 				F42199602BF52B5B00BD0A09 /* StartScreen.swift in Sources */,
+				F4CB610A2BFE6391004140E9 /* PitchIndicator.swift in Sources */,
 				3AEE2BF12BF5274F007A51E7 /* SoundByteV1App.swift in Sources */,
 				F4F8FBBE2BFD0C760064D330 /* FreqGraphMapper.swift in Sources */,
+				F4CB610C2BFE64D7004140E9 /* NoteAxis.swift in Sources */,
 				F42199642BF5353800BD0A09 /* ToolBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
