@@ -8,12 +8,13 @@
 /*
  TO-DO:
  - Make changing orientations scale correctly for history line
- - Change the number of elements stored to be based off how many are needed to make the line fill the entire screen
  - Change the starting x location to be a certain distance off from the right side of the display
     -> The current method doesn't scale well to iPads
  - Figure out how to make a changing frequency call calculatePosition using didSet
  - Try to better understand how the onPreferenceChange modifier detects the orientation of the display
  - Organize all the files used for the pitch visualizer into one folder
+ - Adjust color of line
+ - Make work for when the frequency is zero
  */
 
 import SwiftUI
@@ -27,10 +28,16 @@ struct PitchVisualizer: View {
     // binding variables passed in by ContentView
 //    @Binding var isRecording: Bool
 //    @Binding var isStop: Bool
+//    
+//    @Binding var selectedNote: String
+//    @Binding var selectedOctave: Int
     
     // variables for seeing preview
     @State var isRecording: Bool   = true
     @State var isStop: Bool        = false
+    
+    @State var selectedNote: String = "C"
+    @State var selectedOctave: Int  = 5
     
     // state variables track changing parameters during execution
     @State private var pitchHistory: [CGPoint]  = []
@@ -42,6 +49,7 @@ struct PitchVisualizer: View {
     @State private var graphSize: Double        = 0.0
     @State private var horizontalOffset: Double = 0.0
     @State private var verticalOffset: Double   = 0.0
+    @State private var numDataStored: Int       = 0
     
     // state variables to track how the graph is layed out and how the pitch indicator is positioned
     @State private var mappedFreqs: [(note: String, pos: Double, freq: Double)] = []
@@ -51,7 +59,7 @@ struct PitchVisualizer: View {
     
     // state variables track what notes are displayed on the graph
     @State private var centerNote: (note: String, octave: Int)  = ("C", 5)  { didSet { updateGraphNoteAxis() } }
-    @State private var numNotesInRange: Int                     = 7         { didSet { updateGraphNoteAxis() } }
+    @State private var numNotesInRange: Int                     = 12        { didSet { updateGraphNoteAxis() } }
     
     // temporary parameter for slider
     @State private var sliderOpacVal: Double    = 1.0
@@ -68,7 +76,6 @@ struct PitchVisualizer: View {
     // constants used to set various parameters
     private let RIGHT_MARGIN: Double        = 100.0
     private let SHIFT_BY: Double            = 1.5
-    private let NUM_STORED_ELEMENTS: Int    = 500
     
     // constructs the whole graph
     var body: some View {
@@ -107,7 +114,7 @@ struct PitchVisualizer: View {
                 }
                 
                 // for controlling y-coordinate through frequency
-                Slider (value: $currFreq, in: 440...622.25)
+                Slider (value: $currFreq, in: ((mappedFreqs.first?.freq ?? 0) - 10)...((mappedFreqs.last?.freq ?? 0) + 10))
                     .frame(width: 300)
                     .opacity(sliderOpacVal)
                     .onReceive([isRecording].publisher) { _ in
@@ -116,6 +123,10 @@ struct PitchVisualizer: View {
                         }
                     }
             }
+        }
+        // on build of view, set the center note
+        .onAppear() {
+            centerNote = (selectedNote, selectedOctave)
         }
         
         // when the timer fires, update neccessary variables
@@ -146,9 +157,10 @@ struct PitchVisualizer: View {
     
     // sets parameters for the graph based off device orientation
     func setUp() {
-        graphSize = screenSize.height / { verticalSizeClass == .compact ? 1.5 : 2 }()
+        graphSize = screenSize.height / { verticalSizeClass == .compact ? 1.25 : 1.5 }()
         horizontalOffset = screenSize.width * { verticalSizeClass == .compact ? 7/8 : 3/4 }()
         verticalOffset = { verticalSizeClass == .compact ? screenSize.height / 15 : 0 }()
+        numDataStored = Int(screenSize.width / SHIFT_BY)
     }
     
     // updates the mapping of frequencies on the graph
@@ -158,7 +170,7 @@ struct PitchVisualizer: View {
     
     // calcuates the y-coordinate of the pitch indicator
     func calculatePosition() {
-        positioning = centsOff(f1: currFreq, freq: mappedFreqs.map{ $0.2 })
+        positioning = centsOff(freq1: currFreq, freq: mappedFreqs.map{ $0.2 })
         pixelsPerCent = (mappedFreqs[0].1 - mappedFreqs[1].1) / 100
         indicatorPosY = mappedFreqs.first(where: { $0.2 == positioning.closestFrequency})!.1 + (pixelsPerCent * positioning.cents)
     }
@@ -167,8 +179,8 @@ struct PitchVisualizer: View {
     func updateHistory() {
         if pitchHistory.count > 0 {
             // limits the history arrays to 500 elements or less
-            pitchHistory = pitchHistory[(pitchHistory.count < NUM_STORED_ELEMENTS ? 0 : 1)...pitchHistory.count-1].map{ $0 }
-            colorHistory = colorHistory[(colorHistory.count < NUM_STORED_ELEMENTS ? 0 : 1)...colorHistory.count-1].map{ $0 }
+            pitchHistory = pitchHistory[(pitchHistory.count < numDataStored ? 0 : 1)...pitchHistory.count-1].map{ $0 }
+            colorHistory = colorHistory[(colorHistory.count < numDataStored ? 0 : 1)...colorHistory.count-1].map{ $0 }
             
             // subtracts a value from the x component of every point in this array
             pitchHistory = pitchHistory.map{ CGPoint(x: ($0.x - SHIFT_BY), y: $0.y) }
@@ -186,15 +198,13 @@ struct PitchVisualizer: View {
     }
     
     // calculates the cents off a frequency is from it's closest note
-    func centsOff(f1: Double, freq: [Double]) -> (cents: Double, closestFrequency: Double) {
-        if f1 == 0 {
-            return (-1, 0)
-        }
+    func centsOff(freq1: Double, freq: [Double]) -> (cents: Double, closestFrequency: Double) {
+        if freq1 == 0 { return (-1, 0) }
         
-        let f2 = freq.min { abs($0 - f1) < abs($1 - f1) } ?? 0
-        let cents = 1200 * log2(f2 / f1)
+        let FREQ2 = freq.min { abs($0 - freq1) < abs($1 - freq1) } ?? 0
+        let CENTS = 1200 * log2(FREQ2 / freq1)
         
-        return (cents, f2)
+        return (CENTS, FREQ2)
     }
     
     // calculates the color the line should be when off by a certain amount of cents

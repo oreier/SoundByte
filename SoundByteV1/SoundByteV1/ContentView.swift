@@ -11,23 +11,42 @@ import SwiftUI
  main view for the app that brings all individual views into one
  */
 struct ContentView: View {
-    @State var isRecording: Bool = false
-    @State var isStop: Bool = false
+    @State var isRecording: Bool    = false
+    @State var isStop: Bool         = false
+    
+    @State var selectedNote: String = "C"
+    @State var selectedOctave: Int  = 0
+    
+    @State var isSubmit:Bool = false
     
     // constructs app UI
     var body: some View {
-        ZStack {
-//            PitchVisualizer(
-//                isRecording: $isRecording,
-//                isStop: $isStop
-//            )
-            
-            ToolBar(
-                isTiming: $isRecording,
-                isStop: $isStop
-            )
-            
-            StartScreen()
+        NavigationStack {
+//            ZStack {
+//                NoteSelecter(
+//                    selectedNote: $selectedNote,
+//                    selectedOctave: $selectedOctave,
+//                    isSubmit: $isSubmit
+//                )
+//                .navigationDestination(isPresented: $isSubmit) {
+//                    ZStack {
+//                        PitchVisualizer(
+//                            isRecording: $isRecording,
+//                            isStop: $isStop,
+//                            selectedNote: $selectedNote,
+//                            selectedOctave: $selectedOctave
+//                        )
+//                        
+//                        ToolBar(
+//                            isTiming: $isRecording,
+//                            isStop: $isStop
+//                        )
+//                    }
+//                    .navigationBarBackButtonHidden(true)
+//                }
+//                
+//                StartScreen()
+//            }
         }
     }
 }

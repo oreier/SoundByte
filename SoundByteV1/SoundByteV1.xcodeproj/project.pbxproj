@@ -16,6 +16,7 @@
 		3AEE2C0E2BF5275D007A51E7 /* SoundByteV1UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE2C0D2BF5275D007A51E7 /* SoundByteV1UITestsLaunchTests.swift */; };
 		F42199602BF52B5B00BD0A09 /* StartScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421995F2BF52B5B00BD0A09 /* StartScreen.swift */; };
 		F42199642BF5353800BD0A09 /* ToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42199632BF5353800BD0A09 /* ToolBar.swift */; };
+		F4C14E312BFF9F2800CBAAE5 /* NoteSelecter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C14E302BFF9F2800CBAAE5 /* NoteSelecter.swift */; };
 		F4CB61042BFE6040004140E9 /* HistoryPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB61032BFE6040004140E9 /* HistoryPath.swift */; };
 		F4CB610A2BFE6391004140E9 /* PitchIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB61092BFE6391004140E9 /* PitchIndicator.swift */; };
 		F4CB610C2BFE64D7004140E9 /* NoteAxis.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB610B2BFE64D7004140E9 /* NoteAxis.swift */; };
@@ -66,6 +67,7 @@
 		3AEE2C0D2BF5275D007A51E7 /* SoundByteV1UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundByteV1UITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F421995F2BF52B5B00BD0A09 /* StartScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScreen.swift; sourceTree = "<group>"; };
 		F42199632BF5353800BD0A09 /* ToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBar.swift; sourceTree = "<group>"; };
+		F4C14E302BFF9F2800CBAAE5 /* NoteSelecter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteSelecter.swift; sourceTree = "<group>"; };
 		F4CB60F02BFE5C13004140E9 /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
 		F4CB61032BFE6040004140E9 /* HistoryPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HistoryPath.swift; path = SoundByteV1/HistoryPath.swift; sourceTree = SOURCE_ROOT; };
 		F4CB61092BFE6391004140E9 /* PitchIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchIndicator.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				F4F8FBB92BFBC8AF0064D330 /* PitchVisualizer.swift */,
 				F4CB61092BFE6391004140E9 /* PitchIndicator.swift */,
 				F4CB61032BFE6040004140E9 /* HistoryPath.swift */,
+				F4C14E302BFF9F2800CBAAE5 /* NoteSelecter.swift */,
 				F4CB610B2BFE64D7004140E9 /* NoteAxis.swift */,
 				3AEE2BF02BF5274F007A51E7 /* SoundByteV1App.swift */,
 				F4F8FBBD2BFD0C760064D330 /* FreqGraphMapper.swift */,
@@ -304,6 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4C14E312BFF9F2800CBAAE5 /* NoteSelecter.swift in Sources */,
 				F4F8FBBA2BFBC8AF0064D330 /* PitchVisualizer.swift in Sources */,
 				3AEE2BF32BF5274F007A51E7 /* ContentView.swift in Sources */,
 				F4CB61042BFE6040004140E9 /* HistoryPath.swift in Sources */,

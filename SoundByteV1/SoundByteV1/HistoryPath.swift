@@ -18,7 +18,7 @@ struct HistoryPath: View {
     private let COLOR_ARR: [Color]
     
     // constant determines the stroke of the history line
-    private let LINE_WIDTH: Double = 2.5
+    private let LINE_WIDTH: Double = 3.5
     
     // initializes a history path
     init(frameHeight: Double, vOffset: Double, coords: [CGPoint], colors: [Color]) {
