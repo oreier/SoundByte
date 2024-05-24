@@ -48,19 +48,19 @@ struct StartScreen: View {
                     .font(.title)
                 
                 // displays text to rotate screen if device is in portrait mode
-                if verticalSizeClass != .compact {
-                    Text("For best results use landscape")
-                    Image(systemName: "rectangle.landscape.rotate")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: 100)
-                        .scaleEffect(CGSize(width: landscapeImgScale, height: landscapeImgScale))
-                        .onAppear() {
-                            withAnimation(.bouncy(duration: 1, extraBounce: 0.5).repeatForever()) {
-                                landscapeImgScale = 1.1
-                            }
-                        }
-                }
+//                if verticalSizeClass != .compact {
+//                    Text("For best results use landscape")
+//                    Image(systemName: "rectangle.landscape.rotate")
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: 100)
+//                        .scaleEffect(CGSize(width: landscapeImgScale, height: landscapeImgScale))
+//                        .onAppear() {
+//                            withAnimation(.bouncy(duration: 1, extraBounce: 0.5).repeatForever()) {
+//                                landscapeImgScale = 1.1
+//                            }
+//                        }
+//                }
             }
             
             // clear layer to deteck taps

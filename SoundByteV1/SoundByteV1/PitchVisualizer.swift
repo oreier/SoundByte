@@ -37,6 +37,8 @@ struct PitchVisualizer: View {
 //    @State var _selectedNote: String = "C"
 //    @State var _selectedOctave: Int  = 5
     
+    @StateObject var conductor = TunerConductor()
+    
     // state variables track changing parameters during execution
     @State private var _pitchHistory: [CGPoint]  = []
     @State private var _colorHistory: [Color]    = []
@@ -57,7 +59,7 @@ struct PitchVisualizer: View {
     
     // state variables track what notes are displayed on the graph
     @State private var _centerNote: (note: String, octave: Int)  = ("C", 5)  { didSet { updateGraphNoteAxis() } }
-    @State private var _numNotesInRange: Int                     = 7         { didSet { updateGraphNoteAxis() } }
+    @State private var _numNotesInRange: Int                     = 12         { didSet { updateGraphNoteAxis() } }
     
     // temporary parameter for slider
     @State private var sliderOpacVal: Double    = 1.0
@@ -71,7 +73,7 @@ struct PitchVisualizer: View {
     
     // mapper to convert frequencies into y-coordinates
     private let GRAPH_MAPPER = FreqGraphMapper()
-    
+        
     // constants used to set various parameters
     private let RIGHT_MARGIN: Double        = 100.0
     private let SHIFT_BY: Double            = 1.5
@@ -104,44 +106,61 @@ struct PitchVisualizer: View {
             VStack {
                 Spacer()
                 
-                HStack {
-                    Text("Current Frequency:")
-                    Text("\(String(format: "%.0f", _currFreq)) Hz")
-                        .frame(width: 100)
-                        .background(.blue)
-                        .clipShape(RoundedRectangle(cornerRadius: 5.0))
-                }
+//                HStack {
+//                    Text("Current Frequency:")
+//                    Text("\(String(format: "%.0f", conductor.data.pitch)) Hz")
+//                        .frame(width: 100)
+//                        .background(.blue)
+//                        .clipShape(RoundedRectangle(cornerRadius: 5.0))
+//                }
                 
                 // for controlling y-coordinate through frequency
-                HStack {
-                    Toggle("", isOn: $isFreqZero)
-                        .frame(width: 50)
-                        .padding()
-                    Spacer()
-                    Slider (value: $_currFreq, in: ((_mappedFreqs.first?.freq ?? 0) - 10)...((_mappedFreqs.last?.freq ?? 0) + 10))
-                        .frame(width: 250)
-                        .opacity(sliderOpacVal)
-                        .padding()
-                        .onReceive([_isRecording].publisher) { _ in
-                            withAnimation {
-                                sliderOpacVal = _isRecording ? 1 : 0
-                            }
-                    }
-                }
+//                HStack {
+//                    Toggle("", isOn: $isFreqZero)
+//                        .frame(width: 50)
+//                        .padding()
+//                    Spacer()
+//                    Slider (value: $_currFreq, in: ((_mappedFreqs.first?.freq ?? 0) - 10)...((_mappedFreqs.last?.freq ?? 0) + 10))
+//                        .frame(width: 250)
+//                        .opacity(sliderOpacVal)
+//                        .padding()
+//                        .onReceive([_isRecording].publisher) { _ in
+//                            withAnimation {
+//                                sliderOpacVal = _isRecording ? 1 : 0
+//                            }
+//                    }
+//                }
+                
+                InputDevicePicker(device: conductor.initialDevice)
             }
         }
         // on build of view, set the center note
         .onAppear() {
             _centerNote = (_selectedNote, _selectedOctave)
+            _indicatorPosY = screenSize.height + 100
+            conductor.start()
+        }
+        
+        .onDisappear() {
+            conductor.stop()
         }
         
         // when the timer fires, update neccessary variables
         .onReceive(TIMER) { _ in
+            
             // temp code for setting frequency to zero
-            if isFreqZero { _currFreq = 0.0 }
+//            if isFreqZero { _currFreq = 0.0 }
             
             if _isRecording {
-                if currFreq != 0 { calculatePosition() }
+                if conductor.data.pitch != 0 {
+                    if Double(conductor.data.pitch) < _mappedFreqs.first!.freq {
+                        _indicatorPosY = mappedFreqs.first!.pos + 25
+                    } else if Double(conductor.data.pitch) > _mappedFreqs.last!.freq {
+                        _indicatorPosY = mappedFreqs.last!.pos - 25
+                    } else {
+                        calculatePosition()
+                    }
+                }
                 updateHistory()
                 
             } else if _isStop {
@@ -179,7 +198,8 @@ struct PitchVisualizer: View {
     
     // calcuates the y-coordinate of the pitch indicator
     func calculatePosition() {
-        _positioning = centsOff(freq1: _currFreq, freq: _mappedFreqs.map{ $0.2 })
+//        _positioning = centsOff(freq1: _currFreq, freq: _mappedFreqs.map{ $0.2 })
+        _positioning = centsOff(freq1: Double(conductor.data.pitch), freq: _mappedFreqs.map{ $0.2 })
         _pixelsPerCent = (_mappedFreqs[0].1 - _mappedFreqs[1].1) / 100
         _indicatorPosY = _mappedFreqs.first(where: { $0.2 == _positioning.closestFrequency})!.1 + (_pixelsPerCent * _positioning.cents)
     }
@@ -196,7 +216,15 @@ struct PitchVisualizer: View {
         }
         
         // append values to the history arrays
-        _colorHistory.append(_currFreq != 0 ? calculateColor(centsOff: abs(_positioning.cents)) : .clear)
+//        _colorHistory.append(_currFreq != 0 ? calculateColor(centsOff: abs(_positioning.cents)) : .clear)
+        
+        if Double(conductor.data.pitch) < _mappedFreqs.first!.freq {
+            _colorHistory.append(.clear)
+        } else if Double(conductor.data.pitch) > _mappedFreqs.last!.freq {
+            _colorHistory.append(.clear)
+        } else {
+            _colorHistory.append((conductor.data.pitch != 0) ? calculateColor(centsOff: abs(_positioning.cents)) : .clear)
+        }
         _pitchHistory.append(CGPoint(x: _horizontalOffset, y: _indicatorPosY))
     }
     
@@ -204,6 +232,10 @@ struct PitchVisualizer: View {
     func resetHistory() {
         _pitchHistory = []
         _colorHistory = []
+    }
+    
+    func getCurrFreq() {
+//        _currFreq = Double(TunerView().currPitch)
     }
     
     // calculates the cents off a frequency is from it's closest note

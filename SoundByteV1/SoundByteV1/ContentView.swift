@@ -18,6 +18,7 @@ struct ContentView: View {
     @State var selectedOctave: Int  = 0
     
     @State var isSubmit:Bool = false
+    @State var pitch: Float = 0.0
     
     // constructs app UI
     var body: some View {
