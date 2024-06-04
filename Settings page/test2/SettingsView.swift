@@ -114,7 +114,6 @@ struct SettingsView: View {
                     .onChange(of: selectedClefIndex) {
                         let selectedClef = clefTypes[selectedClefIndex]
                         userSettings.clefType = selectedClef
-                        print(userSettings.clefType)
                     }
                     .padding(15)
                     

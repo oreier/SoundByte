@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var userSettings = UserSettings()
-    @State private var goToSettings = false
+//    @StateObject var userSettings = UserSettings()
+//    @State private var goToSettings = false
     
     var body: some View {
         
