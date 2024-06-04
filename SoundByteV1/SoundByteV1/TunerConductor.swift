@@ -10,6 +10,7 @@ import AudioKitEX
 import Foundation
 import SoundpipeAudioKit
 
+// Data structure to contain the pitch and amplitude data that is read in from the mic
 struct TunerData {
     var pitch: Float = 0.0
     var amplitude: Float = 0.0
