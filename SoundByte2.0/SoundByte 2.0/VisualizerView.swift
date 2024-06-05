@@ -14,6 +14,9 @@
  - Make recording pause when app is exited
  - Have settings return a key
  - Get rid of dark mode in the settings page
+ - Add tap to start
+ - Add scroll view
+ - Add functionallity for external microphones
  */
 
 import SwiftUI
