@@ -38,7 +38,7 @@ struct KeyData {
     
     // the center staff note in each of the clefs we are representing
     var centerNoteTreble        = (note: "", octave: 0)
-    var centerNoteTenorVocal    = (note: "", octave: 0)
+    var centerNoteOctave        = (note: "", octave: 0)
     var centerNoteBass          = (note: "", octave: 0)
 }
 
@@ -128,7 +128,7 @@ class Key {
         data.centerNoteTreble = (data.notes.first(where: { $0.contains("B") })!, 4)
         
         // sets the center note of the tenor vocal clef to B
-        data.centerNoteTenorVocal = (data.notes.first(where: { $0.contains("B") })!, 3)
+        data.centerNoteOctave = (data.notes.first(where: { $0.contains("B") })!, 3)
         
         // sets the center note of the bass clef to D
         data.centerNoteBass = (data.notes.first(where: { $0.contains("D") })!, 3)

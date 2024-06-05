@@ -22,8 +22,8 @@ struct KeySignature: View {
         switch currentClef {
         case .treble:
             clefSettings = TrebleClefSettings()
-        case .tenorVocal:
-            clefSettings = TenorVocalClefSettings()
+        case .octave:
+            clefSettings = OctaveClefSettings()
         case .bass:
             clefSettings = BassClefSettings()
         }
@@ -44,7 +44,7 @@ struct KeySignature: View {
             
             // displays flats if there are any
             if currentKey.data.numFlats > 0 {
-                ForEach(0..<currentKey.data.numSharps, id: \.self) { i in
+                ForEach(0..<currentKey.data.numFlats, id: \.self) { i in
                     Image("flat")
                         .resizable()
                         .aspectRatio(contentMode: .fit)

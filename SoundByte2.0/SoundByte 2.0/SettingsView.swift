@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import AudioKit
 
 enum ClefType: String {
     case treble = "Treble Clef"
-    case tenorVocal = "Tenor Clef"
+    case octave = "Octave Clef"
     case bass = "Bass Clef"
 }
 
@@ -26,9 +27,9 @@ class UserSettings: ObservableObject {
         }
     }
     
-    @Published var isMinor: Bool {
+    @Published var isMajor: Bool {
         didSet {
-            UserDefaults.standard.set(isMinor, forKey: "isMajor")
+            UserDefaults.standard.set(isMajor, forKey: "isMajor")
         }
     }
     
@@ -51,11 +52,28 @@ class UserSettings: ObservableObject {
         }
     }
     
+    @Published var selectedKeyIndex: Int {
+        didSet {
+            UserDefaults.standard.setValue(selectedKeyIndex, forKey: "selectedKeyIndex")
+        }
+    }
+    
+    @Published var selectedClefIndex: Int {
+        didSet {
+            UserDefaults.standard.setValue(selectedClefIndex, forKey: "selectedClefIndex")
+        }
+    }
+    
+    @Published var selectedModeIndex: Int {
+        didSet {
+            UserDefaults.standard.setValue(selectedModeIndex, forKey: "selectedModeIndex")
+        }
+    }
     
     init() {
         self.darkModeEnabled = UserDefaults.standard.bool(forKey: "DarkModeEnabled")
         self.noteNamesEnabled = UserDefaults.standard.bool(forKey: "noteNamesEnabled")
-        self.isMinor = UserDefaults.standard.bool(forKey: "isMajor")
+        self.isMajor = UserDefaults.standard.bool(forKey: "isMajor")
         self.numSharps = UserDefaults.standard.integer(forKey: "numSharps")
         self.numFlats = UserDefaults.standard.integer(forKey: "numFlats")
         if let clefTypeRawValue = UserDefaults.standard.string(forKey: "clefType"), let clefType = ClefType(rawValue: clefTypeRawValue) {
@@ -63,15 +81,21 @@ class UserSettings: ObservableObject {
         } else {
             self.clefType = .treble // Default to treble clef if not set
         }
+        self.selectedKeyIndex = UserDefaults.standard.integer(forKey: "selectedKeyIndex")
+        self.selectedClefIndex = UserDefaults.standard.integer(forKey: "selectedClefIndex")
+        self.selectedModeIndex = UserDefaults.standard.integer(forKey: "selectedModeIndex")
     }
 }
 
 struct SettingsView: View {
     @ObservedObject var userSettings: UserSettings
+    @State var device: Device
     
     let keysMajor = ["C", "G", "D", "A", "E", "B", "F#", "C#", "Gb", "Db", "Ab", "Eb", "Bb", "F"]
     let keysMinor = ["Am", "Em", "Bm", "F#m", "C#m", "Abm", "D#m", "A#m", "Ebm", "Bbm", "Fm", "Cm", "Gb", "Dm"]
-    var clefTypes: [ClefType] = [.treble, .tenorVocal, .bass]
+    var clefTypes: [ClefType] = [.treble, .octave, .bass]
+    
+    let modeType = ["Major", "Minor"]
     
     var keySignatures: [String] {
         switch userSettings.clefType {
@@ -79,14 +103,10 @@ struct SettingsView: View {
             return ["C_treble", "G_treble", "D_treble", "A_treble", "E_treble", "B_treble", "F_sharp_treble", "C_sharp_treble", "G_flat_treble", "D_flat_treble", "A_flat_treble", "E_flat_treble", "B_flat_treble", "F_treble"]
         case .bass:
             return ["C_bass", "G_bass", "D_bass", "A_bass", "E_bass", "B_bass", "F_sharp_bass", "C_sharp_bass", "G_flat_bass", "D_flat_bass", "A_flat_bass", "E_flat_bass", "B_flat_bass", "F_bass"]
-        case .tenorVocal:
+        case .octave:
             return ["C_tenor", "G_tenor", "D_tenor", "A_tenor", "E_tenor", "B_tenor", "F_sharp_tenor", "C_sharp_tenor", "G_flat_tenor", "D_flat_tenor", "A_flat_tenor", "E_flat_tenor", "B_flat_tenor", "F_tenor"]
         }
     }
-
-    @State var selectedKeyIndex: Int
-    @State private var selectedClefIndex: Int = 0
-        
     
     var body: some View {
         NavigationView {
@@ -105,45 +125,61 @@ struct SettingsView: View {
                 
                 Section(header: Text("Select Musical Key")) {
                     
-                    Picker(selection: $selectedClefIndex, label: Text("Clef")) {
-                            ForEach(0 ..< clefTypes.count, id: \.self) { index in
-                                Text(clefTypes[index].rawValue)
-                            }
+                    // picker for selecting clef
+                    Picker(selection: $userSettings.selectedClefIndex, label: Text("Clef")) {
+                        ForEach(0 ..< clefTypes.count, id: \.self) { index in
+                            Text(clefTypes[index].rawValue)
+                        }
                     }
                     .pickerStyle(SegmentedPickerStyle())
-                    .onChange(of: selectedClefIndex) {
-                        let selectedClef = clefTypes[selectedClefIndex]
-                        userSettings.clefType = selectedClef
-                    }
-                    .padding(15)
-                    
-                    Toggle(isOn: $userSettings.isMinor) {
-                        Text(userSettings.isMinor ? "Minor" : "Major")
+                    .padding()
+                    .onChange(of: userSettings.selectedClefIndex) {
+                        userSettings.clefType = clefTypes[userSettings.selectedClefIndex]
                     }
                     
+                    // picker for selecting mode
+                    Picker(selection: $userSettings.selectedModeIndex, label: Text("Mode")) {
+                        ForEach(modeType.indices, id: \.self) { i in
+                            Text(modeType[i])
+                        }
+                    }
+                    .padding()
+                    .onChange(of: userSettings.selectedModeIndex) {
+                        userSettings.isMajor = (userSettings.selectedModeIndex == 0) ? true : false
+                    }
+                    
+                    // hstack displays picker for selecting key and key signature photo
                     HStack {
                         
-                        Image(keySignatures[selectedKeyIndex])
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+                        Image(keySignatures[userSettings.selectedKeyIndex])
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 200)
                         
-                        Picker(selection: $selectedKeyIndex, label: Text("Key")) {
-                            ForEach(0 ..< (userSettings.isMinor ? keysMinor.count : keysMajor.count), id: \.self) { index in
-                                    Text(userSettings.isMinor ? keysMinor[index] : keysMajor[index])
-                                }
+                        // picker for selecting the key
+                        Picker(selection: $userSettings.selectedKeyIndex, label: Text("Key")) {
+                            ForEach(0 ..< (userSettings.isMajor ? keysMajor.count : keysMinor.count), id: \.self) { index in
+                                Text(userSettings.isMajor ? keysMajor[index] : keysMinor[index])
+                            }
                         }
                         .pickerStyle(WheelPickerStyle())
-                        .onChange(of: selectedKeyIndex) {
+                        .frame(width: 75)
+                        .onChange(of: userSettings.selectedKeyIndex) {
                             updateSharpsFlats()
                         }
                     }
                 }
                 
-                Section(header: Text("Account")) {
-                    Button(action: {
-                        // Add action to manage account settings
-                    }) {
-                        Text("Manage Account")
+                // picker for the input device
+                Section(header: Text("Input Device")) {
+                    Picker("Input:", selection: $device) {
+                        ForEach(getDevices(), id: \.self) {
+                            Text($0.deviceID)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                    .onChange(of: device) {
+                        setInputDevice(to: device)
                     }
                 }
             }
@@ -163,17 +199,29 @@ struct SettingsView: View {
                 "Cm": (0, 3), "Gm": (0, 2), "Dm": (0, 1)
         ]
         
-        let sharpsFlats = userSettings.isMinor ? sharpsFlatsMinor : sharpsFlatsMajor
-        let selectedKey = userSettings.isMinor ? keysMinor[selectedKeyIndex] : keysMajor[selectedKeyIndex]
+        let sharpsFlats = userSettings.isMajor ? sharpsFlatsMajor : sharpsFlatsMinor
+        let selectedKey = userSettings.isMajor ? keysMajor[userSettings.selectedKeyIndex] : keysMinor[userSettings.selectedKeyIndex]
         let (sharps, flats) = sharpsFlats[selectedKey]!
         userSettings.numSharps = sharps
         userSettings.numFlats = flats
+    }
+    
+    func getDevices() -> [Device] {
+        AudioEngine.inputDevices.compactMap { $0 }
+    }
+    
+    func setInputDevice(to device: Device) {
+        do {
+            try AudioEngine.setInputDevice(device)
+        } catch let err {
+            print(err)
+        }
     }
     
 }
 
 
 
-#Preview {
-    SettingsView(userSettings: UserSettings(), selectedKeyIndex: 0)
-}
+//#Preview {
+//    SettingsView(userSettings: UserSettings())
+//}

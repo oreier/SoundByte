@@ -8,11 +8,12 @@
 /*
  TO-DO:
  - Calculate the correct number of elements to store
- - Refactor code so that there aren't as many state variables
+ - Refactor code so that there aren't as many state variables by using settings variables directly
  - Calcuate the correct color
  - Condense currentMapping and the sorted frequencies list into one tuple for conciseness
- - Change isMinor to isMajor in userSettings
- - Fix settings page to have pickers stay on current selection
+ - Make recording pause when app is exited
+ - Have settings return a key
+ - Get rid of dark mode in the settings page
  */
 
 import SwiftUI
@@ -78,8 +79,8 @@ struct Dummy {
 
 // visualizer brings together all of the individual visual elements
 struct VisualizerView: View {
-//    @ObservedObject var conductor = TunerConductor() // observed object for collecting and processing audio data
-    @State var conductor = Dummy() // dummy variable for ease of viewing in preview
+    @ObservedObject var conductor = TunerConductor() // observed object for collecting and processing audio data
+//    @State var conductor = Dummy() // dummy variable for ease of viewing in preview
     
     // object holds all of the user preferences
     @StateObject var userSettings = UserSettings()
@@ -142,8 +143,10 @@ struct VisualizerView: View {
                     // first hstack displays top tool bar buttons
                     HStack(spacing: buttonSize) {
                         
+                        Spacer() // moves tool bar buttons to the right
+                        
                         // pause and play button
-                        Button(action: toggleRecording) {
+                        Button(action: isRecording ? pauseRecording : startRecording) {
                             Image(systemName: isRecording ? "pause.fill" : "play.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -161,7 +164,7 @@ struct VisualizerView: View {
                         }
                         
                         // settings button
-                        Button(action: { toggleRecording(); goToSettings.toggle() }) {
+                        Button(action: { pauseRecording(); goToSettings.toggle() }) {
                             Image(systemName: "gearshape.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -176,13 +179,12 @@ struct VisualizerView: View {
                     HStack {
                         
                         // temporary slider and text for controlling preview
-                        Slider(value: $conductor.data.pitch, in: (200...1100))
-                            .frame(width: 200)
-                        Text("Freq: " + String(format:"%.0f", conductor.data.pitch))
+//                        Slider(value: $conductor.data.pitch, in: (200...1100))
+//                            .frame(width: 200)
+//                        Text("Freq: " + String(format:"%.0f", conductor.data.pitch))
+//                        
+                        Spacer() // moves timer display to the right
                         
-                        Spacer() // moves temporary slider to the left and timer to the right
-                        
-//                        InputDevicePicker(device: conductor.initialDevice)
                         TimerDisplay(time: elapsedTime, size: buttonSize, isRecording: $isRecording)
                     }
                 }
@@ -193,10 +195,10 @@ struct VisualizerView: View {
                 setUpClef()
                 setUpKey()
                 setUpMapping()
- 
+                 
                 numDataStored = Int((spacing.indicatorX - 100 - 0*20) / shiftBy)
             }
-            .navigationDestination(isPresented: $goToSettings) { SettingsView(userSettings: userSettings, selectedKeyIndex: 0) }
+            .navigationDestination(isPresented: $goToSettings) { SettingsView(userSettings: userSettings, device: conductor.initialDevice) }
         }
     }
     
@@ -209,11 +211,11 @@ struct VisualizerView: View {
     func setUpKey() {
         // if the user selected a key with sharps, generate key using constructor with sharps
         if userSettings.numSharps > 0 {
-            currentKey = Key(numSharps: userSettings.numSharps, isMajor: !userSettings.isMinor)
+            currentKey = Key(numSharps: userSettings.numSharps, isMajor: userSettings.isMajor)
         
         // if the user selected a key with flats, generate key using constructor with flats
         } else if userSettings.numFlats > 0 {
-            currentKey = Key(numFlats: userSettings.numSharps, isMajor: !userSettings.isMinor)
+            currentKey = Key(numFlats: userSettings.numFlats, isMajor: userSettings.isMajor)
         
         // if user didn't select a key with any sharps or flats, use default constructor (C Major)
         } else {
@@ -229,8 +231,8 @@ struct VisualizerView: View {
         switch currentClef {
         case .treble:
             newMapper.centerNote = currentKey.data.centerNoteTreble
-        case .tenorVocal:
-            newMapper.centerNote = currentKey.data.centerNoteTenorVocal
+        case .octave:
+            newMapper.centerNote = currentKey.data.centerNoteOctave
         case .bass:
             newMapper.centerNote = currentKey.data.centerNoteBass
         }
@@ -335,6 +337,28 @@ struct VisualizerView: View {
         return Color(INTERPOLATE_COLOR)
     }
     
+    func startRecording() {
+        // set isRecording state variable to true
+        self.isRecording = true
+        
+        // start the recording process
+        conductor.start()
+        
+        // play the timer
+        playTimer()
+    }
+    
+    func pauseRecording() {
+        // set isRecording state variable to false
+        self.isRecording = false
+        
+        // stop the recording process
+        conductor.stop()
+        
+        // pause the timer
+        pauseTimer()
+    }
+    
     // toggles the timer and recording session
     func toggleRecording() {
         // toggles the isRecording boolean (sets to false if it's currently true and vice versa)
@@ -347,9 +371,9 @@ struct VisualizerView: View {
     
     // stops the timer and recording session (used to reset elapsed time and history arrays)
     func stopRecording() {
-        // if we are currently recording toggle isRecording and pause the timer
+        // if we are currently recording, set isRecording to false and pause the timer
         if isRecording {
-            self.isRecording.toggle()
+            self.isRecording = false
             pauseTimer()
         }
         

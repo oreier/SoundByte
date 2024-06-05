@@ -30,7 +30,7 @@ struct TrebleClefSettings: ClefSettings {
 }
 
 // settings for the tenor vocal cleff
-struct TenorVocalClefSettings: ClefSettings {
+struct OctaveClefSettings: ClefSettings {
     var imageFile = "tenorVocalClef"
     var frameHeight = 300.0
     var offsetX = -100.0
@@ -63,8 +63,8 @@ struct ClefImage: View {
         switch currentClef {
         case .treble:
             clefSettings = TrebleClefSettings()
-        case .tenorVocal:
-            clefSettings = TenorVocalClefSettings()
+        case .octave:
+            clefSettings = OctaveClefSettings()
         case .bass:
             clefSettings = BassClefSettings()
         }

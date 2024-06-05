@@ -107,7 +107,7 @@ final class KeyTests: XCTestCase {
         // tests that the center staff notes are correct for each clef in a key with four sharps
         currentKey = Key(numSharps: 4, isMajor: true)
         centerNoteTreble = currentKey.data.centerNoteTreble
-        centerNoteTenorVocal = currentKey.data.centerNoteTenorVocal
+        centerNoteTenorVocal = currentKey.data.centerNoteOctave
         centerNoteBass = currentKey.data.centerNoteBass
         XCTAssertEqual(centerNoteTreble.note, "B")
         XCTAssertEqual(centerNoteTenorVocal.note, "B")
@@ -116,7 +116,7 @@ final class KeyTests: XCTestCase {
         // tests that the center staff notes are correct for each clef in a key with seven sharps
         currentKey = Key(numSharps: 7, isMajor: true)
         centerNoteTreble = currentKey.data.centerNoteTreble
-        centerNoteTenorVocal = currentKey.data.centerNoteTenorVocal
+        centerNoteTenorVocal = currentKey.data.centerNoteOctave
         centerNoteBass = currentKey.data.centerNoteBass
         XCTAssertEqual(centerNoteTreble.note, "B♯")
         XCTAssertEqual(centerNoteTenorVocal.note, "B♯")
@@ -125,7 +125,7 @@ final class KeyTests: XCTestCase {
         // tests that the center staff notes are correct for each clef in a key with two flats
         currentKey = Key(numFlats: 2, isMajor: true)
         centerNoteTreble = currentKey.data.centerNoteTreble
-        centerNoteTenorVocal = currentKey.data.centerNoteTenorVocal
+        centerNoteTenorVocal = currentKey.data.centerNoteOctave
         centerNoteBass = currentKey.data.centerNoteBass
         XCTAssertEqual(centerNoteTreble.note, "B♭")
         XCTAssertEqual(centerNoteTenorVocal.note, "B♭")
@@ -134,7 +134,7 @@ final class KeyTests: XCTestCase {
         // tests that the center staff notes are correct for each clef in a key with six flats
         currentKey = Key(numFlats: 6, isMajor: true)
         centerNoteTreble = currentKey.data.centerNoteTreble
-        centerNoteTenorVocal = currentKey.data.centerNoteTenorVocal
+        centerNoteTenorVocal = currentKey.data.centerNoteOctave
         centerNoteBass = currentKey.data.centerNoteBass
         XCTAssertEqual(centerNoteTreble.note, "B♭")
         XCTAssertEqual(centerNoteTenorVocal.note, "B♭")
