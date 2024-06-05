@@ -5,6 +5,15 @@
 //  Created by Jack Durfee on 5/28/24.
 //
 
+/*
+ TO-DO:
+ - Calculate the correct number of elements to store
+ - Refactor code so that there aren't as many state variables
+ - Implement settings page
+ - Calcuate the correct color
+ - Change isMinor to isMajor in userSettings
+ */
+
 import SwiftUI
 
 // spacings and dimensions used by many views
@@ -13,26 +22,33 @@ struct Spacing {
     let lineThickness = 2.5
     let whiteSpace = 18.5 // white space above and below each line
     
+    // the space inherited from the parent view by the child view
     var spaceWidth: Double
     var spaceHeight: Double
     
+    // white space in the staff
     var whiteSpaceBetweenLines: Double
     var whiteSpaceBetweenNotes: Double
     
+    // staff dimensions
     var staffWidth: Double
     var staffHeight: Double
     
     var ledgerOffset: Double
     
+    // pitch indicator parameters
     var indicatorX: Double
     var indicatorY: Double
     
     var centerNoteLocationY: Double
     
-    init(width spaceWidth: Double = 0, height spaceHeight: Double = 0) {
-        self.spaceWidth = spaceWidth
-        self.spaceHeight = spaceHeight
+    // initializer for a spacing struct
+    init(width: Double = 0, height: Double = 0) {
+        // set trivial parameters
+        self.spaceWidth = width
+        self.spaceHeight = height
         
+        // set calculated values based off given space
         self.whiteSpaceBetweenNotes = (whiteSpace + lineThickness / 2)
         self.whiteSpaceBetweenLines = (2 * whiteSpace + lineThickness)
         
@@ -61,125 +77,183 @@ struct Dummy {
 
 // visualizer brings together all of the individual visual elements
 struct VisualizerView: View {
-    // observed object for collecting and processing audio data
-//    @ObservedObject var conductor = TunerConductor()
-    @State var conductor = Dummy()
+//    @ObservedObject var conductor = TunerConductor() // observed object for collecting and processing audio data
+    @State var conductor = Dummy() // dummy variable for ease of viewing in preview
     
-    // state variable tracks when the app is recording
-    @State var isRecording = false
+    // object holds all of the user preferences
+    @StateObject var userSettings = UserSettings()
     
-    // variables to control the timer
+    @State var goToSettings = false // tracks when the app needs to go to the settings view
+    @State var isRecording = false // tracks when the app is recording
+    
+    // variables to control and display the timer
     @State var timer: Timer?
     @State var elapsedTime: Double = 0.0
     
-    // important variables for setting up the view
+    // spacing is determined by the parent view
+    @State var spacing: Spacing
+    
     @State var currentClef = "treble"
+    @State var currentClef2 = ClefType.treble
     @State var currentKey = Key()
-    @State var spacingData = Spacing()
     @State var currentMapping: [Double : Double] = [:]
-    @State var sortedFrequencies: [Double] = []
+    @State var currentFrequenciesSorted: [Double] = []
     @State var cents = 0.0
     
-    // history arrays to draw history line
+    // history arrays to be able to draw the pitch history line
     @State var pitchHistory: [CGPoint] = []
     @State var colorHistory: [Color] = [.clear] // starts with a clear line so there isn't a huge jump at the start of recording
         
     // constants for various parameters in the view
     @State var numDataStored = 250
-    let shiftBy = 5.0
+    
+    let shiftBy = 1.0
     let buttonSize = 35.0
-    
-    let screenWidth: Double
-    let screenHeight: Double
-    
     let backgroundColor = Color(red: 250 / 255, green: 248 / 255, blue: 243 / 255)
-    
-    @State var tempArr: [Double] = []
-    
-    // constructor for visualizer view that sets screen size
-    init(width screenWidth: Double = 734, height screenHeight: Double = 372) {
-        self.screenWidth = screenWidth
-        self.screenHeight = screenHeight
+        
+    // constructor for visualizer view that sets up the spacing based off parent view size (defaults are for iPhone 15 Pro)
+    init(width: Double, height: Double) {
+        self.spacing = Spacing(width: width, height: height)
     }
 
     // pulls together all of the visual elements into one view
     var body: some View {
         
-        // zstack allows visual elements to be stacked on top of each other
-        ZStack {
+        NavigationStack {
             
-            // displays the staff
-            Staff(clef: currentClef, keyData: currentKey.data, spacing: spacingData)
-    
-            // displays the pitch indicator for viewing in preview
-            PitchIndicator(x: spacingData.indicatorX, y: spacingData.indicatorY)
-                .onChange(of: conductor.data.pitch) {
-                    spacingData.indicatorY = calculatePosition(from: Double(conductor.data.pitch))
-                }
-            
-            // displays the line coming out of the indicator dot
-            HistoryPath(coordinates: pitchHistory, colors: colorHistory, start: spacingData.indicatorX)
-            
-            // vstack displays tool bar elements
-            VStack(alignment: .trailing) {
+            // zstack allows visual elements to be stacked on top of each other
+            ZStack {
                 
-                // first hstack displays top tool bar buttons
-                HStack(spacing: buttonSize) {
+                // displays the staff
+                Staff(clef: currentClef, key: currentKey, spacing: spacing)
+                
+                // displays the pitch indicator for viewing in preview
+                PitchIndicator(x: spacing.indicatorX, y: spacing.indicatorY)
+                    .onChange(of: conductor.data.pitch) {
+                        spacing.indicatorY = calculatePosition(from: Double(conductor.data.pitch))
+                    }
+                
+                // displays the line coming out of the indicator dot
+                HistoryPath(coordinates: pitchHistory, colors: colorHistory, xStart: spacing.indicatorX)
+                
+                // vstack displays tool bar elements
+                VStack(alignment: .trailing) {
                     
-                    // pause and play button
-                    Button(action: toggleRecording) {
-                        Image(systemName: isRecording ? "pause.fill" : "play.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(height: isRecording ? buttonSize * 0.85 : buttonSize)
-                            .foregroundStyle(isRecording ? Color.red : Color.green)
+                    // first hstack displays top tool bar buttons
+                    HStack(spacing: buttonSize) {
+                        
+                        // pause and play button
+                        Button(action: toggleRecording) {
+                            Image(systemName: isRecording ? "pause.fill" : "play.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: isRecording ? buttonSize * 0.85 : buttonSize)
+                                .foregroundStyle(isRecording ? Color.red : Color.green)
+                        }
+                        
+                        // stop button
+                        Button(action: stopRecording) {
+                            Image(systemName: "stop.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: buttonSize)
+                                .foregroundStyle(Color.primary)
+                        }
+                        
+                        // settings button
+                        Button(action: { goToSettings.toggle() }) {
+                            Image(systemName: "gearshape.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: buttonSize)
+                                .foregroundStyle(Color.secondary)
+                        }
                     }
                     
-                    // stop button
-                    Button(action: stopRecording) {
-                        Image(systemName: "stop.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(height: buttonSize)
-                            .foregroundStyle(Color.primary)
-                    }
+                    Spacer() // moves tool bar buttons to the top and timer to the bottom
                     
-                    // settings button
-                    Button(action: openSettings) {
-                        Image(systemName: "gearshape.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(height: buttonSize)
-                            .foregroundStyle(Color.secondary)
+                    // second hstack displays the timer
+                    HStack {
+                        
+                        // temporary slider and text for controlling preview
+                        Slider(value: $conductor.data.pitch, in: (200...1100))
+                            .frame(width: 200)
+                        Text("Freq: " + String(format:"%.0f", conductor.data.pitch))
+                        
+                        Spacer() // moves temporary slider to the left and timer to the right
+                        
+                        //                    InputDevicePicker(device: conductor.initialDevice)
+                        TimerDisplay(time: elapsedTime, size: buttonSize, isRecording: $isRecording)
                     }
                 }
-                
-                Spacer() // moves tool bar buttons to the top and timer to the bottom
-                
-                // second hstack displays the timer
-                HStack {
-                    
-                    // temporary slider and text for controlling preview
-                    Slider(value: $conductor.data.pitch, in: (200...1100))
-                        .frame(width: 200)
-                    Text("Freq: " + String(format:"%.0f", conductor.data.pitch))
-                    
-                    Spacer() // moves temporary slider to the left and timer to the right
-                    
-//                    InputDevicePicker(device: conductor.initialDevice)
-                    TimerDisplay(time: elapsedTime, size: buttonSize, isRecording: $isRecording)
-                }
+                .padding([.top, .bottom, .trailing]) // padding applies to the tool bar
             }
-            .padding([.top, .bottom, .trailing]) // padding applies to the tool bar
+            .background(backgroundColor)
+            .onAppear() {
+                setUpClef()
+                setUpKey()
+                setUpMapping()
+ 
+                numDataStored = Int((spacing.indicatorX - 100 - 0*20) / shiftBy)
+            }
+            .navigationDestination(isPresented: $goToSettings) { SettingsView(userSettings: userSettings, selectedKeyIndex: 0) }
         }
-        .background(backgroundColor)
-        .onAppear() { // sets up key, spacing and mapping when view apears
-            currentKey = Key(numFlats: 0, isMajor: true)
-            spacingData = Spacing(width: screenWidth, height: screenHeight)
-            currentMapping = generateMapping()
-            sortedFrequencies = currentMapping.keys.sorted()
-            numDataStored = Int((spacingData.indicatorX - 100 - 0*20) / shiftBy)
+    }
+    
+    // sets up the current clef based off the user-selected clef
+    func setUpClef() {
+        currentClef2 = userSettings.clefType
+    }
+    
+    // sets up the current key based off the user-selected key
+    func setUpKey() {
+        // if the user selected a key with sharps, generate key using constructor with sharps
+        if userSettings.numSharps > 0 {
+            currentKey = Key(numSharps: userSettings.numSharps, isMajor: !userSettings.isMinor)
+        
+        // if the user selected a key with flats, generate key using constructor with flats
+        } else if userSettings.numFlats > 0 {
+            currentKey = Key(numFlats: userSettings.numSharps, isMajor: !userSettings.isMinor)
+        
+        // if user didn't select a key with any sharps or flats, use default constructor (C Major)
+        } else {
+            currentKey = Key()
         }
+    }
+    
+    // sets up the current mapping based off the user-selected key
+    func setUpMapping() {
+        let newMapper = NotesToGraphMapper()
+        
+        // sets the middle note of the mapping based on the clef
+        switch currentClef {
+        case "treble":
+            newMapper.centerNote = currentKey.data.centerNoteTreble
+        case "tenorVocal":
+            newMapper.centerNote = currentKey.data.centerNoteTenorVocal
+        case "bass":
+            newMapper.centerNote = currentKey.data.centerNoteBass
+        default:
+            newMapper.centerNote = currentKey.data.centerNoteTreble
+        }
+        
+        // sets the middle note of the mapping based on the clef
+        switch currentClef2 {
+        case .treble:
+            newMapper.centerNote = currentKey.data.centerNoteTreble
+        case .tenorVocal:
+            newMapper.centerNote = currentKey.data.centerNoteTenorVocal
+        case .bass:
+            newMapper.centerNote = currentKey.data.centerNoteBass
+        }
+                
+        newMapper.centerNotePosition = spacing.centerNoteLocationY // position of the center note
+        newMapper.notesInKey = currentKey.data.notes // notes in the current key
+        newMapper.numNotes = 17 // the maximum number of notes displayed will always be 17
+        newMapper.spacing = spacing.whiteSpaceBetweenNotes // spacing bewteen each note
+        
+        currentMapping = newMapper.mapNotes()
+        currentFrequenciesSorted = currentMapping.keys.sorted()
     }
     
     // calculates the y position that the pitch indicator should be at
@@ -187,11 +261,11 @@ struct VisualizerView: View {
         // if the current frequency is zero return the previous position the indicator was at
         if frequency == 0 {
             // if there is no previous position, the note is centered
-            return Double(pitchHistory.first?.y ?? spacingData.spaceHeight / 2)
+            return Double(pitchHistory.first?.y ?? spacing.spaceHeight / 2)
         }
         
         // otherwise calculate the position the note should be at given the current frequency
-        let positioning = centsOff(currentFrequency: Double(frequency), frequencies: sortedFrequencies)
+        let positioning = centsOff(currentFrequency: Double(frequency), frequencies: currentFrequenciesSorted)
         
         // breaks down the positioning into its individual components
         cents = positioning.cents
@@ -199,7 +273,7 @@ struct VisualizerView: View {
         let step = round(positioning.step)
         
         // calculates the number of pixels there are between each whitespace
-        let pixelsPerCent = spacingData.whiteSpaceBetweenNotes / Double(100 * step)
+        let pixelsPerCent = spacing.whiteSpaceBetweenNotes / Double(100 * step)
         
         return (frequency != 0) ? (currentMapping[closestFrequency]! + (cents * pixelsPerCent)) : 0
     }
@@ -246,32 +320,8 @@ struct VisualizerView: View {
         }
         
         // append values to the front of the history arrays
-        pitchHistory.append(CGPoint(x: spacingData.indicatorX, y: calculatePosition(from: frequency)))
+        pitchHistory.append(CGPoint(x: spacing.indicatorX, y: calculatePosition(from: frequency)))
         colorHistory.append(frequency == 0 ? .clear : calculateColor(centsOff: cents)) // adds clear if the frequency is zero
-    }
-    
-    // generates a mapping of frequencies to positions stored in a dictionary [frequency : position]
-    func generateMapping() -> [Double : Double] {
-        let newMapper = NotesToGraphMapper()
-        
-        // sets the middle note of the mapping based on the key
-        switch currentClef {
-        case "treble":
-            newMapper.centerNote = currentKey.data.centerNoteTreble
-        case "tenorVocal":
-            newMapper.centerNote = currentKey.data.centerNoteTenorVocal
-        case "bass":
-            newMapper.centerNote = currentKey.data.centerNoteBass
-        default:
-            newMapper.centerNote = currentKey.data.centerNoteTreble
-        }
-        
-        newMapper.centerNotePosition = spacingData.centerNoteLocationY // position of the center note
-        newMapper.notesInKey = currentKey.data.notes // notes in the current key
-        newMapper.numNotes = 17 // the maximum number of notes displayed will always be 17
-        newMapper.spacing = spacingData.whiteSpaceBetweenNotes // spacing bewteen each note
-        
-        return newMapper.mapNotes() // returns a mapping of [frequency : position]
     }
     
     // calculates the color the line should be when off by a certain amount of cents
@@ -302,6 +352,7 @@ struct VisualizerView: View {
         // toggles the isRecording boolean (sets to false if it's currently true and vice versa)
         self.isRecording.toggle()
         
+        // call other functions based on new state of isRecording
         isRecording ? playTimer() : pauseTimer()
         isRecording ? conductor.start() : conductor.stop()
     }
@@ -321,15 +372,10 @@ struct VisualizerView: View {
         colorHistory = []
     }
     
-    // stub function to open the settings page (will be implemented later)
-    func openSettings() {
-        
-    }
-    
-    // starts the timer and increments it by 0.05 of a second
+    // starts the timer and increments it by 0.01 of a second
     func playTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
-            elapsedTime += 0.05
+        timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { _ in
+            elapsedTime += 0.01
             updateHistory(with: Double(conductor.data.pitch)) // collects data for the history arrays
         }
     }
@@ -359,5 +405,5 @@ extension UIColor {
 }
 
 #Preview {
-    VisualizerView()
+    VisualizerView(width: 734, height: 372)
 }

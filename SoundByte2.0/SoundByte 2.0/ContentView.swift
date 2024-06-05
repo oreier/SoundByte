@@ -10,11 +10,12 @@ import AudioKit
 
 struct ContentView: View {
     var body: some View {
+        // geometry reader gets the screen size and sets up visualizer view with it
         GeometryReader { proxy in
-            let screenWidth = proxy.size.width
-            let screenHeight = proxy.size.height
+            let width = proxy.size.width
+            let height = proxy.size.height
             
-            VisualizerView(width: screenWidth, height: screenHeight)
+            VisualizerView(width: width, height: height)
         }
     }
 }
