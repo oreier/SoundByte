@@ -81,10 +81,7 @@ class Key {
     }
     
     // constructor that initializes key based off the number of sharps
-    init(numSharps: Int, isMajor: Bool) throws {
-        // ensures that a valid number of sharps are passed to the initializer
-        guard (numSharps >= 0 && numSharps <= 7) else { throw KeyInitError.invalidNumberOfSharps }
-        
+    init(numSharps: Int, isMajor: Bool) {
         // sets trivial data about the key
         self.data.numSharps = numSharps
         self.data.isMajor   = isMajor
@@ -95,10 +92,7 @@ class Key {
     }
     
     // constructor that initializes key based off the number of flats
-    init(numFlats: Int, isMajor: Bool) throws {
-        // ensures that a valid number of flats are passed to the initializer
-        guard (numFlats >= 0 && numFlats <= 7) else { throw KeyInitError.invalidNumberOfFlats }
-        
+    init(numFlats: Int, isMajor: Bool) {
         // sets trivial data about the key
         self.data.numFlats  = numFlats
         self.data.isMajor   = isMajor

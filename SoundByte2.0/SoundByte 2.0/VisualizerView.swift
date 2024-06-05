@@ -174,15 +174,11 @@ struct VisualizerView: View {
         }
         .background(backgroundColor)
         .onAppear() { // sets up key, spacing and mapping when view apears
-            do {
-                currentKey = try Key(numFlats: 0, isMajor: true)
-                spacingData = Spacing(width: screenWidth, height: screenHeight)
-                currentMapping = generateMapping()
-                sortedFrequencies = currentMapping.keys.sorted()
-                numDataStored = Int((spacingData.indicatorX - 100 - 0*20) / shiftBy)
-            } catch {
-                print("Error: \(error)")
-            }
+            currentKey = Key(numFlats: 0, isMajor: true)
+            spacingData = Spacing(width: screenWidth, height: screenHeight)
+            currentMapping = generateMapping()
+            sortedFrequencies = currentMapping.keys.sorted()
+            numDataStored = Int((spacingData.indicatorX - 100 - 0*20) / shiftBy)
         }
     }
     
