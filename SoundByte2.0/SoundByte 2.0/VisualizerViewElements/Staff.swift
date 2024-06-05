@@ -9,12 +9,12 @@ import SwiftUI
 
 // view constructs the staff by bringing together the clef, notes and key signature
 struct Staff: View {
-    let currentClef: String
+    let currentClef: ClefType
     let currentKey: Key
     let spacing: Spacing
     
     // constructor for the staff view
-    init(clef: String, key: Key, spacing: Spacing) {
+    init(clef: ClefType, key: Key, spacing: Spacing) {
         self.currentClef = clef
         self.currentKey = key
         self.spacing = spacing
@@ -78,6 +78,6 @@ struct Staff: View {
 
 #Preview {
     GeometryReader { proxy in
-        Staff(clef: "treble", key: Key(numSharps: 3, isMajor: true), spacing: Spacing(width: proxy.size.width, height: proxy.size.height))
+        Staff(clef: ClefType.treble, key: Key(numSharps: 3, isMajor: true), spacing: Spacing(width: proxy.size.width, height: proxy.size.height))
     }
 }

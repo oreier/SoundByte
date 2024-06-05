@@ -9,9 +9,10 @@
  TO-DO:
  - Calculate the correct number of elements to store
  - Refactor code so that there aren't as many state variables
- - Implement settings page
  - Calcuate the correct color
+ - Condense currentMapping and the sorted frequencies list into one tuple for conciseness
  - Change isMinor to isMajor in userSettings
+ - Fix settings page to have pickers stay on current selection
  */
 
 import SwiftUI
@@ -93,8 +94,7 @@ struct VisualizerView: View {
     // spacing is determined by the parent view
     @State var spacing: Spacing
     
-    @State var currentClef = "treble"
-    @State var currentClef2 = ClefType.treble
+    @State var currentClef = ClefType.treble
     @State var currentKey = Key()
     @State var currentMapping: [Double : Double] = [:]
     @State var currentFrequenciesSorted: [Double] = []
@@ -161,7 +161,7 @@ struct VisualizerView: View {
                         }
                         
                         // settings button
-                        Button(action: { goToSettings.toggle() }) {
+                        Button(action: { toggleRecording(); goToSettings.toggle() }) {
                             Image(systemName: "gearshape.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -182,7 +182,7 @@ struct VisualizerView: View {
                         
                         Spacer() // moves temporary slider to the left and timer to the right
                         
-                        //                    InputDevicePicker(device: conductor.initialDevice)
+//                        InputDevicePicker(device: conductor.initialDevice)
                         TimerDisplay(time: elapsedTime, size: buttonSize, isRecording: $isRecording)
                     }
                 }
@@ -202,7 +202,7 @@ struct VisualizerView: View {
     
     // sets up the current clef based off the user-selected clef
     func setUpClef() {
-        currentClef2 = userSettings.clefType
+        currentClef = userSettings.clefType
     }
     
     // sets up the current key based off the user-selected key
@@ -227,18 +227,6 @@ struct VisualizerView: View {
         
         // sets the middle note of the mapping based on the clef
         switch currentClef {
-        case "treble":
-            newMapper.centerNote = currentKey.data.centerNoteTreble
-        case "tenorVocal":
-            newMapper.centerNote = currentKey.data.centerNoteTenorVocal
-        case "bass":
-            newMapper.centerNote = currentKey.data.centerNoteBass
-        default:
-            newMapper.centerNote = currentKey.data.centerNoteTreble
-        }
-        
-        // sets the middle note of the mapping based on the clef
-        switch currentClef2 {
         case .treble:
             newMapper.centerNote = currentKey.data.centerNoteTreble
         case .tenorVocal:

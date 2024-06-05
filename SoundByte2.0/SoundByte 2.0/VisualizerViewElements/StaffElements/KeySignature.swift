@@ -8,27 +8,24 @@
 import SwiftUI
 
 struct KeySignature: View {
-    let currentClef: String
+    let currentClef: ClefType
     let currentKey: Key
     let spacingData: Spacing
     
     let clefSettings: ClefSettings
     
-    init(clef: String, key: Key, spacing: Spacing) {
+    init(clef: ClefType, key: Key, spacing: Spacing) {
         self.currentClef = clef
         self.currentKey = key
         self.spacingData = spacing
         
         switch currentClef {
-        case "treble":
+        case .treble:
             clefSettings = TrebleClefSettings()
-        case "tenorVocal":
+        case .tenorVocal:
             clefSettings = TenorVocalClefSettings()
-        case "bass":
+        case .bass:
             clefSettings = BassClefSettings()
-        default:
-            clefSettings = TrebleClefSettings()
-            print("Error: invalidClefType")
         }
     }
     
@@ -63,6 +60,6 @@ struct KeySignature: View {
 // previewing staff to be able to align key signature correctly
 #Preview {
     GeometryReader { proxy in
-        Staff(clef: "treble", key: Key(numSharps: 4, isMajor: true), spacing: Spacing(width: proxy.size.width, height: proxy.size.height))
+        Staff(clef: ClefType.treble, key: Key(numSharps: 4, isMajor: true), spacing: Spacing(width: proxy.size.width, height: proxy.size.height))
     }
 }

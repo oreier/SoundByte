@@ -53,23 +53,20 @@ struct BassClefSettings: ClefSettings {
 
 // view constructs the image of the clef that is to be displayed
 struct ClefImage: View {
-    let currentClef: String
+    let currentClef: ClefType
     let clefSettings: ClefSettings
     
     // constructor for clef image
-    init(clef: String) {
+    init(clef: ClefType) {
         self.currentClef = clef
         
-        switch clef {
-        case "treble":
+        switch currentClef {
+        case .treble:
             clefSettings = TrebleClefSettings()
-        case "tenorVocal":
+        case .tenorVocal:
             clefSettings = TenorVocalClefSettings()
-        case "bass":
+        case .bass:
             clefSettings = BassClefSettings()
-        default:
-            clefSettings = TrebleClefSettings()
-            print("Error: invalidClefType")
         }
     }
     
@@ -89,6 +86,6 @@ struct ClefImage: View {
 // previewing staff to be able to align clef correctly
 #Preview {
     GeometryReader { proxy in
-        Staff(clef: "treble", key: Key(), spacing: Spacing(width: proxy.size.width, height: proxy.size.height))
+        Staff(clef: ClefType.treble, key: Key(), spacing: Spacing(width: proxy.size.width, height: proxy.size.height))
     }
 }
