@@ -13,10 +13,14 @@
  - Condense currentMapping and the sorted frequencies list into one tuple for conciseness
  - Make recording pause when app is exited
  - Have settings return a key
- - Get rid of dark mode in the settings page
  - Add tap to start
  - Add scroll view
  - Add functionallity for external microphones
+ - Change key to KeyGenerator and KeyData to Key for clarity
+ - Build the imgae of the key based off current resources
+ - Give default values for when the app first launches (minor is selected at start)
+ - Add note names
+ - Fix bug: When you put the app into the background and then try recording, it stops after a second
  */
 
 import SwiftUI
@@ -82,8 +86,8 @@ struct Dummy {
 
 // visualizer brings together all of the individual visual elements
 struct VisualizerView: View {
-    @ObservedObject var conductor = TunerConductor() // observed object for collecting and processing audio data
-//    @State var conductor = Dummy() // dummy variable for ease of viewing in preview
+//    @ObservedObject var conductor = TunerConductor() // observed object for collecting and processing audio data
+    @State var conductor = Dummy() // dummy variable for ease of viewing in preview
     
     // object holds all of the user preferences
     @StateObject var userSettings = UserSettings()
@@ -98,7 +102,6 @@ struct VisualizerView: View {
     // spacing is determined by the parent view
     @State var spacing: Spacing
     
-    @State var currentClef = ClefType.treble
     @State var currentKey = Key()
     @State var currentMapping: [Double : Double] = [:]
     @State var currentFrequenciesSorted: [Double] = []
@@ -110,6 +113,14 @@ struct VisualizerView: View {
         
     // constants for various parameters in the view
     @State var numDataStored = 250
+    
+    // tracks the life cycle of the app (sent to background or inactive)
+    @Environment(\.scenePhase) var scenePhase
+    
+    // variable tracks if we are running in the preview or on an actual device
+    var isPreview: Bool {
+        return ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+    }
     
     let shiftBy = 1.0
     let buttonSize = 35.0
@@ -129,16 +140,16 @@ struct VisualizerView: View {
             ZStack {
                 
                 // displays the staff
-                Staff(clef: currentClef, key: currentKey, spacing: spacing)
+                Staff(clef: userSettings.clefType, key: currentKey, spacing: spacing)
+                
+                // displays the line coming out of the indicator dot
+                HistoryPath(coordinates: pitchHistory, colors: colorHistory, xStart: spacing.indicatorX)
                 
                 // displays the pitch indicator for viewing in preview
                 PitchIndicator(x: spacing.indicatorX, y: spacing.indicatorY)
                     .onChange(of: conductor.data.pitch) {
                         spacing.indicatorY = calculatePosition(from: Double(conductor.data.pitch))
                     }
-                
-                // displays the line coming out of the indicator dot
-                HistoryPath(coordinates: pitchHistory, colors: colorHistory, xStart: spacing.indicatorX)
                 
                 // vstack displays tool bar elements
                 VStack(alignment: .trailing) {
@@ -182,10 +193,10 @@ struct VisualizerView: View {
                     HStack {
                         
                         // temporary slider and text for controlling preview
-//                        Slider(value: $conductor.data.pitch, in: (200...1100))
-//                            .frame(width: 200)
-//                        Text("Freq: " + String(format:"%.0f", conductor.data.pitch))
-//                        
+                        Slider(value: $conductor.data.pitch, in: (200...1100))
+                            .frame(width: 200)
+                        Text("Freq: " + String(format:"%.0f", conductor.data.pitch))
+                        
                         Spacer() // moves timer display to the right
                         
                         TimerDisplay(time: elapsedTime, size: buttonSize, isRecording: $isRecording)
@@ -194,22 +205,30 @@ struct VisualizerView: View {
                 .padding([.top, .bottom, .trailing]) // padding applies to the tool bar
             }
             .background(backgroundColor)
+            
+            // sets up important variables when view apears
             .onAppear() {
-                setUpClef()
                 setUpKey()
                 setUpMapping()
-                 
+                                
                 numDataStored = Int((spacing.indicatorX - 100 - 0*20) / shiftBy)
             }
-            .navigationDestination(isPresented: $goToSettings) { SettingsView(userSettings: userSettings, device: conductor.initialDevice) }
+            
+            // pauses the timer when the app is exited
+            .onReceive([scenePhase].publisher) { _ in
+                if (scenePhase == .background && isRecording && !isPreview) { pauseRecording() }
+            }
+            
+            // navigates to settings view when gear icon is pressed
+            .navigationDestination(isPresented: $goToSettings) {
+                SettingsView(userSettings: userSettings)
+            }
+//            .navigationDestination(isPresented: $goToSettings) {
+//                 SettingsView(userSettings: userSettings, device: conductor.initialDevice)
+//            }
         }
     }
-    
-    // sets up the current clef based off the user-selected clef
-    func setUpClef() {
-        currentClef = userSettings.clefType
-    }
-    
+
     // sets up the current key based off the user-selected key
     func setUpKey() {
         // if the user selected a key with sharps, generate key using constructor with sharps
@@ -231,7 +250,7 @@ struct VisualizerView: View {
         let newMapper = NotesToGraphMapper()
         
         // sets the middle note of the mapping based on the clef
-        switch currentClef {
+        switch userSettings.clefType {
         case .treble:
             newMapper.centerNote = currentKey.data.centerNoteTreble
         case .octave:
@@ -340,17 +359,19 @@ struct VisualizerView: View {
         return Color(INTERPOLATE_COLOR)
     }
     
+    // starts recording audio
     func startRecording() {
         // set isRecording state variable to true
         self.isRecording = true
         
         // start the recording process
         conductor.start()
-        
+                
         // play the timer
         playTimer()
     }
     
+    // pauses recording audio
     func pauseRecording() {
         // set isRecording state variable to false
         self.isRecording = false
@@ -360,16 +381,6 @@ struct VisualizerView: View {
         
         // pause the timer
         pauseTimer()
-    }
-    
-    // toggles the timer and recording session
-    func toggleRecording() {
-        // toggles the isRecording boolean (sets to false if it's currently true and vice versa)
-        self.isRecording.toggle()
-        
-        // call other functions based on new state of isRecording
-        isRecording ? playTimer() : pauseTimer()
-        isRecording ? conductor.start() : conductor.stop()
     }
     
     // stops the timer and recording session (used to reset elapsed time and history arrays)

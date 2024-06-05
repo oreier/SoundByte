@@ -15,12 +15,6 @@ enum ClefType: String {
 }
 
 class UserSettings: ObservableObject {
-    @Published var darkModeEnabled: Bool {
-        didSet {
-            UserDefaults.standard.set(darkModeEnabled, forKey: "DarkModeEnabled")
-        }
-    }
-    
     @Published var noteNamesEnabled: Bool {
         didSet {
             UserDefaults.standard.set(noteNamesEnabled, forKey: "noteNamesEnabled")
@@ -71,7 +65,6 @@ class UserSettings: ObservableObject {
     }
     
     init() {
-        self.darkModeEnabled = UserDefaults.standard.bool(forKey: "DarkModeEnabled")
         self.noteNamesEnabled = UserDefaults.standard.bool(forKey: "noteNamesEnabled")
         self.isMajor = UserDefaults.standard.bool(forKey: "isMajor")
         self.numSharps = UserDefaults.standard.integer(forKey: "numSharps")
@@ -89,7 +82,7 @@ class UserSettings: ObservableObject {
 
 struct SettingsView: View {
     @ObservedObject var userSettings: UserSettings
-    @State var device: Device
+//    @State var device: Device
     
     let keysMajor = ["C", "G", "D", "A", "E", "B", "F#", "C#", "Gb", "Db", "Ab", "Eb", "Bb", "F"]
     let keysMinor = ["Am", "Em", "Bm", "F#m", "C#m", "Abm", "D#m", "A#m", "Ebm", "Bbm", "Fm", "Cm", "Gb", "Dm"]
@@ -111,19 +104,8 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Appearance")) {
-                    Toggle(isOn: $userSettings.darkModeEnabled) {
-                        Text("Dark Mode")
-                    }
-                }
                 
-                Section(header: Text("Graph")) {
-                    Toggle(isOn: $userSettings.noteNamesEnabled) {
-                        Text("Show Note Names")
-                    }
-                }
-                
-                Section(header: Text("Select Musical Key")) {
+                Section(header: Text("Musical Key")) {
                     
                     // picker for selecting clef
                     Picker(selection: $userSettings.selectedClefIndex, label: Text("Clef")) {
@@ -151,10 +133,14 @@ struct SettingsView: View {
                     // hstack displays picker for selecting key and key signature photo
                     HStack {
                         
+                        // displays the image of the current key
                         Image(keySignatures[userSettings.selectedKeyIndex])
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 200)
+                            .frame(width: 300)
+                            .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/)
+                        
+                        Spacer() // spacer used to center picker for the key
                         
                         // picker for selecting the key
                         Picker(selection: $userSettings.selectedKeyIndex, label: Text("Key")) {
@@ -163,25 +149,34 @@ struct SettingsView: View {
                             }
                         }
                         .pickerStyle(WheelPickerStyle())
-                        .frame(width: 75)
                         .onChange(of: userSettings.selectedKeyIndex) {
                             updateSharpsFlats()
                         }
+                        
+                        Spacer() // spacer used to center picker for the key
+                    }
+                }
+                
+                Section(header: Text("Graph")) {
+                    
+                    // toggle for settings note names
+                    Toggle(isOn: $userSettings.noteNamesEnabled) {
+                        Text("Show Note Names")
                     }
                 }
                 
                 // picker for the input device
-                Section(header: Text("Input Device")) {
-                    Picker("Input:", selection: $device) {
-                        ForEach(getDevices(), id: \.self) {
-                            Text($0.deviceID)
-                        }
-                    }
-                    .pickerStyle(MenuPickerStyle())
-                    .onChange(of: device) {
-                        setInputDevice(to: device)
-                    }
-                }
+//                Section(header: Text("Input Device")) {
+//                    Picker("Input:", selection: $device) {
+//                        ForEach(getDevices(), id: \.self) {
+//                            Text($0.deviceID)
+//                        }
+//                    }
+//                    .pickerStyle(MenuPickerStyle())
+//                    .onChange(of: device) {
+//                        setInputDevice(to: device)
+//                    }
+//                }
             }
             .navigationBarTitle("Settings")
         }
@@ -206,22 +201,22 @@ struct SettingsView: View {
         userSettings.numFlats = flats
     }
     
-    func getDevices() -> [Device] {
-        AudioEngine.inputDevices.compactMap { $0 }
-    }
-    
-    func setInputDevice(to device: Device) {
-        do {
-            try AudioEngine.setInputDevice(device)
-        } catch let err {
-            print(err)
-        }
-    }
+//    func getDevices() -> [Device] {
+//        AudioEngine.inputDevices.compactMap { $0 }
+//    }
+//    
+//    func setInputDevice(to device: Device) {
+//        do {
+//            try AudioEngine.setInputDevice(device)
+//        } catch let err {
+//            print(err)
+//        }
+//    }
     
 }
 
 
 
-//#Preview {
-//    SettingsView(userSettings: UserSettings())
-//}
+#Preview {
+    SettingsView(userSettings: UserSettings())
+}
