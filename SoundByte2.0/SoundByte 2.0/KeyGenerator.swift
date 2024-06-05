@@ -1,51 +1,48 @@
 //
-//  Key.swift
-//  SoundByte 2.0
+//  KeyGenerator.swift
+//  SoundByte2.0
 //
-//  Created by Jack Durfee on 5/30/24.
+//  Created by Jack Durfee on 6/5/24.
 //
 
 /*
  TO-DO:
  - Write code so that when a user inputs the name of the key it can generate the notes that are in that key
- - Write code to organize key based off the note in the key
  - Write code to figure out the name of the key based off the number of flats or sharps
  */
 
 import Foundation
 
-// errors that can be thrown when generating a key
-enum KeyInitError: Error {
-    case invalidNote
-    case invalidAccidental
-    case invalidNumberOfSharps
-    case invalidNumberOfFlats
+// organized struct to store information about a note
+struct Note: Codable {
+    var note: String
+    var octave: Int
 }
 
-// organized way to store information about a key
-struct KeyData {
-    // note name / identifier of the key
-    var note        = ""
-    var accidental  = ""
-    var isMajor     = true
+// organized struct to store information about a key
+struct Key: Codable {
+    // identifiers of the key
+    var noteName: String?
+    var accidental: String?
+    var isMajor: Bool?
     
     // number of accidentals in the key
-    var numSharps   = 0
-    var numFlats    = 0
+    var numSharps: Int = 0
+    var numFlats: Int = 0
     
     // the notes that are in the key
     var notes: [String] = []
     
     // the center staff note in each of the clefs we are representing
-    var centerNoteTreble        = (note: "", octave: 0)
-    var centerNoteOctave        = (note: "", octave: 0)
-    var centerNoteBass          = (note: "", octave: 0)
+    var centerNoteTreble: Note?
+    var centerNoteOctave: Note?
+    var centerNoteBass: Note?
 }
 
 // generates a key object based off the information that is passed to it
-class Key {
+class KeyGenerator {
     // stores data about the key
-    var data = KeyData()
+    var data = Key()
     
     // sharps and flats in order of how they are generated in a key
     private let sharpsInOrder   = ["F", "C", "G", "D", "A", "E", "B"]
@@ -56,10 +53,10 @@ class Key {
     
     // default constructor initializes key to C major
     init() {
-        // sets trivial data about the key
-        self.data.note          = "C"
-        self.data.accidental    = "♮"
-        self.data.isMajor       = true
+        // set key name
+        self.data.noteName = "C"
+        self.data.accidental = "♮"
+        self.data.isMajor = true
         
         // sets more complex data about the key
         self.generateNotes()
@@ -67,17 +64,11 @@ class Key {
     }
     
     // constructor initializes key based off the name of the key
-    init(note: String, accidental: String, isMajor: Bool) throws {
-        // ensures that a valid note is passed to the initializer
-        guard sharpsInOrder.contains(note) else { throw KeyInitError.invalidNote }
-        
-        // ensures that a valid accidental is passed to the initializer
-        guard accidentals.contains(accidental) else { throw KeyInitError.invalidAccidental }
-        
-        // sets trivial data about the key
-        self.data.note          = note
-        self.data.accidental    = accidental
-        self.data.isMajor       = isMajor
+    init(note: String, accidental: String, isMajor: Bool) {
+        // sets key identifier
+        self.data.noteName = note
+        self.data.accidental = accidental
+        self.data.isMajor = isMajor
     }
     
     // constructor that initializes key based off the number of sharps
@@ -104,10 +95,12 @@ class Key {
     
     // generates the notes in the given key
     private func generateNotes() {
+        data.notes = []
+        
         // generates the notes that are in the key
         if data.numSharps != 0 {
-            data.notes.append(contentsOf: sharpsInOrder[0..<data.numSharps].map{ $0 + "♯" })
-            data.notes.append(contentsOf: sharpsInOrder[data.numSharps...])
+            data.notes.append(contentsOf: sharpsInOrder[0..<(data.numSharps)].map{ $0 + "♯" })
+            data.notes.append(contentsOf: sharpsInOrder[(data.numSharps)...])
         } else if data.numFlats != 0 {
             data.notes.append(contentsOf: flatsInOrder[0..<data.numFlats].map{ $0 + "♭" })
             data.notes.append(contentsOf: flatsInOrder[data.numFlats...])
@@ -125,12 +118,12 @@ class Key {
     // sets the notes that fall in the center of a clef
     private func setMiddleNotes() {
         // sets the center note of the treble clef to B
-        data.centerNoteTreble = (data.notes.first(where: { $0.contains("B") })!, 4)
+        data.centerNoteTreble = Note(note: data.notes.first(where: { $0.contains("B") }) ?? "B", octave: 4)
         
-        // sets the center note of the tenor vocal clef to B
-        data.centerNoteOctave = (data.notes.first(where: { $0.contains("B") })!, 3)
+        // sets the center note of the octave clef to B
+        data.centerNoteOctave = Note(note: data.notes.first(where: { $0.contains("B") }) ?? "B", octave: 3)
         
         // sets the center note of the bass clef to D
-        data.centerNoteBass = (data.notes.first(where: { $0.contains("D") })!, 3)
+        data.centerNoteBass = Note(note: data.notes.first(where: { $0.contains("D") }) ?? "D", octave: 3)
     }
 }

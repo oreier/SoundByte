@@ -32,8 +32,8 @@ struct KeySignature: View {
     var body: some View {
         HStack(spacing: -37.5) {
             // displays sharps if there are any
-            if currentKey.data.numSharps > 0 {
-                ForEach(0..<currentKey.data.numSharps, id: \.self) { i in
+            if currentKey.numSharps > 0 {
+                ForEach(0..<currentKey.numSharps, id: \.self) { i in
                     Image("sharp")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -43,8 +43,8 @@ struct KeySignature: View {
             }
             
             // displays flats if there are any
-            if currentKey.data.numFlats > 0 {
-                ForEach(0..<currentKey.data.numFlats, id: \.self) { i in
+            if currentKey.numFlats > 0 {
+                ForEach(0..<currentKey.numFlats, id: \.self) { i in
                     Image("flat")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -60,6 +60,6 @@ struct KeySignature: View {
 // previewing staff to be able to align key signature correctly
 #Preview {
     GeometryReader { proxy in
-        Staff(clef: ClefType.treble, key: Key(numSharps: 4, isMajor: true), spacing: Spacing(width: proxy.size.width, height: proxy.size.height))
+        Staff(clef: ClefType.treble, key: KeyGenerator(numSharps: 4, isMajor: true).data, spacing: Spacing(width: proxy.size.width, height: proxy.size.height))
     }
 }

@@ -64,6 +64,8 @@ class UserSettings: ObservableObject {
         }
     }
     
+    @Published var selectedKey: Key
+    
     init() {
         self.noteNamesEnabled = UserDefaults.standard.bool(forKey: "noteNamesEnabled")
         self.isMajor = UserDefaults.standard.bool(forKey: "isMajor")
@@ -77,6 +79,18 @@ class UserSettings: ObservableObject {
         self.selectedKeyIndex = UserDefaults.standard.integer(forKey: "selectedKeyIndex")
         self.selectedClefIndex = UserDefaults.standard.integer(forKey: "selectedClefIndex")
         self.selectedModeIndex = UserDefaults.standard.integer(forKey: "selectedModeIndex")
+        
+        self.selectedKey = KeyGenerator().data
+        
+        // if there is data for a saved key, load that into the selected key variable
+        if let data = UserDefaults.standard.data(forKey: "key") {
+            do {
+                let decoder = JSONDecoder()
+                self.selectedKey = try decoder.decode(Key.self, from: data)
+            } catch {
+                print("Error decoding key: \(error)")
+            }
+        }
     }
 }
 
@@ -151,6 +165,7 @@ struct SettingsView: View {
                         .pickerStyle(WheelPickerStyle())
                         .onChange(of: userSettings.selectedKeyIndex) {
                             updateSharpsFlats()
+                            saveKey()
                         }
                         
                         Spacer() // spacer used to center picker for the key
@@ -199,6 +214,29 @@ struct SettingsView: View {
         let (sharps, flats) = sharpsFlats[selectedKey]!
         userSettings.numSharps = sharps
         userSettings.numFlats = flats
+    }
+    
+    // saves the key into the settings
+    func saveKey() {
+        // generate the key based off the number of sharps or flats
+        var keyGenerator = KeyGenerator()
+        if userSettings.numSharps > 0 {
+            keyGenerator = KeyGenerator(numSharps: userSettings.numSharps, isMajor: userSettings.isMajor)
+        } else if userSettings.numFlats > 0 {
+            keyGenerator = KeyGenerator(numFlats: userSettings.numFlats, isMajor: userSettings.isMajor)
+        }
+        
+        // update the user settings with the selected key
+        userSettings.selectedKey = keyGenerator.data
+        
+        // save the settings so that when the app is closed and then opened the saved key can be loaded
+        do {
+            let encoder = JSONEncoder()
+            let data = try encoder.encode(userSettings.selectedKey)
+            UserDefaults.standard.set(data, forKey: "key")
+        } catch {
+            print("Error with saving key: \(error)")
+        }
     }
     
 //    func getDevices() -> [Device] {

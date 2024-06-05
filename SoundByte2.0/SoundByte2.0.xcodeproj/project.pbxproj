@@ -18,8 +18,7 @@
 		F4D7E8072C06771300E8D450 /* SoundpipeAudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = F4D7E8062C06771300E8D450 /* SoundpipeAudioKit */; };
 		F4D7E8092C06777000E8D450 /* VisualizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D7E8082C06777000E8D450 /* VisualizerView.swift */; };
 		F4D954F22C0E20A100C49D9A /* HistoryPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D954F12C0E20A100C49D9A /* HistoryPath.swift */; };
-		F4FAB4132C0916C100DFE55D /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FAB4122C0916C100DFE55D /* Key.swift */; };
-		F4FAB4152C09218D00DFE55D /* KeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FAB4142C09218D00DFE55D /* KeyTests.swift */; };
+		F4FAB4152C09218D00DFE55D /* KeyGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FAB4142C09218D00DFE55D /* KeyGeneratorTests.swift */; };
 		F4FAB4172C092BD800DFE55D /* NotesToGraphMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FAB4162C092BD800DFE55D /* NotesToGraphMapper.swift */; };
 		F4FAB4192C093C8C00DFE55D /* NotesToGraphMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FAB4182C093C8C00DFE55D /* NotesToGraphMapperTests.swift */; };
 		F4FAB41D2C0A1EB900DFE55D /* TunerConductor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FAB41C2C0A1EB900DFE55D /* TunerConductor.swift */; };
@@ -32,6 +31,7 @@
 		F4FDE3172C0FDB55009ACE43 /* ClefImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FDE3162C0FDB55009ACE43 /* ClefImage.swift */; };
 		F4FDE3192C0FDDED009ACE43 /* KeySignature.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FDE3182C0FDDED009ACE43 /* KeySignature.swift */; };
 		F4FDE31B2C0FEC8E009ACE43 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FDE31A2C0FEC8E009ACE43 /* SettingsView.swift */; };
+		F4FDE31F2C11173F009ACE43 /* KeyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FDE31E2C11173F009ACE43 /* KeyGenerator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,8 +63,7 @@
 		F4D7E7F22C06766D00E8D450 /* SoundByte_2_0UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundByte_2_0UITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F4D7E8082C06777000E8D450 /* VisualizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizerView.swift; sourceTree = "<group>"; };
 		F4D954F12C0E20A100C49D9A /* HistoryPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryPath.swift; sourceTree = "<group>"; };
-		F4FAB4122C0916C100DFE55D /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
-		F4FAB4142C09218D00DFE55D /* KeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyTests.swift; sourceTree = "<group>"; };
+		F4FAB4142C09218D00DFE55D /* KeyGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyGeneratorTests.swift; sourceTree = "<group>"; };
 		F4FAB4162C092BD800DFE55D /* NotesToGraphMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesToGraphMapper.swift; sourceTree = "<group>"; };
 		F4FAB4182C093C8C00DFE55D /* NotesToGraphMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesToGraphMapperTests.swift; sourceTree = "<group>"; };
 		F4FAB41C2C0A1EB900DFE55D /* TunerConductor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunerConductor.swift; sourceTree = "<group>"; };
@@ -77,6 +76,7 @@
 		F4FDE3162C0FDB55009ACE43 /* ClefImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClefImage.swift; sourceTree = "<group>"; };
 		F4FDE3182C0FDDED009ACE43 /* KeySignature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySignature.swift; sourceTree = "<group>"; };
 		F4FDE31A2C0FEC8E009ACE43 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		F4FDE31E2C11173F009ACE43 /* KeyGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,12 +131,12 @@
 			isa = PBXGroup;
 			children = (
 				F4D7E7D72C06766C00E8D450 /* ContentView.swift */,
-				F4FAB4122C0916C100DFE55D /* Key.swift */,
+				F4FDE31E2C11173F009ACE43 /* KeyGenerator.swift */,
 				F4FAB4162C092BD800DFE55D /* NotesToGraphMapper.swift */,
+				F4FDE31A2C0FEC8E009ACE43 /* SettingsView.swift */,
 				F4D7E7D52C06766C00E8D450 /* SoundByte2_0App.swift */,
 				F4FAB41C2C0A1EB900DFE55D /* TunerConductor.swift */,
 				F4D7E8082C06777000E8D450 /* VisualizerView.swift */,
-				F4FDE31A2C0FEC8E009ACE43 /* SettingsView.swift */,
 				F4D7E7D92C06766D00E8D450 /* Assets.xcassets */,
 				F4D7E7DB2C06766D00E8D450 /* Preview Content */,
 				F4FDE30B2C0FCD61009ACE43 /* VisualizerViewElements */,
@@ -155,7 +155,7 @@
 		F4D7E7E52C06766D00E8D450 /* SoundByte 2.0Tests */ = {
 			isa = PBXGroup;
 			children = (
-				F4FAB4142C09218D00DFE55D /* KeyTests.swift */,
+				F4FAB4142C09218D00DFE55D /* KeyGeneratorTests.swift */,
 				F4FAB4182C093C8C00DFE55D /* NotesToGraphMapperTests.swift */,
 			);
 			path = "SoundByte 2.0Tests";
@@ -338,8 +338,8 @@
 				F4FAB41F2C0A1F2E00DFE55D /* InputDevicePicker.swift in Sources */,
 				F4D954F22C0E20A100C49D9A /* HistoryPath.swift in Sources */,
 				F4FAB4172C092BD800DFE55D /* NotesToGraphMapper.swift in Sources */,
+				F4FDE31F2C11173F009ACE43 /* KeyGenerator.swift in Sources */,
 				F4D7E7D82C06766C00E8D450 /* ContentView.swift in Sources */,
-				F4FAB4132C0916C100DFE55D /* Key.swift in Sources */,
 				F4FDE3122C0FD57A009ACE43 /* Staff.swift in Sources */,
 				F4FDE30A2C0FCD54009ACE43 /* PitchIndicator.swift in Sources */,
 				F4FDE30D2C0FCE88009ACE43 /* RecordingIndicator.swift in Sources */,
@@ -358,7 +358,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4FAB4192C093C8C00DFE55D /* NotesToGraphMapperTests.swift in Sources */,
-				F4FAB4152C09218D00DFE55D /* KeyTests.swift in Sources */,
+				F4FAB4152C09218D00DFE55D /* KeyGeneratorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

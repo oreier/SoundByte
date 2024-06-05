@@ -21,7 +21,8 @@ enum NotesToGraphMapperInitError: Error {
 // creates a mapping from a series of notes to a one dimensional axis
 class NotesToGraphMapper {
     // variables to generate the mapping off of
-    var centerNote = (note: "", octave: 0)
+//    var centerNote = (note: "", octave: 0)
+    var centerNote = Note(note: "", octave: 0)
     var centerNotePosition = 0.0
     var notesInKey: [String] = []
     var numNotes = 0
@@ -83,7 +84,7 @@ class NotesToGraphMapper {
     // checks for any input errors to the variables that control the mapping
     func checkForErrors() throws {
         // ensures that the center note and notes in key array are set to some value
-        guard centerNote != (note: "", octave: 0) else { throw NotesToGraphMapperInitError.centerNoteNotSet }
+        guard ((centerNote.note !=  "") || (centerNote.octave != 0)) else { throw NotesToGraphMapperInitError.centerNoteNotSet }
         guard notesInKey.count != 0 else { throw NotesToGraphMapperInitError.notesInKeyNotSet }
         
         // ensures that the center note is valid
@@ -109,7 +110,7 @@ class NotesToGraphMapper {
         let upperNoteOctave = centerNote.octave + (centerNoteIndex + (i + 1)) / 7
 
         // calculates the frequency and position of the next note above
-        let upperNoteFrequency = calculateFreqency(of: (upperNoteName, upperNoteOctave))
+        let upperNoteFrequency = calculateFreqency(of: Note(note: upperNoteName, octave: upperNoteOctave))
         let upperNotePosition = centerNotePosition - (spacing * Double(i + 1))
         
         return (upperNoteFrequency, upperNotePosition)
@@ -132,14 +133,14 @@ class NotesToGraphMapper {
         let lowerNoteName = notesInKey[lowerNoteIndex]
         
         // calculates the frequency and position of the next note below
-        let lowerNoteFrequency = calculateFreqency(of: (lowerNoteName, lowerNoteOctave))
+        let lowerNoteFrequency = calculateFreqency(of: Note(note: lowerNoteName, octave: lowerNoteOctave))
         let lowerNotePosition = centerNotePosition + (spacing * Double(i + 1))
         
         return (lowerNoteFrequency, lowerNotePosition)
     }
     
     // helper function that calculates the frequency of a given note
-    func calculateFreqency(of note: (note: String, octave: Int)) -> Double {
+    func calculateFreqency(of note: Note) -> Double {
         return frequencies[note.note]! * pow(2, Double(note.octave))
     }
     

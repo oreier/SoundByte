@@ -7,12 +7,11 @@
 
 /*
  TO-DO:
+ - Refactor settings page (remove numSharps and numFlats as a user setting)
  - Calculate the correct number of elements to store
  - Refactor code so that there aren't as many state variables by using settings variables directly
  - Calcuate the correct color
  - Condense currentMapping and the sorted frequencies list into one tuple for conciseness
- - Make recording pause when app is exited
- - Have settings return a key
  - Add tap to start
  - Add scroll view
  - Add functionallity for external microphones
@@ -20,10 +19,24 @@
  - Build the imgae of the key based off current resources
  - Give default values for when the app first launches (minor is selected at start)
  - Add note names
- - Fix bug: When you put the app into the background and then try recording, it stops after a second
+ - Fix bug: When you put the app into the background and then try recording after reopening it, it stops after a second
+ - Move navigation to settings page code into content view
+ - Add cents mini display
  */
 
 import SwiftUI
+
+// dummy struct to be able to use the same variable names for recording mode
+struct Dummy {
+    struct DummyData {
+        var pitch = 440.0
+    }
+    
+    var data = DummyData()
+    
+    func start() {}
+    func stop() {}
+}
 
 // spacings and dimensions used by many views
 struct Spacing {
@@ -63,7 +76,7 @@ struct Spacing {
         
         self.staffWidth = spaceWidth * (9 / 10)
         self.staffHeight = whiteSpaceBetweenLines * 4
-    
+        
         self.ledgerOffset = staffWidth * (5 / 7)
         
         self.indicatorX = staffWidth * (5 / 7) + ledgerLineWidth / 2
@@ -71,17 +84,6 @@ struct Spacing {
         
         self.centerNoteLocationY = spaceHeight / 2
     }
-}
-
-struct DummyData {
-    var pitch = 440.0
-}
-
-struct Dummy {
-    var data = DummyData()
-    
-    func start() {}
-    func stop() {}
 }
 
 // visualizer brings together all of the individual visual elements
@@ -102,7 +104,6 @@ struct VisualizerView: View {
     // spacing is determined by the parent view
     @State var spacing: Spacing
     
-    @State var currentKey = Key()
     @State var currentMapping: [Double : Double] = [:]
     @State var currentFrequenciesSorted: [Double] = []
     @State var cents = 0.0
@@ -140,7 +141,7 @@ struct VisualizerView: View {
             ZStack {
                 
                 // displays the staff
-                Staff(clef: userSettings.clefType, key: currentKey, spacing: spacing)
+                Staff(clef: userSettings.clefType, key: userSettings.selectedKey, spacing: spacing)
                 
                 // displays the line coming out of the indicator dot
                 HistoryPath(coordinates: pitchHistory, colors: colorHistory, xStart: spacing.indicatorX)
@@ -208,7 +209,6 @@ struct VisualizerView: View {
             
             // sets up important variables when view apears
             .onAppear() {
-                setUpKey()
                 setUpMapping()
                                 
                 numDataStored = Int((spacing.indicatorX - 100 - 0*20) / shiftBy)
@@ -229,22 +229,6 @@ struct VisualizerView: View {
         }
     }
 
-    // sets up the current key based off the user-selected key
-    func setUpKey() {
-        // if the user selected a key with sharps, generate key using constructor with sharps
-        if userSettings.numSharps > 0 {
-            currentKey = Key(numSharps: userSettings.numSharps, isMajor: userSettings.isMajor)
-        
-        // if the user selected a key with flats, generate key using constructor with flats
-        } else if userSettings.numFlats > 0 {
-            currentKey = Key(numFlats: userSettings.numFlats, isMajor: userSettings.isMajor)
-        
-        // if user didn't select a key with any sharps or flats, use default constructor (C Major)
-        } else {
-            currentKey = Key()
-        }
-    }
-    
     // sets up the current mapping based off the user-selected key
     func setUpMapping() {
         let newMapper = NotesToGraphMapper()
@@ -252,15 +236,15 @@ struct VisualizerView: View {
         // sets the middle note of the mapping based on the clef
         switch userSettings.clefType {
         case .treble:
-            newMapper.centerNote = currentKey.data.centerNoteTreble
+            newMapper.centerNote = userSettings.selectedKey.centerNoteTreble ?? Note(note: "B", octave: 4)
         case .octave:
-            newMapper.centerNote = currentKey.data.centerNoteOctave
+            newMapper.centerNote = userSettings.selectedKey.centerNoteOctave ?? Note(note: "B", octave: 3)
         case .bass:
-            newMapper.centerNote = currentKey.data.centerNoteBass
+            newMapper.centerNote = userSettings.selectedKey.centerNoteBass ?? Note(note: "D", octave: 3)
         }
                 
         newMapper.centerNotePosition = spacing.centerNoteLocationY // position of the center note
-        newMapper.notesInKey = currentKey.data.notes // notes in the current key
+        newMapper.notesInKey = userSettings.selectedKey.notes // notes in the current key
         newMapper.numNotes = 17 // the maximum number of notes displayed will always be 17
         newMapper.spacing = spacing.whiteSpaceBetweenNotes // spacing bewteen each note
         

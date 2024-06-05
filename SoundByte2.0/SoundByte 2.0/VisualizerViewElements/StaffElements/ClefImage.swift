@@ -86,6 +86,6 @@ struct ClefImage: View {
 // previewing staff to be able to align clef correctly
 #Preview {
     GeometryReader { proxy in
-        Staff(clef: ClefType.treble, key: Key(), spacing: Spacing(width: proxy.size.width, height: proxy.size.height))
+        Staff(clef: ClefType.treble, key: KeyGenerator().data, spacing: Spacing(width: proxy.size.width, height: proxy.size.height))
     }
 }

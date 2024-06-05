@@ -78,6 +78,6 @@ struct Staff: View {
 
 #Preview {
     GeometryReader { proxy in
-        Staff(clef: ClefType.treble, key: Key(numFlats: 3, isMajor: true), spacing: Spacing(width: proxy.size.width, height: proxy.size.height))
+        Staff(clef: ClefType.treble, key: KeyGenerator(numFlats: 3, isMajor: true).data, spacing: Spacing(width: proxy.size.width, height: proxy.size.height))
     }
 }
