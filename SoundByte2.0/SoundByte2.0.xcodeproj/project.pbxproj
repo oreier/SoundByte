@@ -130,16 +130,13 @@
 		F4D7E7D42C06766C00E8D450 /* SoundByte 2.0 */ = {
 			isa = PBXGroup;
 			children = (
-				F4D7E7D72C06766C00E8D450 /* ContentView.swift */,
 				F4FDE31E2C11173F009ACE43 /* KeyGenerator.swift */,
 				F4FAB4162C092BD800DFE55D /* NotesToGraphMapper.swift */,
-				F4FDE31A2C0FEC8E009ACE43 /* SettingsView.swift */,
 				F4D7E7D52C06766C00E8D450 /* SoundByte2_0App.swift */,
 				F4FAB41C2C0A1EB900DFE55D /* TunerConductor.swift */,
-				F4D7E8082C06777000E8D450 /* VisualizerView.swift */,
 				F4D7E7D92C06766D00E8D450 /* Assets.xcassets */,
+				F4FDE3202C113360009ACE43 /* MainViews */,
 				F4D7E7DB2C06766D00E8D450 /* Preview Content */,
-				F4FDE30B2C0FCD61009ACE43 /* VisualizerViewElements */,
 			);
 			path = "SoundByte 2.0";
 			sourceTree = "<group>";
@@ -192,6 +189,17 @@
 				F4FDE3142C0FD99A009ACE43 /* NoteLine.swift */,
 			);
 			path = StaffElements;
+			sourceTree = "<group>";
+		};
+		F4FDE3202C113360009ACE43 /* MainViews */ = {
+			isa = PBXGroup;
+			children = (
+				F4D7E7D72C06766C00E8D450 /* ContentView.swift */,
+				F4FDE31A2C0FEC8E009ACE43 /* SettingsView.swift */,
+				F4D7E8082C06777000E8D450 /* VisualizerView.swift */,
+				F4FDE30B2C0FCD61009ACE43 /* VisualizerViewElements */,
+			);
+			path = MainViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
