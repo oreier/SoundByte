@@ -32,6 +32,7 @@
 		F4FDE3192C0FDDED009ACE43 /* KeySignature.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FDE3182C0FDDED009ACE43 /* KeySignature.swift */; };
 		F4FDE31B2C0FEC8E009ACE43 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FDE31A2C0FEC8E009ACE43 /* SettingsView.swift */; };
 		F4FDE31F2C11173F009ACE43 /* KeyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FDE31E2C11173F009ACE43 /* KeyGenerator.swift */; };
+		F4FDE3222C113C96009ACE43 /* CentsIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FDE3212C113C96009ACE43 /* CentsIndicator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		F4FDE3182C0FDDED009ACE43 /* KeySignature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySignature.swift; sourceTree = "<group>"; };
 		F4FDE31A2C0FEC8E009ACE43 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F4FDE31E2C11173F009ACE43 /* KeyGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyGenerator.swift; sourceTree = "<group>"; };
+		F4FDE3212C113C96009ACE43 /* CentsIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentsIndicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +175,7 @@
 				F4D954F12C0E20A100C49D9A /* HistoryPath.swift */,
 				F4FAB41E2C0A1F2E00DFE55D /* InputDevicePicker.swift */,
 				F4FDE3092C0FCD54009ACE43 /* PitchIndicator.swift */,
+				F4FDE3212C113C96009ACE43 /* CentsIndicator.swift */,
 				F4FDE30C2C0FCE88009ACE43 /* RecordingIndicator.swift */,
 				F4FDE3102C0FD36C009ACE43 /* Staff.swift */,
 				F4FDE30E2C0FD062009ACE43 /* TimerDisplay.swift */,
@@ -350,6 +353,7 @@
 				F4D7E7D82C06766C00E8D450 /* ContentView.swift in Sources */,
 				F4FDE3122C0FD57A009ACE43 /* Staff.swift in Sources */,
 				F4FDE30A2C0FCD54009ACE43 /* PitchIndicator.swift in Sources */,
+				F4FDE3222C113C96009ACE43 /* CentsIndicator.swift in Sources */,
 				F4FDE30D2C0FCE88009ACE43 /* RecordingIndicator.swift in Sources */,
 				F4FDE31B2C0FEC8E009ACE43 /* SettingsView.swift in Sources */,
 				F4FDE3172C0FDB55009ACE43 /* ClefImage.swift in Sources */,

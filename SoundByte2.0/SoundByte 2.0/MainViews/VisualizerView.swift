@@ -15,8 +15,7 @@
  - Add tap to start
  - Add scroll view
  - Add functionallity for external microphones
- - Change key to KeyGenerator and KeyData to Key for clarity
- - Build the imgae of the key based off current resources
+ - Build the imgae of the key with current tools
  - Give default values for when the app first launches (minor is selected at start)
  - Add note names
  - Fix bug: When you put the app into the background and then try recording after reopening it, it stops after a second
@@ -188,6 +187,8 @@ struct VisualizerView: View {
                         }
                     }
                     
+                    CentsIndicator(cents: cents)
+                    
                     Spacer() // moves tool bar buttons to the top and timer to the bottom
                     
                     // second hstack displays the timer
@@ -252,28 +253,6 @@ struct VisualizerView: View {
         currentFrequenciesSorted = currentMapping.keys.sorted()
     }
     
-    // calculates the y position that the pitch indicator should be at
-    func calculatePosition(from frequency: Double) -> Double {
-        // if the current frequency is zero return the previous position the indicator was at
-        if frequency == 0 {
-            // if there is no previous position, the note is centered
-            return Double(pitchHistory.first?.y ?? spacing.spaceHeight / 2)
-        }
-        
-        // otherwise calculate the position the note should be at given the current frequency
-        let positioning = centsOff(currentFrequency: Double(frequency), frequencies: currentFrequenciesSorted)
-        
-        // breaks down the positioning into its individual components
-        cents = positioning.cents
-        let closestFrequency = positioning.closestFrequency
-        let step = round(positioning.step)
-        
-        // calculates the number of pixels there are between each whitespace
-        let pixelsPerCent = spacing.whiteSpaceBetweenNotes / Double(100 * step)
-        
-        return (frequency != 0) ? (currentMapping[closestFrequency]! + (cents * pixelsPerCent)) : 0
-    }
-    
     // calculates the cents off a frequency is from it's closest note
     func centsOff(currentFrequency: Double, frequencies: [Double]) -> (cents: Double, closestFrequency: Double, step: Double) {
         if currentFrequency == 0 { return (-1, 0, 1) }
@@ -304,6 +283,51 @@ struct VisualizerView: View {
         return (cents, closestFrequency, step)
     }
     
+    // calculates the y position that the pitch indicator should be at
+    func calculatePosition(from frequency: Double) -> Double {
+        // if the current frequency is zero return the previous position the indicator was at
+        if frequency == 0 {
+            // if there is no previous position, the note is centered
+            return Double(pitchHistory.first?.y ?? spacing.spaceHeight / 2)
+        }
+        
+        // otherwise calculate the position the note should be at given the current frequency
+        let positioning = centsOff(currentFrequency: Double(frequency), frequencies: currentFrequenciesSorted)
+        
+        // breaks down the positioning into its individual components
+        cents = positioning.cents
+        let closestFrequency = positioning.closestFrequency
+        let step = round(positioning.step)
+        
+        // calculates the number of pixels there are between each whitespace
+        let pixelsPerCent = spacing.whiteSpaceBetweenNotes / Double(100 * step)
+        
+        return (frequency != 0) ? (currentMapping[closestFrequency]! + (cents * pixelsPerCent)) : 0
+    }
+    
+    // calculates the color the line should be when off by a certain amount of cents
+    func calculateColor(centsOff: Double) -> Color {
+        let cents = min(max(centsOff, 0), 50)
+        
+        // defines the RGB values for the colors in the gradient
+        let startColor = UIColor(.green)
+        let middleColor = UIColor(.yellow)
+        let endColor = UIColor(.red)
+        
+        let interpolateColor: UIColor
+        
+        // determines what gradient to calculate
+        if cents <= 35 {
+            let factor = CGFloat(cents / 35.0)
+            interpolateColor = UIColor.interpolate(from: startColor, to: middleColor, with: factor)
+        } else {
+            let factor = CGFloat((cents - 35) / 25.0)
+            interpolateColor = UIColor.interpolate(from: middleColor, to: endColor, with: factor)
+        }
+                    
+        return Color(interpolateColor)
+    }
+    
     // adds values to the history arrays
     func updateHistory(with frequency: Double) {
         if pitchHistory.count > 0 {
@@ -318,29 +342,6 @@ struct VisualizerView: View {
         // append values to the front of the history arrays
         pitchHistory.append(CGPoint(x: spacing.indicatorX, y: calculatePosition(from: frequency)))
         colorHistory.append(frequency == 0 ? .clear : calculateColor(centsOff: cents)) // adds clear if the frequency is zero
-    }
-    
-    // calculates the color the line should be when off by a certain amount of cents
-    func calculateColor(centsOff: Double) -> Color {
-        let CENTS = min(max(centsOff, 0), 50)
-        
-        // defines the RGB values for the colors in the gradient
-        let START_COLOR = UIColor(.green)
-        let MIDDLE_COLOR = UIColor(.yellow)
-        let END_COLOR = UIColor(.red)
-        
-        let INTERPOLATE_COLOR: UIColor
-        
-        // determines what gradient to calculate
-        if CENTS <= 35 {
-            let FACTOR = CGFloat(CENTS / 35.0)
-            INTERPOLATE_COLOR = UIColor.interpolate(from: START_COLOR, to: MIDDLE_COLOR, with: FACTOR)
-        } else {
-            let FACTOR = CGFloat((CENTS - 35) / 25.0)
-            INTERPOLATE_COLOR = UIColor.interpolate(from: MIDDLE_COLOR, to: END_COLOR, with: FACTOR)
-        }
-                    
-        return Color(INTERPOLATE_COLOR)
     }
     
     // starts recording audio
@@ -397,6 +398,7 @@ struct VisualizerView: View {
     }
 }
 
+// extension allows us to calculate a color gradient (chat wrote this)
 extension UIColor {
     static func interpolate(from startColor: UIColor, to endColor: UIColor, with factor: CGFloat) -> UIColor {
         var startRed: CGFloat = 0, startGreen: CGFloat = 0, startBlue: CGFloat = 0, startAlpha: CGFloat = 0
