@@ -15,88 +15,140 @@ enum ClefType: String {
 }
 
 class UserSettings: ObservableObject {
-    @Published var noteNamesEnabled: Bool {
+    // sets the clef to the what is set in the user settings
+    @Published var clef: ClefType {
         didSet {
-            UserDefaults.standard.set(noteNamesEnabled, forKey: "noteNamesEnabled")
+            UserDefaults.standard.set(clef.rawValue, forKey: "clefType")
         }
     }
     
+    // sets the clef index to the what is set in the user settings
+    @Published var clefIndex: Int {
+        didSet {
+            UserDefaults.standard.setValue(clefIndex, forKey: "selectedClefIndex")
+        }
+    }
+    
+    // sets the mode to the what is set in the user settings
     @Published var isMajor: Bool {
         didSet {
             UserDefaults.standard.set(isMajor, forKey: "isMajor")
         }
     }
     
-    @Published var numSharps: Int {
+    // sets the mode index to the what is set in the user settings
+    @Published var modeIndex: Int {
         didSet {
-            UserDefaults.standard.set(numSharps, forKey: "numSharps")
+            UserDefaults.standard.setValue(modeIndex, forKey: "selectedModeIndex")
         }
     }
     
-    @Published var numFlats: Int {
-        didSet {
-            UserDefaults.standard.set(numFlats, forKey: "numFlats")
-        }
-        
-    }
+    // sets the key to the what is set in the user settings
+    @Published var key: Key
     
-    @Published var clefType: ClefType {
+    // sets the key index to the what is set in the user settings
+    @Published var keyIndex: Int {
         didSet {
-            UserDefaults.standard.set(clefType.rawValue, forKey: "clefType")
+            UserDefaults.standard.setValue(keyIndex, forKey: "selectedKeyIndex")
         }
     }
     
-    @Published var selectedKeyIndex: Int {
+    // sets the note names visibility to the what is set in the user settings
+    @Published var isNoteNamesDisplayed: Bool {
         didSet {
-            UserDefaults.standard.setValue(selectedKeyIndex, forKey: "selectedKeyIndex")
+            UserDefaults.standard.set(isNoteNamesDisplayed, forKey: "noteNamesEnabled")
         }
     }
     
-    @Published var selectedClefIndex: Int {
-        didSet {
-            UserDefaults.standard.setValue(selectedClefIndex, forKey: "selectedClefIndex")
-        }
-    }
-    
-    @Published var selectedModeIndex: Int {
-        didSet {
-            UserDefaults.standard.setValue(selectedModeIndex, forKey: "selectedModeIndex")
-        }
-    }
-    
-    @Published var selectedKey: Key
-    
+    // initializer sets all user settings to the data stored by the app
     init() {
-        self.noteNamesEnabled = UserDefaults.standard.bool(forKey: "noteNamesEnabled")
-        self.isMajor = UserDefaults.standard.bool(forKey: "isMajor")
-        self.numSharps = UserDefaults.standard.integer(forKey: "numSharps")
-        self.numFlats = UserDefaults.standard.integer(forKey: "numFlats")
-        if let clefTypeRawValue = UserDefaults.standard.string(forKey: "clefType"), let clefType = ClefType(rawValue: clefTypeRawValue) {
-                self.clefType = clefType
-        } else {
-            self.clefType = .treble // Default to treble clef if not set
+        let defaults = UserDefaults.standard
+        
+        self.isNoteNamesDisplayed = defaults.bool(forKey: "noteNamesEnabled")
+        
+        if defaults.value(forKey: "isMajor") == nil {
+            defaults.set(true, forKey: "isMajor")
         }
-        self.selectedKeyIndex = UserDefaults.standard.integer(forKey: "selectedKeyIndex")
-        self.selectedClefIndex = UserDefaults.standard.integer(forKey: "selectedClefIndex")
-        self.selectedModeIndex = UserDefaults.standard.integer(forKey: "selectedModeIndex")
         
-        self.selectedKey = KeyGenerator().data
+        self.isMajor = defaults.bool(forKey: "isMajor")
         
+        if let clefTypeRawValue = defaults.string(forKey: "clefType"), let clefType = ClefType(rawValue: clefTypeRawValue) {
+                self.clef = clefType
+        } else {
+            self.clef = .treble // Default to treble clef if not set
+        }
+        self.keyIndex = defaults.integer(forKey: "selectedKeyIndex")
+        self.clefIndex = defaults.integer(forKey: "selectedClefIndex")
+        self.modeIndex = defaults.integer(forKey: "selectedModeIndex")
+        
+        self.key = KeyGenerator().data
+                
         // if there is data for a saved key, load that into the selected key variable
         if let data = UserDefaults.standard.data(forKey: "key") {
             do {
                 let decoder = JSONDecoder()
-                self.selectedKey = try decoder.decode(Key.self, from: data)
+                self.key = try decoder.decode(Key.self, from: data)
             } catch {
                 print("Error decoding key: \(error)")
             }
         }
+    }
+    
+    // sets default values to each of the keys associated with user settings
+    func setDefaults() {
+        let defaults = UserDefaults.standard
+        
+        // sets the default value for the clef
+        if defaults.value(forKey: "clef") == nil {
+            defaults.set(ClefType.treble, forKey: "clef")
+        }
+        
+        // sets the default value for the mode
+        if defaults.value(forKey: "isMajor") == nil {
+            defaults.set(true, forKey: "isMajor")
+        }
+        
+        // sets the default value for the key
+        if defaults.value(forKey: "key") == nil {
+            do {
+                let encoder = JSONEncoder()
+                let data = try encoder.encode(KeyGenerator().data)
+                UserDefaults.standard.set(data, forKey: "key")
+            } catch {
+                print("Error: error with saving default key")
+            }
+        }
+        
+        // sets the default value for note name visibility
+        if defaults.value(forKey: "noteNames") == nil {
+            defaults.set(false, forKey: "noteNames")
+        }
+    }
+    
+    // loads the key from the stored settings in the app
+    func loadKey() -> Key {
+        var loadedKey = KeyGenerator().data
+        
+        // if the key has been set in settings, set loadedKey to the saved key
+        if let keyData = UserDefaults.standard.data(forKey: "key") {
+            do {
+                let decoder = JSONDecoder()
+                loadedKey = try decoder.decode(Key.self, from: keyData)
+            } catch {
+                print("Error: error with loading key from storage")
+            }
+        }
+        
+        return loadedKey
     }
 }
 
 struct SettingsView: View {
     @ObservedObject var userSettings: UserSettings
 //    @State var device: Device
+    
+    @State var numSharps = 0
+    @State var numFlats = 0
     
     let keysMajor = ["C", "G", "D", "A", "E", "B", "F#", "C#", "Gb", "Db", "Ab", "Eb", "Bb", "F"]
     let keysMinor = ["Am", "Em", "Bm", "F#m", "C#m", "Abm", "D#m", "A#m", "Ebm", "Bbm", "Fm", "Cm", "Gb", "Dm"]
@@ -105,7 +157,7 @@ struct SettingsView: View {
     let modeType = ["Major", "Minor"]
     
     var keySignatures: [String] {
-        switch userSettings.clefType {
+        switch userSettings.clef {
         case .treble:
             return ["C_treble", "G_treble", "D_treble", "A_treble", "E_treble", "B_treble", "F_sharp_treble", "C_sharp_treble", "G_flat_treble", "D_flat_treble", "A_flat_treble", "E_flat_treble", "B_flat_treble", "F_treble"]
         case .bass:
@@ -122,33 +174,33 @@ struct SettingsView: View {
                 Section(header: Text("Musical Key")) {
                     
                     // picker for selecting clef
-                    Picker(selection: $userSettings.selectedClefIndex, label: Text("Clef")) {
+                    Picker(selection: $userSettings.clefIndex, label: Text("Clef")) {
                         ForEach(0 ..< clefTypes.count, id: \.self) { index in
                             Text(clefTypes[index].rawValue)
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
                     .padding()
-                    .onChange(of: userSettings.selectedClefIndex) {
-                        userSettings.clefType = clefTypes[userSettings.selectedClefIndex]
+                    .onChange(of: userSettings.clefIndex) {
+                        userSettings.clef = clefTypes[userSettings.clefIndex]
                     }
                     
                     // picker for selecting mode
-                    Picker(selection: $userSettings.selectedModeIndex, label: Text("Mode")) {
+                    Picker(selection: $userSettings.modeIndex, label: Text("Mode")) {
                         ForEach(modeType.indices, id: \.self) { i in
                             Text(modeType[i])
                         }
                     }
                     .padding()
-                    .onChange(of: userSettings.selectedModeIndex) {
-                        userSettings.isMajor = (userSettings.selectedModeIndex == 0) ? true : false
+                    .onChange(of: userSettings.modeIndex) {
+                        userSettings.isMajor = (userSettings.modeIndex == 0) ? true : false
                     }
                     
                     // hstack displays picker for selecting key and key signature photo
                     HStack {
                         
                         // displays the image of the current key
-                        Image(keySignatures[userSettings.selectedKeyIndex])
+                        Image(keySignatures[userSettings.keyIndex])
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 300)
@@ -157,13 +209,13 @@ struct SettingsView: View {
                         Spacer() // spacer used to center picker for the key
                         
                         // picker for selecting the key
-                        Picker(selection: $userSettings.selectedKeyIndex, label: Text("Key")) {
+                        Picker(selection: $userSettings.keyIndex, label: Text("Key")) {
                             ForEach(0 ..< (userSettings.isMajor ? keysMajor.count : keysMinor.count), id: \.self) { index in
                                 Text(userSettings.isMajor ? keysMajor[index] : keysMinor[index])
                             }
                         }
                         .pickerStyle(WheelPickerStyle())
-                        .onChange(of: userSettings.selectedKeyIndex) {
+                        .onChange(of: userSettings.keyIndex) {
                             updateSharpsFlats()
                             saveKey()
                         }
@@ -175,7 +227,7 @@ struct SettingsView: View {
                 Section(header: Text("Graph")) {
                     
                     // toggle for settings note names
-                    Toggle(isOn: $userSettings.noteNamesEnabled) {
+                    Toggle(isOn: $userSettings.isNoteNamesDisplayed) {
                         Text("Show Note Names")
                     }
                 }
@@ -195,6 +247,12 @@ struct SettingsView: View {
             }
             .navigationBarTitle("Settings")
         }
+        // on disappear of the view, save all of the users settings
+//        .onDisappear() {
+//            let defaults = UserDefaults.standard
+//            
+//            defaults.set(userSettings.isNoteNamesDisplayed, forKey: "noteNamesEnabled")
+//        }
     }
     
     func updateSharpsFlats() {
@@ -210,46 +268,44 @@ struct SettingsView: View {
         ]
         
         let sharpsFlats = userSettings.isMajor ? sharpsFlatsMajor : sharpsFlatsMinor
-        let selectedKey = userSettings.isMajor ? keysMajor[userSettings.selectedKeyIndex] : keysMinor[userSettings.selectedKeyIndex]
-        let (sharps, flats) = sharpsFlats[selectedKey]!
-        userSettings.numSharps = sharps
-        userSettings.numFlats = flats
+        let selectedKey = userSettings.isMajor ? keysMajor[userSettings.keyIndex] : keysMinor[userSettings.keyIndex]
+        (numSharps, numFlats) = sharpsFlats[selectedKey]!
     }
     
     // saves the key into the settings
     func saveKey() {
         // generate the key based off the number of sharps or flats
         var keyGenerator = KeyGenerator()
-        if userSettings.numSharps > 0 {
-            keyGenerator = KeyGenerator(numSharps: userSettings.numSharps, isMajor: userSettings.isMajor)
-        } else if userSettings.numFlats > 0 {
-            keyGenerator = KeyGenerator(numFlats: userSettings.numFlats, isMajor: userSettings.isMajor)
+        if numSharps > 0 {
+            keyGenerator = KeyGenerator(numSharps: numSharps, isMajor: userSettings.isMajor)
+        } else if numFlats > 0 {
+            keyGenerator = KeyGenerator(numFlats: numFlats, isMajor: userSettings.isMajor)
         }
         
         // update the user settings with the selected key
-        userSettings.selectedKey = keyGenerator.data
+        userSettings.key = keyGenerator.data
         
         // save the settings so that when the app is closed and then opened the saved key can be loaded
         do {
             let encoder = JSONEncoder()
-            let data = try encoder.encode(userSettings.selectedKey)
+            let data = try encoder.encode(userSettings.key)
             UserDefaults.standard.set(data, forKey: "key")
         } catch {
             print("Error with saving key: \(error)")
         }
     }
     
-//    func getDevices() -> [Device] {
-//        AudioEngine.inputDevices.compactMap { $0 }
-//    }
-//    
-//    func setInputDevice(to device: Device) {
-//        do {
-//            try AudioEngine.setInputDevice(device)
-//        } catch let err {
-//            print(err)
-//        }
-//    }
+    func getDevices() -> [Device] {
+        AudioEngine.inputDevices.compactMap { $0 }
+    }
+    
+    func setInputDevice(to device: Device) {
+        do {
+            try AudioEngine.setInputDevice(device)
+        } catch let err {
+            print(err)
+        }
+    }
     
 }
 

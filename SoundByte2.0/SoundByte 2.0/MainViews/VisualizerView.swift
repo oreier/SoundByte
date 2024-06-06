@@ -12,15 +12,14 @@
  - Refactor code so that there aren't as many state variables by using settings variables directly
  - Calcuate the correct color
  - Condense currentMapping and the sorted frequencies list into one tuple for conciseness
- - Add tap to start
  - Add scroll view
- - Add functionallity for external microphones
  - Build the imgae of the key with current tools
  - Give default values for when the app first launches (minor is selected at start)
+ - Get new photos for the clefs and accidentals
  - Add note names
  - Fix bug: When you put the app into the background and then try recording after reopening it, it stops after a second
  - Move navigation to settings page code into content view
- - Add cents mini display
+ - Add cents mini display and make it togglable
  */
 
 import SwiftUI
@@ -140,7 +139,7 @@ struct VisualizerView: View {
             ZStack {
                 
                 // displays the staff
-                Staff(clef: userSettings.clefType, key: userSettings.selectedKey, spacing: spacing)
+                Staff(clef: userSettings.clef, key: userSettings.key, spacing: spacing)
                 
                 // displays the line coming out of the indicator dot
                 HistoryPath(coordinates: pitchHistory, colors: colorHistory, xStart: spacing.indicatorX)
@@ -208,6 +207,10 @@ struct VisualizerView: View {
             }
             .background(backgroundColor)
             
+            // tap guestures to control recording
+            .onTapGesture(count: 2) { stopRecording() }
+            .onTapGesture { isRecording ? pauseRecording() : startRecording() }
+       
             // sets up important variables when view apears
             .onAppear() {
                 setUpMapping()
@@ -235,17 +238,17 @@ struct VisualizerView: View {
         let newMapper = NotesToGraphMapper()
         
         // sets the middle note of the mapping based on the clef
-        switch userSettings.clefType {
+        switch userSettings.clef {
         case .treble:
-            newMapper.centerNote = userSettings.selectedKey.centerNoteTreble ?? Note(note: "B", octave: 4)
+            newMapper.centerNote = userSettings.key.centerNoteTreble ?? Note(note: "B", octave: 4)
         case .octave:
-            newMapper.centerNote = userSettings.selectedKey.centerNoteOctave ?? Note(note: "B", octave: 3)
+            newMapper.centerNote = userSettings.key.centerNoteOctave ?? Note(note: "B", octave: 3)
         case .bass:
-            newMapper.centerNote = userSettings.selectedKey.centerNoteBass ?? Note(note: "D", octave: 3)
+            newMapper.centerNote = userSettings.key.centerNoteBass ?? Note(note: "D", octave: 3)
         }
                 
         newMapper.centerNotePosition = spacing.centerNoteLocationY // position of the center note
-        newMapper.notesInKey = userSettings.selectedKey.notes // notes in the current key
+        newMapper.notesInKey = userSettings.key.notes // notes in the current key
         newMapper.numNotes = 17 // the maximum number of notes displayed will always be 17
         newMapper.spacing = spacing.whiteSpaceBetweenNotes // spacing bewteen each note
         
