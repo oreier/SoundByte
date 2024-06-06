@@ -14,132 +14,58 @@ enum ClefType: String {
     case bass = "Bass Clef"
 }
 
+// stores all of the user set preferences
 class UserSettings: ObservableObject {
-    // sets the clef to the what is set in the user settings
-    @Published var clef: ClefType {
-        didSet {
-            UserDefaults.standard.set(clef.rawValue, forKey: "clefType")
-        }
-    }
+    // clef settings
+    @Published var clef: ClefType
+    @Published var clefIndex: Int
     
-    // sets the clef index to the what is set in the user settings
-    @Published var clefIndex: Int {
-        didSet {
-            UserDefaults.standard.setValue(clefIndex, forKey: "selectedClefIndex")
-        }
-    }
+    // mode settings
+    @Published var isMajor: Bool
+    @Published var modeIndex: Int
     
-    // sets the mode to the what is set in the user settings
-    @Published var isMajor: Bool {
-        didSet {
-            UserDefaults.standard.set(isMajor, forKey: "isMajor")
-        }
-    }
-    
-    // sets the mode index to the what is set in the user settings
-    @Published var modeIndex: Int {
-        didSet {
-            UserDefaults.standard.setValue(modeIndex, forKey: "selectedModeIndex")
-        }
-    }
-    
-    // sets the key to the what is set in the user settings
+    // key settings
     @Published var key: Key
+    @Published var keyIndex: Int
     
-    // sets the key index to the what is set in the user settings
-    @Published var keyIndex: Int {
-        didSet {
-            UserDefaults.standard.setValue(keyIndex, forKey: "selectedKeyIndex")
-        }
-    }
-    
-    // sets the note names visibility to the what is set in the user settings
-    @Published var isNoteNamesDisplayed: Bool {
-        didSet {
-            UserDefaults.standard.set(isNoteNamesDisplayed, forKey: "noteNamesEnabled")
-        }
-    }
+    // graph settings
+    @Published var isNoteNamesDisplayed: Bool
     
     // initializer sets all user settings to the data stored by the app
     init() {
         let defaults = UserDefaults.standard
         
-        self.isNoteNamesDisplayed = defaults.bool(forKey: "noteNamesEnabled")
+        // clef settings
+        if let clefTypeRawValue = defaults.string(forKey: "clefType"), let clefType = ClefType(rawValue: clefTypeRawValue) {
+            self.clef = clefType
+        } else {
+            self.clef = .treble // default to treble clef if not set
+        }
+        self.clefIndex = defaults.integer(forKey: "selectedClefIndex")
         
-        if defaults.value(forKey: "isMajor") == nil {
+        // mode settings
+        if defaults.value(forKey: "isMajor") == nil { // if there isn't a value for the isMajor setting, default to true
             defaults.set(true, forKey: "isMajor")
         }
-        
         self.isMajor = defaults.bool(forKey: "isMajor")
-        
-        if let clefTypeRawValue = defaults.string(forKey: "clefType"), let clefType = ClefType(rawValue: clefTypeRawValue) {
-                self.clef = clefType
-        } else {
-            self.clef = .treble // Default to treble clef if not set
-        }
-        self.keyIndex = defaults.integer(forKey: "selectedKeyIndex")
-        self.clefIndex = defaults.integer(forKey: "selectedClefIndex")
         self.modeIndex = defaults.integer(forKey: "selectedModeIndex")
         
-        self.key = KeyGenerator().data
-                
-        // if there is data for a saved key, load that into the selected key variable
-        if let data = UserDefaults.standard.data(forKey: "key") {
-            do {
+        // key settings
+        if let keyData = defaults.data(forKey: "key") { // set key to user set value if there is one
+            do { // try decoding the key
                 let decoder = JSONDecoder()
-                self.key = try decoder.decode(Key.self, from: data)
-            } catch {
-                print("Error decoding key: \(error)")
-            }
-        }
-    }
-    
-    // sets default values to each of the keys associated with user settings
-    func setDefaults() {
-        let defaults = UserDefaults.standard
-        
-        // sets the default value for the clef
-        if defaults.value(forKey: "clef") == nil {
-            defaults.set(ClefType.treble, forKey: "clef")
-        }
-        
-        // sets the default value for the mode
-        if defaults.value(forKey: "isMajor") == nil {
-            defaults.set(true, forKey: "isMajor")
-        }
-        
-        // sets the default value for the key
-        if defaults.value(forKey: "key") == nil {
-            do {
-                let encoder = JSONEncoder()
-                let data = try encoder.encode(KeyGenerator().data)
-                UserDefaults.standard.set(data, forKey: "key")
-            } catch {
-                print("Error: error with saving default key")
-            }
-        }
-        
-        // sets the default value for note name visibility
-        if defaults.value(forKey: "noteNames") == nil {
-            defaults.set(false, forKey: "noteNames")
-        }
-    }
-    
-    // loads the key from the stored settings in the app
-    func loadKey() -> Key {
-        var loadedKey = KeyGenerator().data
-        
-        // if the key has been set in settings, set loadedKey to the saved key
-        if let keyData = UserDefaults.standard.data(forKey: "key") {
-            do {
-                let decoder = JSONDecoder()
-                loadedKey = try decoder.decode(Key.self, from: keyData)
-            } catch {
+                self.key = try decoder.decode(Key.self, from: keyData)
+            } catch { // otherwise set key to default value
+                self.key = KeyGenerator().data
                 print("Error: error with loading key from storage")
             }
+        } else { // if there is no key data, set key to default value
+            self.key = KeyGenerator().data
         }
+        self.keyIndex = defaults.integer(forKey: "selectedKeyIndex")
         
-        return loadedKey
+        // graph settings
+        self.isNoteNamesDisplayed = defaults.bool(forKey: "noteNamesEnabled")
     }
 }
 
@@ -147,35 +73,82 @@ struct SettingsView: View {
     @ObservedObject var userSettings: UserSettings
 //    @State var device: Device
     
+    // state variables for tracking number of accidentals in a key
     @State var numSharps = 0
     @State var numFlats = 0
     
-    let keysMajor = ["C", "G", "D", "A", "E", "B", "F#", "C#", "Gb", "Db", "Ab", "Eb", "Bb", "F"]
-    let keysMinor = ["Am", "Em", "Bm", "F#m", "C#m", "Abm", "D#m", "A#m", "Ebm", "Bbm", "Fm", "Cm", "Gb", "Dm"]
-    var clefTypes: [ClefType] = [.treble, .octave, .bass]
-    
+    // selections available to the user
+    let clefTypes: [ClefType] = [.treble, .octave, .bass]
     let modeType = ["Major", "Minor"]
+    let keysMajor = ["C", "G", "D", "A", "E", "B", "F#", "C#", "Gb", "Db", "Ab", "Eb", "Bb", "F"]
+    let keysMinor = ["Am", "Em", "Bm", "F#m", "C#m", "G#m", "D#m", "A#m", "Ebm", "Bbm", "Fm", "Cm", "Gm", "Dm"]
     
+    // images of key signatures that is set based off the selected octave
     var keySignatures: [String] {
         switch userSettings.clef {
         case .treble:
-            return ["C_treble", "G_treble", "D_treble", "A_treble", "E_treble", "B_treble", "F_sharp_treble", "C_sharp_treble", "G_flat_treble", "D_flat_treble", "A_flat_treble", "E_flat_treble", "B_flat_treble", "F_treble"]
-        case .bass:
-            return ["C_bass", "G_bass", "D_bass", "A_bass", "E_bass", "B_bass", "F_sharp_bass", "C_sharp_bass", "G_flat_bass", "D_flat_bass", "A_flat_bass", "E_flat_bass", "B_flat_bass", "F_bass"]
+            return ["C_treble", 
+                    "G_treble",
+                    "D_treble",
+                    "A_treble",
+                    "E_treble",
+                    "B_treble",
+                    "F_sharp_treble",
+                    "C_sharp_treble",
+                    "G_flat_treble",
+                    "D_flat_treble",
+                    "A_flat_treble",
+                    "E_flat_treble",
+                    "B_flat_treble",
+                    "F_treble"]
         case .octave:
-            return ["C_tenor", "G_tenor", "D_tenor", "A_tenor", "E_tenor", "B_tenor", "F_sharp_tenor", "C_sharp_tenor", "G_flat_tenor", "D_flat_tenor", "A_flat_tenor", "E_flat_tenor", "B_flat_tenor", "F_tenor"]
+            return ["C_tenor", 
+                    "G_tenor",
+                    "D_tenor",
+                    "A_tenor",
+                    "E_tenor",
+                    "B_tenor",
+                    "F_sharp_tenor",
+                    "C_sharp_tenor",
+                    "G_flat_tenor",
+                    "D_flat_tenor",
+                    "A_flat_tenor",
+                    "E_flat_tenor",
+                    "B_flat_tenor",
+                    "F_tenor"]
+        case .bass:
+            return ["C_bass", 
+                    "G_bass", 
+                    "D_bass",
+                    "A_bass",
+                    "E_bass", 
+                    "B_bass",
+                    "F_sharp_bass",
+                    "C_sharp_bass",
+                    "G_flat_bass",
+                    "D_flat_bass",
+                    "A_flat_bass",
+                    "E_flat_bass",
+                    "B_flat_bass",
+                    "F_bass"]
         }
     }
     
+    // builds the view of the settings page
     var body: some View {
+        
+        // set as a navigation view so that it can be navigated to from the visualizer view
         NavigationView {
+            
+            // form creates a generic settings style page
             Form {
                 
+                // first section allows user to select the key they want to sing in
                 Section(header: Text("Musical Key")) {
                     
                     // picker for selecting clef
                     Picker(selection: $userSettings.clefIndex, label: Text("Clef")) {
-                        ForEach(0 ..< clefTypes.count, id: \.self) { index in
+                        ForEach(clefTypes.indices, id: \.self) { index in
                             Text(clefTypes[index].rawValue)
                         }
                     }
@@ -187,10 +160,11 @@ struct SettingsView: View {
                     
                     // picker for selecting mode
                     Picker(selection: $userSettings.modeIndex, label: Text("Mode")) {
-                        ForEach(modeType.indices, id: \.self) { i in
-                            Text(modeType[i])
+                        ForEach(modeType.indices, id: \.self) { index in
+                            Text(modeType[index])
                         }
                     }
+                    .pickerStyle(DefaultPickerStyle())
                     .padding()
                     .onChange(of: userSettings.modeIndex) {
                         userSettings.isMajor = (userSettings.modeIndex == 0) ? true : false
@@ -199,7 +173,7 @@ struct SettingsView: View {
                     // hstack displays picker for selecting key and key signature photo
                     HStack {
                         
-                        // displays the image of the current key
+                        // displays the image of the current key and clef
                         Image(keySignatures[userSettings.keyIndex])
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -215,6 +189,7 @@ struct SettingsView: View {
                             }
                         }
                         .pickerStyle(WheelPickerStyle())
+                        .padding()
                         .onChange(of: userSettings.keyIndex) {
                             updateSharpsFlats()
                             saveKey()
@@ -224,6 +199,7 @@ struct SettingsView: View {
                     }
                 }
                 
+                // second section allows the user to change the appearance of the graph
                 Section(header: Text("Graph")) {
                     
                     // toggle for settings note names
@@ -232,14 +208,17 @@ struct SettingsView: View {
                     }
                 }
                 
-                // picker for the input device
+                // third section allows the user to change the input device
 //                Section(header: Text("Input Device")) {
+//                
+//                    // picker for the input device
 //                    Picker("Input:", selection: $device) {
 //                        ForEach(getDevices(), id: \.self) {
 //                            Text($0.deviceID)
 //                        }
 //                    }
 //                    .pickerStyle(MenuPickerStyle())
+//                    .padding()
 //                    .onChange(of: device) {
 //                        setInputDevice(to: device)
 //                    }
@@ -247,28 +226,63 @@ struct SettingsView: View {
             }
             .navigationBarTitle("Settings")
         }
-        // on disappear of the view, save all of the users settings
-//        .onDisappear() {
-//            let defaults = UserDefaults.standard
-//            
-//            defaults.set(userSettings.isNoteNamesDisplayed, forKey: "noteNamesEnabled")
-//        }
+        .onDisappear() {
+            saveSettings()
+        }
     }
     
+    // saves all of the settings the user has set
+    func saveSettings() {
+        let defaults = UserDefaults.standard
+        defaults.set(userSettings.clef.rawValue, forKey: "clefType")
+        defaults.set(userSettings.clefIndex, forKey: "selectedClefIndex")
+        defaults.set(userSettings.isMajor, forKey: "isMajor")
+        defaults.set(userSettings.modeIndex, forKey: "selectedModeIndex")
+        defaults.set(userSettings.keyIndex, forKey: "selectedKeyIndex")
+        defaults.set(userSettings.isNoteNamesDisplayed, forKey: "noteNamesEnabled")
+    }
+    
+    // updates the number of sharps or flats based off the selected key
     func updateSharpsFlats() {
         let sharpsFlatsMajor: [String: (Int, Int)] = [
-                "C": (0, 0), "G": (1, 0), "D": (2, 0), "A": (3, 0), "E": (4, 0), "B": (5, 0),
-                "F#": (6, 0), "C#": (7, 0), "Gb": (0, 6), "Db": (0, 5), "Ab": (0, 4),
-                "Eb": (0, 3), "Bb": (0, 2), "F": (0, 1)
-        ]
-        let sharpsFlatsMinor: [String: (Int, Int)] = [
-                "Am": (0, 0), "Em": (1, 0), "Bm": (2, 0), "F#m": (3, 0), "C#m": (4, 0), "Abm": (5, 0),
-                "D#m": (6, 0), "A#m": (7, 0), "Ebm": (0, 6), "Bbm": (0, 5), "Fm": (0, 4),
-                "Cm": (0, 3), "Gm": (0, 2), "Dm": (0, 1)
+            "C": (0, 0),
+            "G": (1, 0),
+            "D": (2, 0),
+            "A": (3, 0),
+            "E": (4, 0),
+            "B": (5, 0),
+            "F#": (6, 0),
+            "C#": (7, 0),
+            "Gb": (0, 6),
+            "Db": (0, 5),
+            "Ab": (0, 4),
+            "Eb": (0, 3),
+            "Bb": (0, 2),
+            "F": (0, 1)
         ]
         
+        let sharpsFlatsMinor: [String: (Int, Int)] = [
+            "Am": (0, 0), 
+            "Em": (1, 0),
+            "Bm": (2, 0),
+            "F#m": (3, 0),
+            "C#m": (4, 0),
+            "G#m": (5, 0),
+            "D#m": (6, 0),
+            "A#m": (7, 0),
+            "Ebm": (0, 6),
+            "Bbm": (0, 5),
+            "Fm": (0, 4),
+            "Cm": (0, 3), 
+            "Gm": (0, 2),
+            "Dm": (0, 1)
+        ]
+        
+        // gets the key the user has selected
         let sharpsFlats = userSettings.isMajor ? sharpsFlatsMajor : sharpsFlatsMinor
         let selectedKey = userSettings.isMajor ? keysMajor[userSettings.keyIndex] : keysMinor[userSettings.keyIndex]
+        
+        // updates the number of sharps and flats for the selected key
         (numSharps, numFlats) = sharpsFlats[selectedKey]!
     }
     
@@ -295,10 +309,12 @@ struct SettingsView: View {
         }
     }
     
+    // gets all of the available audio devices
     func getDevices() -> [Device] {
         AudioEngine.inputDevices.compactMap { $0 }
     }
     
+    // sets the input device to the audio engine
     func setInputDevice(to device: Device) {
         do {
             try AudioEngine.setInputDevice(device)
@@ -306,7 +322,6 @@ struct SettingsView: View {
             print(err)
         }
     }
-    
 }
 
 #Preview {

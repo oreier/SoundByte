@@ -7,19 +7,18 @@
 
 /*
  TO-DO:
- - Refactor settings page (remove numSharps and numFlats as a user setting)
  - Calculate the correct number of elements to store
  - Refactor code so that there aren't as many state variables by using settings variables directly
  - Calcuate the correct color
  - Condense currentMapping and the sorted frequencies list into one tuple for conciseness
  - Add scroll view
  - Build the imgae of the key with current tools
- - Give default values for when the app first launches (minor is selected at start)
  - Get new photos for the clefs and accidentals
  - Add note names
  - Fix bug: When you put the app into the background and then try recording after reopening it, it stops after a second
  - Move navigation to settings page code into content view
  - Add cents mini display and make it togglable
+ - Add functionality for portrait mode
  */
 
 import SwiftUI
@@ -185,9 +184,7 @@ struct VisualizerView: View {
                                 .foregroundStyle(Color.secondary)
                         }
                     }
-                    
-                    CentsIndicator(cents: cents)
-                    
+                                        
                     Spacer() // moves tool bar buttons to the top and timer to the bottom
                     
                     // second hstack displays the timer
