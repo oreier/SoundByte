@@ -47,11 +47,14 @@ struct Staff: View {
             // overlays the bar at the end of the staff
             .overlay(alignment: .trailing) { Rectangle().frame(width: 10, height: spacing.staffHeight) }
             
-            // overlays the image of the clef
-            ClefImage(clef: currentClef)
             
-            // overlays the key signature
-            KeySignature(clef: currentClef, key: currentKey, spacing: spacing)
+            HStack {
+                // overlays the image of the clef
+                ClefImage(clef: currentClef)
+                
+                // overlays the key signature
+                KeySignature(clef: currentClef, key: currentKey, spacing: spacing)
+            }
         }
         // positions staff to the center of the view
         .position(x: spacing.spaceWidth / 2, y: spacing.spaceHeight / 2)
@@ -78,6 +81,6 @@ struct Staff: View {
 
 #Preview {
     GeometryReader { proxy in
-        Staff(clef: ClefType.treble, key: KeyGenerator(numFlats: 3, isMajor: true).data, spacing: Spacing(width: proxy.size.width, height: proxy.size.height))
+        Staff(clef: ClefType.bass, key: KeyGenerator(numFlats: 3, isMajor: true).data, spacing: Spacing(width: proxy.size.width, height: proxy.size.height))
     }
 }

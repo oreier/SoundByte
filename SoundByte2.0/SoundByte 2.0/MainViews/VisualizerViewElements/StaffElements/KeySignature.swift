@@ -7,18 +7,44 @@
 
 import SwiftUI
 
+protocol AccidentalSettings {
+    var numAccidentals: Int { get }
+    var imageFile: String { get }
+    var imageWidth: Double { get }
+    var yOffset: Double { get }
+    var displayOrder: [Double] { get set }
+}
+
+struct SharpSettings: AccidentalSettings {
+    var numAccidentals: Int
+    var imageFile = "sharp"
+    var imageWidth = 22.5
+    var yOffset = 0.0
+    var displayOrder: [Double] = []
+}
+
+struct FlatSettings: AccidentalSettings {
+    var numAccidentals: Int
+    var imageFile = "flat"
+    var imageWidth = 20.0
+    var yOffset = -12.5
+    var displayOrder: [Double] = []
+}
+
 struct KeySignature: View {
     let currentClef: ClefType
     let currentKey: Key
     let spacingData: Spacing
     
     let clefSettings: ClefSettings
+    var accidentalSettings: AccidentalSettings
     
     init(clef: ClefType, key: Key, spacing: Spacing) {
         self.currentClef = clef
         self.currentKey = key
         self.spacingData = spacing
         
+        // sets the settings for the clef
         switch currentClef {
         case .treble:
             clefSettings = TrebleClefSettings()
@@ -27,39 +53,35 @@ struct KeySignature: View {
         case .bass:
             clefSettings = BassClefSettings()
         }
+        
+        // sets the settings for the accidental
+        if key.numSharps > 0 {
+            accidentalSettings = SharpSettings(numAccidentals: key.numSharps)
+        } else {
+            accidentalSettings = FlatSettings(numAccidentals: key.numFlats)
+        }
+        
+        accidentalSettings.displayOrder = key.numSharps > 0 ? clefSettings.sharpsOrder : clefSettings.flatsOrder
     }
     
     var body: some View {
-        HStack(spacing: -37.5) {
-            // displays sharps if there are any
-            if currentKey.numSharps > 0 {
-                ForEach(0..<currentKey.numSharps, id: \.self) { i in
-                    Image("sharp")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: spacingData.whiteSpaceBetweenLines * 1.35)
-                        .offset(y: -clefSettings.sharpsOrder[i] * spacingData.whiteSpaceBetweenNotes)
-                }
-            }
+        HStack(spacing: -5) {
             
-            // displays flats if there are any
-            if currentKey.numFlats > 0 {
-                ForEach(0..<currentKey.numFlats, id: \.self) { i in
-                    Image("flat")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: spacingData.whiteSpaceBetweenLines * 1.35)
-                        .offset(y: -clefSettings.flatsOrder[i] * spacingData.whiteSpaceBetweenNotes - spacingData.whiteSpaceBetweenNotes / 1.5)
-                }
+            // for loop places the accidentals in the correct order
+            ForEach(0..<accidentalSettings.numAccidentals, id: \.self) { i in
+                Image(accidentalSettings.imageFile)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: accidentalSettings.imageWidth)
+                    .offset(y: -accidentalSettings.displayOrder[i] * spacingData.whiteSpaceBetweenNotes + accidentalSettings.yOffset)
             }
         }
-        .offset(x: clefSettings.keySignatureOffsetX)
     }
 }
 
 // previewing staff to be able to align key signature correctly
 #Preview {
     GeometryReader { proxy in
-        Staff(clef: ClefType.treble, key: KeyGenerator(numSharps: 4, isMajor: true).data, spacing: Spacing(width: proxy.size.width, height: proxy.size.height))
+        Staff(clef: ClefType.treble, key: KeyGenerator(numFlats: 4, isMajor: true).data, spacing: Spacing(width: proxy.size.width, height: proxy.size.height))
     }
 }

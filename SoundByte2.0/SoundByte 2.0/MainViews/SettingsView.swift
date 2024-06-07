@@ -80,8 +80,8 @@ struct SettingsView: View {
     // selections available to the user
     let clefTypes: [ClefType] = [.treble, .octave, .bass]
     let modeType = ["Major", "Minor"]
-    let keysMajor = ["C", "G", "D", "A", "E", "B", "F#", "C#", "Gb", "Db", "Ab", "Eb", "Bb", "F"]
-    let keysMinor = ["Am", "Em", "Bm", "F#m", "C#m", "G#m", "D#m", "A#m", "Ebm", "Bbm", "Fm", "Cm", "Gm", "Dm"]
+    let keysMajor = ["C", "G", "D", "A", "E", "B", "F#", "C#","Cb", "Gb", "Db", "Ab", "Eb", "Bb", "F"]
+    let keysMinor = ["Am", "Em", "Bm", "F#m", "C#m", "G#m", "D#m", "A#m", "Abm", "Ebm", "Bbm", "Fm", "Cm", "Gm", "Dm"]
     
     // images of key signatures that is set based off the selected octave
     var keySignatures: [String] {
@@ -95,6 +95,7 @@ struct SettingsView: View {
                     "B_treble",
                     "F_sharp_treble",
                     "C_sharp_treble",
+                    "C_flat_treble",
                     "G_flat_treble",
                     "D_flat_treble",
                     "A_flat_treble",
@@ -110,6 +111,7 @@ struct SettingsView: View {
                     "B_tenor",
                     "F_sharp_tenor",
                     "C_sharp_tenor",
+                    "C_flat_tenor",
                     "G_flat_tenor",
                     "D_flat_tenor",
                     "A_flat_tenor",
@@ -125,6 +127,7 @@ struct SettingsView: View {
                     "B_bass",
                     "F_sharp_bass",
                     "C_sharp_bass",
+                    "C_flat_bass",
                     "G_flat_bass",
                     "D_flat_bass",
                     "A_flat_bass",
@@ -253,6 +256,7 @@ struct SettingsView: View {
             "B": (5, 0),
             "F#": (6, 0),
             "C#": (7, 0),
+            "Cb": (0, 7),
             "Gb": (0, 6),
             "Db": (0, 5),
             "Ab": (0, 4),
@@ -270,6 +274,7 @@ struct SettingsView: View {
             "G#m": (5, 0),
             "D#m": (6, 0),
             "A#m": (7, 0),
+            "Abm": (0, 7),
             "Ebm": (0, 6),
             "Bbm": (0, 5),
             "Fm": (0, 4),
