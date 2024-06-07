@@ -8,15 +8,12 @@
 /*
  TO-DO:
  - Calculate the correct number of elements to store
- - Refactor code so that there aren't as many state variables by using settings variables directly
  - Calcuate the correct color
- - Condense currentMapping and the sorted frequencies list into one tuple for conciseness
  - Add scroll view
  - Build the imgae of the key with current tools
  - Get new photos for the clefs and accidentals
  - Add note names
  - Fix bug: When you put the app into the background and then try recording after reopening it, it stops after a second
- - Move navigation to settings page code into content view
  - Add cents mini display and make it togglable
  - Add functionality for portrait mode
  */
@@ -101,15 +98,16 @@ struct VisualizerView: View {
     // spacing is determined by the parent view
     @State var spacing: Spacing
     
+    // variables for storing the current mapping
     @State var currentMapping: [Double : Double] = [:]
-    @State var currentFrequenciesSorted: [Double] = []
+    @State var sortedFrequencies: [Double] = []
     @State var cents = 0.0
     
     // history arrays to be able to draw the pitch history line
     @State var pitchHistory: [CGPoint] = []
     @State var colorHistory: [Color] = [.clear] // starts with a clear line so there isn't a huge jump at the start of recording
         
-    // constants for various parameters in the view
+    // sets the number of data elements to display in the pitch history line
     @State var numDataStored = 250
     
     // tracks the life cycle of the app (sent to background or inactive)
@@ -120,11 +118,11 @@ struct VisualizerView: View {
         return ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
     }
     
-    let shiftBy = 1.0
-    let buttonSize = 35.0
-    let backgroundColor = Color(red: 250 / 255, green: 248 / 255, blue: 243 / 255)
+    let shiftBy = 1.0 // size of each "mini" path in the history line
+    let buttonSize = 35.0 // size of the buttons
+    let backgroundColor = Color(red: 250 / 255, green: 248 / 255, blue: 243 / 255) // color of the background
         
-    // constructor for visualizer view that sets up the spacing based off parent view size (defaults are for iPhone 15 Pro)
+    // constructor for visualizer view that sets up the spacing based off parent view size
     init(width: Double, height: Double) {
         self.spacing = Spacing(width: width, height: height)
     }
@@ -132,6 +130,7 @@ struct VisualizerView: View {
     // pulls together all of the visual elements into one view
     var body: some View {
         
+        // navigation stack allows us to move to the settings page
         NavigationStack {
             
             // zstack allows visual elements to be stacked on top of each other
@@ -146,7 +145,7 @@ struct VisualizerView: View {
                 // displays the pitch indicator for viewing in preview
                 PitchIndicator(x: spacing.indicatorX, y: spacing.indicatorY)
                     .onChange(of: conductor.data.pitch) {
-                        spacing.indicatorY = calculatePosition(from: Double(conductor.data.pitch))
+                        spacing.indicatorY = calculatePosition(of: Double(conductor.data.pitch))
                     }
                 
                 // vstack displays tool bar elements
@@ -210,14 +209,14 @@ struct VisualizerView: View {
        
             // sets up important variables when view apears
             .onAppear() {
-                setUpMapping()
+                calculateMapping()
                                 
                 numDataStored = Int((spacing.indicatorX - 100 - 0*20) / shiftBy)
             }
             
-            // pauses the timer when the app is exited
+            // pauses the timer when the app is sent to the background
             .onReceive([scenePhase].publisher) { _ in
-                if (scenePhase == .background && isRecording && !isPreview) { pauseRecording() }
+                if (scenePhase == .background && !isPreview) { pauseRecording() }
             }
             
             // navigates to settings view when gear icon is pressed
@@ -229,32 +228,9 @@ struct VisualizerView: View {
 //            }
         }
     }
-
-    // sets up the current mapping based off the user-selected key
-    func setUpMapping() {
-        let newMapper = NotesToGraphMapper()
-        
-        // sets the middle note of the mapping based on the clef
-        switch userSettings.clef {
-        case .treble:
-            newMapper.centerNote = userSettings.key.centerNoteTreble ?? Note(note: "B", octave: 4)
-        case .octave:
-            newMapper.centerNote = userSettings.key.centerNoteOctave ?? Note(note: "B", octave: 3)
-        case .bass:
-            newMapper.centerNote = userSettings.key.centerNoteBass ?? Note(note: "D", octave: 3)
-        }
-                
-        newMapper.centerNotePosition = spacing.centerNoteLocationY // position of the center note
-        newMapper.notesInKey = userSettings.key.notes // notes in the current key
-        newMapper.numNotes = 17 // the maximum number of notes displayed will always be 17
-        newMapper.spacing = spacing.whiteSpaceBetweenNotes // spacing bewteen each note
-        
-        currentMapping = newMapper.mapNotes()
-        currentFrequenciesSorted = currentMapping.keys.sorted()
-    }
     
     // calculates the cents off a frequency is from it's closest note
-    func centsOff(currentFrequency: Double, frequencies: [Double]) -> (cents: Double, closestFrequency: Double, step: Double) {
+    func calculateCentsOff(currentFrequency: Double, frequencies: [Double]) -> (cents: Double, closestFrequency: Double, step: Int) {
         if currentFrequency == 0 { return (-1, 0, 1) }
         
         // finds the closest frequency and index of that frequency
@@ -267,6 +243,7 @@ struct VisualizerView: View {
         // finds the second closest frequency using the cents calculated and the index of the closest frequency
         var secondClosestFrequencyIndex = 0
         
+        // sets the index of the second frequency manually if it's going to be out of bounds
         if closestFrequencyIndex == 0 {
             secondClosestFrequencyIndex = closestFrequencyIndex + 1
         } else if closestFrequencyIndex == frequencies.count - 1 {
@@ -278,31 +255,9 @@ struct VisualizerView: View {
         let secondClosestFrequency = frequencies[secondClosestFrequencyIndex]
                 
         // calculates the number of half steps between the closest frequency and the current frequency
-        let step = abs(log2(closestFrequency / secondClosestFrequency) * 12)
+        let step = Int(round(abs(log2(closestFrequency / secondClosestFrequency) * 12)))
         
         return (cents, closestFrequency, step)
-    }
-    
-    // calculates the y position that the pitch indicator should be at
-    func calculatePosition(from frequency: Double) -> Double {
-        // if the current frequency is zero return the previous position the indicator was at
-        if frequency == 0 {
-            // if there is no previous position, the note is centered
-            return Double(pitchHistory.first?.y ?? spacing.spaceHeight / 2)
-        }
-        
-        // otherwise calculate the position the note should be at given the current frequency
-        let positioning = centsOff(currentFrequency: Double(frequency), frequencies: currentFrequenciesSorted)
-        
-        // breaks down the positioning into its individual components
-        cents = positioning.cents
-        let closestFrequency = positioning.closestFrequency
-        let step = round(positioning.step)
-        
-        // calculates the number of pixels there are between each whitespace
-        let pixelsPerCent = spacing.whiteSpaceBetweenNotes / Double(100 * step)
-        
-        return (frequency != 0) ? (currentMapping[closestFrequency]! + (cents * pixelsPerCent)) : 0
     }
     
     // calculates the color the line should be when off by a certain amount of cents
@@ -327,6 +282,51 @@ struct VisualizerView: View {
                     
         return Color(interpolateColor)
     }
+
+    // calculates the y position that the pitch indicator should be at
+    func calculatePosition(of frequency: Double) -> Double {
+        // if the current frequency is zero return the previous position the indicator was at
+        if frequency == 0 {
+            // if there is no previous position, the note is centered
+            return Double(pitchHistory.first?.y ?? spacing.spaceHeight / 2)
+        }
+        
+        // otherwise calculate the position the note should be at given the current frequency
+        let positioning = calculateCentsOff(currentFrequency: Double(frequency), frequencies: sortedFrequencies)
+        
+        // breaks down the positioning into its individual components
+        cents = positioning.cents
+        let closestFrequency = positioning.closestFrequency
+        let step = positioning.step
+        
+        // calculates the number of pixels there are between each whitespace
+        let pixelsPerCent = spacing.whiteSpaceBetweenNotes / Double(100 * step)
+        
+        return (frequency != 0) ? (currentMapping[closestFrequency]! + (cents * pixelsPerCent)) : 0
+    }
+    
+    // sets up the current mapping based off the user-selected key
+    func calculateMapping() {
+        let newMapper = NotesToGraphMapper()
+        
+        // sets the middle note of the mapping based on the clef
+        switch userSettings.clef {
+        case .treble:
+            newMapper.centerNote = userSettings.key.centerNoteTreble ?? Note(note: "B", octave: 4)
+        case .octave:
+            newMapper.centerNote = userSettings.key.centerNoteOctave ?? Note(note: "B", octave: 3)
+        case .bass:
+            newMapper.centerNote = userSettings.key.centerNoteBass ?? Note(note: "D", octave: 3)
+        }
+                
+        newMapper.centerNotePosition = spacing.centerNoteLocationY // position of the center note
+        newMapper.notesInKey = userSettings.key.notes // notes in the current key
+        newMapper.numNotes = 17 // the maximum number of notes displayed will always be 17
+        newMapper.spacing = spacing.whiteSpaceBetweenNotes // spacing bewteen each note
+        
+        currentMapping = newMapper.mapNotes()
+        sortedFrequencies = currentMapping.keys.sorted()
+    }
     
     // adds values to the history arrays
     func updateHistory(with frequency: Double) {
@@ -340,7 +340,7 @@ struct VisualizerView: View {
         }
         
         // append values to the front of the history arrays
-        pitchHistory.append(CGPoint(x: spacing.indicatorX, y: calculatePosition(from: frequency)))
+        pitchHistory.append(CGPoint(x: spacing.indicatorX, y: calculatePosition(of: frequency)))
         colorHistory.append(frequency == 0 ? .clear : calculateColor(centsOff: cents)) // adds clear if the frequency is zero
     }
     
