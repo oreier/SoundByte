@@ -31,6 +31,9 @@ class TunerConductor: ObservableObject, HasAudioEngine {
     
     let smoothingFactor: Float = 0.5
     var smoothedPitch: Float = 0.0
+    
+    let targetInputGain: Float = 0.15
+    var currentInputGain: Float = 1.0
         
     init() {
         guard let input = engine.input else { fatalError() }
@@ -40,11 +43,14 @@ class TunerConductor: ObservableObject, HasAudioEngine {
         initialDevice = device
         
         mic = input
+                
         tappableNodeA = Fader(mic)
         tappableNodeB = Fader(tappableNodeA)
         tappableNodeC = Fader(tappableNodeB)
         silence = Fader(tappableNodeC, gain: 0)
         engine.output = silence
+        
+        mic.volume = currentInputGain
         
         tracker = PitchTap(mic) { pitch, amp in
             DispatchQueue.main.async {
@@ -60,6 +66,8 @@ class TunerConductor: ObservableObject, HasAudioEngine {
             data.pitch = 0
             return
         }
+        
+        mic.volume = targetInputGain
         
         smoothedPitch = smoothingFactor * smoothedPitch + (1.0 - smoothingFactor) * pitch
         
