@@ -8,14 +8,11 @@
 /*
  TO-DO:
  - Calcuate the correct color
- - Add scroll view
  - Build the imgae of the key with current tools
- - Get new photos for the clefs and accidentals
  - Add note names
  - Fix bug: When you put the app into the background and then try recording after reopening it, it stops after a second
  - Add cents mini display and make it togglable
  - Add functionality for portrait mode
- - Fix bug with calculating number of data elements to store
  */
 
 import SwiftUI
@@ -33,58 +30,84 @@ struct Dummy {
 }
 
 // spacings and dimensions used by many views
-struct Spacing {
+struct UILayout {
+    // dimensions of the UI
+    var width: CGFloat
+    var height: CGFloat
+    
     let ledgerLineWidth = 40.0
     let lineThickness = 2.5
-    let whiteSpace = 18.5 // white space above and below each line
-    
-    // the space inherited from the parent view by the child view
-    var spaceWidth: Double
-    var spaceHeight: Double
     
     // white space in the staff
-    var whiteSpaceBetweenLines: Double
-    var whiteSpaceBetweenNotes: Double
+    let whiteSpace = 18.5 // padding above and below each line
+    var spaceBetweenLines: CGFloat
+    var spaceBetweenNotes: CGFloat
     
     // staff dimensions
-    var staffWidth: Double
-    var staffHeight: Double
-    var endOfAccidentals: Double = 0
+    var staffWidth: CGFloat
+    var staffHeight: CGFloat
+    var endOfAccidentals: CGFloat = 0
     
-    var ledgerOffset: Double
+    var ledgerOffset: CGFloat
     
     // pitch indicator parameters
-    var indicatorX: Double
-    var indicatorY: Double
+    var indicatorX: CGFloat
+    var indicatorY: CGFloat
     
-    var centerNoteLocationY: Double
-    
-    // initializer for a spacing struct
-    init(width: Double = 0, height: Double = 0) {
-        // set trivial parameters
-        self.spaceWidth = width
-        self.spaceHeight = height
+    var centerNoteLocationY: CGFloat
+
+    // calculates the initial values for variables in the struct based off the width and height
+    init(width: CGFloat = 0, height: CGFloat = 0) {
+        self.width = width
+        self.height = height
         
         // set calculated values based off given space
-        self.whiteSpaceBetweenNotes = (whiteSpace + lineThickness / 2)
-        self.whiteSpaceBetweenLines = (2 * whiteSpace + lineThickness)
+        self.spaceBetweenNotes = (whiteSpace + lineThickness / 2)
+        self.spaceBetweenLines = (2 * whiteSpace + lineThickness)
         
-        self.staffWidth = spaceWidth * (9 / 10)
-        self.staffHeight = whiteSpaceBetweenLines * 4
+        self.staffWidth = width * (9 / 10)
+        self.staffHeight = spaceBetweenLines * 4
         
         self.ledgerOffset = staffWidth * (5 / 7)
         
         self.indicatorX = staffWidth * (5 / 7) + ledgerLineWidth / 2
-        self.indicatorY = spaceHeight / 2
+        self.indicatorY = height / 2
         
-        self.centerNoteLocationY = spaceHeight / 2
+        self.centerNoteLocationY = height / 2
+    }
+}
+
+// holds the history arrays used for displaying previous frequencies
+struct History {
+    var points: [CGPoint] = []
+    var colors: [Color] = []
+    
+    // resets the history arrays
+    mutating func reset() {
+        points = []
+        colors = []
+    }
+    
+    // combines the history arrays into one for the history view
+    func combine() -> [(CGFloat, Color)] {
+        // ensures that both arrays contain the same number of elements
+        guard points.count == colors.count else { fatalError() }
+        
+        var combined: [(CGFloat, Color)] = []
+        
+        // combines both history arrays into [(yPos, color)]
+        for (point, color) in zip(points, colors) {
+            combined.append((point.y, color))
+        }
+        
+        return combined
     }
 }
 
 // visualizer brings together all of the individual visual elements
 struct VisualizerView: View {
-    @ObservedObject var conductor = TunerConductor() // observed object for collecting and processing audio data
-//    @State var conductor = Dummy() // dummy variable for ease of viewing in preview
+//    @ObservedObject var conductor = TunerConductor() // observed object for collecting and processing audio data
+    @State var conductor = Dummy() // dummy variable for ease of viewing in preview
     
     // object holds all of the user preferences
     @StateObject var userSettings = UserSettings()
@@ -92,25 +115,23 @@ struct VisualizerView: View {
     @State var goToSettings = false // tracks when the app needs to go to the settings view
     @State var isRecording = false // tracks when the app is recording
     
-    // variables to control and display the timer
+    // variables to control the timer
     @State var timer: Timer?
     @State var elapsedTime: Double = 0.0
     
-    // spacing is determined by the parent view
-    @State var spacing: Spacing
+    // layout is determined by the parent view
+    @State var layout: UILayout
     
     // variables for storing the current mapping
     @State var currentMapping: [Double : Double] = [:]
     @State var sortedFrequencies: [Double] = []
     @State var cents = 0.0
     
-    // history arrays to be able to draw the pitch history line
-    @State var pitchHistory: [CGPoint] = []
-    @State var colorHistory: [Color] = [.clear] // starts with a clear line so there isn't a huge jump at the start of recording
-    @State var totalHistory: [(pitch: Double, color: Color)] = []
+    // history struct to visualize past frequencies
+    @State var history = History()
         
     // sets the number of data elements to display in the pitch history line
-    @State var numDataStored = 250
+    @State var maxData = 0
     
     // tracks the life cycle of the app (sent to background or inactive)
     @Environment(\.scenePhase) var scenePhase
@@ -120,13 +141,13 @@ struct VisualizerView: View {
         return ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
     }
     
-    let shiftBy = 1.0 // size of each "mini" path in the history line
+    let shiftBy = 2.0 // size of each "mini" path in the history line
     let buttonSize = 35.0 // size of the buttons
     let backgroundColor = Color(red: 250 / 255, green: 248 / 255, blue: 243 / 255) // color of the background
         
-    // constructor for visualizer view that sets up the spacing based off parent view size
-    init(width: Double, height: Double) {
-        self.spacing = Spacing(width: width, height: height)
+    // sets up the layout given parent view dimensions
+    init(width: CGFloat, height: CGFloat) {
+        self.layout = UILayout(width: width, height: height)
     }
 
     // pulls together all of the visual elements into one view
@@ -139,26 +160,27 @@ struct VisualizerView: View {
             ZStack {
                 
                 // displays the staff
-                Staff(clef: userSettings.clef, key: userSettings.key, spacing: spacing)
+                Staff(clef: userSettings.clef, key: userSettings.key, layout: layout)
                 
                 // displays live indicators when recording is in progress
                 if isRecording {
-                    // displays the line coming out of the indicator dot
-                    HistoryPath(coordinates: pitchHistory, colors: colorHistory, xStart: spacing.indicatorX)
+                    // displays the history line
+                    let startIndex = max(0, (history.points.count-maxData))
+                    let points = Array(history.points[startIndex...])
+                    let colors = Array(history.colors[startIndex...])
+                    
+                    HistoryPath(points: points, colors: colors, xStart: layout.indicatorX)
                     
                     // displays the pitch indicator
-                    PitchIndicator(x: spacing.indicatorX, y: spacing.indicatorY)
-                        .onChange(of: conductor.data.pitch) {
-                            spacing.indicatorY = calculatePosition(of: Double(conductor.data.pitch))
-                        }
+                    PitchIndicator(x: layout.indicatorX, y: layout.indicatorY)
                 }
                 
                 // displays the scroll view when recording is paused
                 if !isRecording {
-                    HistoryView(display: totalHistory, shift: shiftBy, spacing: spacing)
+                    HistoryView(history: history.combine(), shift: shiftBy, layout: layout)
                     
                         // positions the history view so that it's trailing edge aligns with the pitch indicator
-                        .position(x: spacing.indicatorX - (spacing.indicatorX - spacing.endOfAccidentals) / 2, y: spacing.spaceHeight / 2)
+                        .position(x: layout.indicatorX - (layout.indicatorX - layout.endOfAccidentals) / 2, y: layout.height / 2)
                 }
                 
                 // vstack displays tool bar elements
@@ -203,9 +225,9 @@ struct VisualizerView: View {
                     HStack {
                         
                         // temporary slider and text for controlling preview
-//                        Slider(value: $conductor.data.pitch, in: (200...1100))
-//                            .frame(width: 200)
-//                        Text("Freq: " + String(format:"%.0f", conductor.data.pitch))
+                        Slider(value: $conductor.data.pitch, in: (200...1100))
+                            .frame(width: 200)
+                        Text("Freq: " + String(format:"%.0f", conductor.data.pitch))
                         
                         Spacer() // moves timer display to the right
                         
@@ -215,62 +237,32 @@ struct VisualizerView: View {
                 .padding([.top, .bottom, .trailing]) // padding applies to the tool bar
             }
             .background(backgroundColor)
-            
-            // tap guestures to control recording
-            .onTapGesture(count: 2) { stopRecording() }
-            .onTapGesture { isRecording ? pauseRecording() : startRecording() }
-       
+
             // sets up important variables when view apears
             .onAppear() {
-                calculateMapping()
-                calculateDataStored()
+                updateMapping()
+                updateMaxData()
             }
             
             // pauses the timer when the app is sent to the background
-            .onReceive([scenePhase].publisher) { _ in
-                if (scenePhase == .background && !isPreview) { pauseRecording() }
+            .onChange(of: scenePhase) {
+                if (scenePhase == .background && !isPreview) {
+                    pauseRecording()
+                }
             }
             
             // navigates to settings view when gear icon is pressed
-//            .navigationDestination(isPresented: $goToSettings) {
-//                SettingsView(userSettings: userSettings)
-//            }
             .navigationDestination(isPresented: $goToSettings) {
-                 SettingsView(userSettings: userSettings, device: conductor.initialDevice)
+                SettingsView(userSettings: userSettings)
             }
+//            .navigationDestination(isPresented: $goToSettings) {
+//                 SettingsView(userSettings: userSettings, device: conductor.initialDevice)
+//            }
         }
-    }
-    
-    // calcualtes the amount of data that should be stored based off the key signature
-    func calculateDataStored() {
-        // determines the clef settings to use
-        var clefSettings: ClefSettings
-        switch userSettings.clef {
-        case .treble:
-            clefSettings = TrebleClefSettings()
-        case .octave:
-            clefSettings = OctaveClefSettings()
-        case .bass:
-            clefSettings = BassClefSettings()
-        }
-        
-        // determines the accidental to use
-        var accidentalSettings: AccidentalSettings
-        if userSettings.key.numSharps > 0 {
-            accidentalSettings = SharpSettings(numAccidentals: userSettings.key.numSharps)
-        } else {
-            accidentalSettings = FlatSettings(numAccidentals: userSettings.key.numFlats)
-        }
-        accidentalSettings.displayOrder = userSettings.key.numSharps > 0 ? clefSettings.sharpsOrder : clefSettings.flatsOrder
-        
-        // calculates the amount of space available to display the history line
-        spacing.endOfAccidentals = clefSettings.imageWidth + (Double(accidentalSettings.numAccidentals) * accidentalSettings.imageWidth)
-        let availableSpace = spacing.indicatorX - spacing.endOfAccidentals
-        numDataStored = Int(availableSpace) / Int(shiftBy)
     }
     
     // calculates the cents off a frequency is from it's closest note
-    func calculateCentsOff(currentFrequency: Double, frequencies: [Double]) -> (cents: Double, closestFrequency: Double, step: Int) {
+    func calculateCents(currentFrequency: Double, frequencies: [Double]) -> (cents: Double, closestFrequency: Double, step: Int) {
         if currentFrequency == 0 { return (-1, 0, 1) }
         
         // finds the closest frequency and index of that frequency
@@ -324,15 +316,19 @@ struct VisualizerView: View {
     }
 
     // calculates the y position that the pitch indicator should be at
-    func calculatePosition(of frequency: Double) -> Double {
-        // if the current frequency is zero return the previous position the indicator was at
-        if frequency == 0 {
-            // if there is no previous position, the note is centered
-            return Double(pitchHistory.first?.y ?? spacing.spaceHeight / 2)
+    func calculatePosition(_ pitch: CGFloat) -> CGFloat {
+        // if the current pitch is zero return the previous position the indicator was at
+        if pitch == 0 {
+            // defaults to center if there is no history
+            guard let previousPitch = history.points.last?.y else {
+                return layout.height / 2
+            }
+            
+            return previousPitch
         }
         
-        // otherwise calculate the position the note should be at given the current frequency
-        let positioning = calculateCentsOff(currentFrequency: Double(frequency), frequencies: sortedFrequencies)
+        // calculate positioning given the current frequency
+        let positioning = calculateCents(currentFrequency: Double(pitch), frequencies: sortedFrequencies)
         
         // breaks down the positioning into its individual components
         cents = positioning.cents
@@ -340,13 +336,31 @@ struct VisualizerView: View {
         let step = positioning.step
         
         // calculates the number of pixels there are between each whitespace
-        let pixelsPerCent = spacing.whiteSpaceBetweenNotes / Double(100 * step)
+        let pixelsPerCent = layout.spaceBetweenNotes / Double(100 * step)
         
-        return (frequency != 0) ? (currentMapping[closestFrequency]! + (cents * pixelsPerCent)) : 0
+        return (currentMapping[closestFrequency]! + (cents * pixelsPerCent))
+    }
+    
+    // adds values to the history arrays
+    func updateHistory(pitch: Double, cents: Double) {
+        let startIndex = max(0, (history.points.count-maxData))
+        
+        // subtracts the shift from x points in the points array
+        for i in startIndex..<history.points.count {
+            history.points[i].x -= shiftBy
+        }
+        
+        layout.indicatorY = calculatePosition(pitch)
+        
+        // adds new values to the history arrays
+        let newPoint = CGPoint(x: layout.indicatorX, y: layout.indicatorY)
+        let newColor = (pitch == 0) ? .clear : calculateColor(centsOff: cents)
+        history.points.append(newPoint)
+        history.colors.append(newColor)
     }
     
     // sets up the current mapping based off the user-selected key
-    func calculateMapping() {
+    func updateMapping() {
         let newMapper = NotesToGraphMapper()
         
         // sets the middle note of the mapping based on the clef
@@ -359,83 +373,87 @@ struct VisualizerView: View {
             newMapper.centerNote = userSettings.key.centerNoteBass ?? Note(note: "D", octave: 3)
         }
                 
-        newMapper.centerNotePosition = spacing.centerNoteLocationY // position of the center note
+        newMapper.centerNotePosition = layout.centerNoteLocationY // position of the center note
         newMapper.notesInKey = userSettings.key.notes // notes in the current key
         newMapper.numNotes = 17 // the maximum number of notes displayed will always be 17
-        newMapper.spacing = spacing.whiteSpaceBetweenNotes // spacing bewteen each note
+        newMapper.spacing = layout.spaceBetweenNotes // spacing bewteen each note
         
         currentMapping = newMapper.mapNotes()
         sortedFrequencies = currentMapping.keys.sorted()
     }
     
-    // adds values to the history arrays
-    func updateHistory(with frequency: Double) {
-        if pitchHistory.count > 0 {
-            // limits the history arrays to the first numDataStored elements
-            pitchHistory = pitchHistory[(pitchHistory.count < numDataStored ? 0 : 1)...pitchHistory.count-1].map{ $0 }
-            colorHistory = colorHistory[(colorHistory.count < numDataStored ? 0 : 1)...colorHistory.count-1].map{ $0 }
-            
-            // subtracts a value from the x component of every point in this array
-            pitchHistory = pitchHistory.map{ CGPoint(x: ($0.x - shiftBy), y: $0.y) }
+    // calcualtes the amount of data that should be stored based off the key signature
+    func updateMaxData() {
+        // determines the clef settings to use
+        var clefSettings: ClefSettings
+        switch userSettings.clef {
+        case .treble:
+            clefSettings = TrebleClefSettings()
+        case .octave:
+            clefSettings = OctaveClefSettings()
+        case .bass:
+            clefSettings = BassClefSettings()
         }
         
-        // append values to the front of the history arrays
-        let indicatorY = calculatePosition(of: frequency)
-        let currentColor = frequency == 0 ? .clear : calculateColor(centsOff: cents)
-        pitchHistory.append(CGPoint(x: spacing.indicatorX, y: indicatorY))
-        colorHistory.append(currentColor) // adds clear if the frequency is zero
-        totalHistory.append((pitch: indicatorY, color: currentColor))
+        // determines the accidental to use
+        var accidentalSettings: AccidentalSettings
+        if userSettings.key.numSharps > 0 {
+            accidentalSettings = SharpSettings(numAccidentals: userSettings.key.numSharps)
+        } else {
+            accidentalSettings = FlatSettings(numAccidentals: userSettings.key.numFlats)
+        }
+        accidentalSettings.displayOrder = userSettings.key.numSharps > 0 ? clefSettings.sharpsOrder : clefSettings.flatsOrder
+        
+        // calculates the amount of space available to display the history line
+        layout.endOfAccidentals = clefSettings.imageWidth + (Double(accidentalSettings.numAccidentals) * accidentalSettings.imageWidth)
+        let availableSpace = layout.indicatorX - layout.endOfAccidentals
+        maxData = Int(availableSpace) / Int(shiftBy)
     }
     
     // starts recording audio
     func startRecording() {
-        // set isRecording state variable to true
         self.isRecording = true
         
-        // start the recording process
-        conductor.start()
-                
-        // play the timer
+        // start timing and recording
         playTimer()
+        conductor.start()
     }
     
     // pauses recording audio
     func pauseRecording() {
-        // set isRecording state variable to false
         self.isRecording = false
         
-        // stop the recording process
-        conductor.stop()
-        
-        // pause the timer
+        // stop timing and recording
         pauseTimer()
+        conductor.stop()
     }
     
-    // stops the timer and recording session (used to reset elapsed time and history arrays)
+    // stops recording audio and resets history
     func stopRecording() {
-        // if we are currently recording, set isRecording to false and pause the timer
+        // only need to pause recording / timer if that's the current state
         if isRecording {
             self.isRecording = false
             pauseTimer()
         }
         
-        // always stop the conductor, and reset the timer and history arrays
-        conductor.stop()
+        // reset history and stop recording
+        history.reset()
         elapsedTime = 0
-        pitchHistory = []
-        colorHistory = [.clear]
-        totalHistory = []
+        conductor.stop()
     }
     
-    // starts the timer and increments it by 0.01 of a second
+    // starts the timer
     func playTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { _ in
-            elapsedTime += 0.01
-            updateHistory(with: Double(conductor.data.pitch)) // collects data for the history arrays
+        let increment = 0.02
+        
+        // creates timer that updates with a specified increment
+        timer = Timer.scheduledTimer(withTimeInterval: increment, repeats: true) { _ in
+            updateHistory(pitch: Double(conductor.data.pitch), cents: cents)
+            elapsedTime += increment
         }
     }
     
-    // pauses the timer at the time it is at
+    // pauses the timer
     func pauseTimer() {
         timer?.invalidate()
         timer = nil

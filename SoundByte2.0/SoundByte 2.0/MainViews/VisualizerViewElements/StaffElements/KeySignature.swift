@@ -34,15 +34,15 @@ struct FlatSettings: AccidentalSettings {
 struct KeySignature: View {
     let currentClef: ClefType
     let currentKey: Key
-    let spacingData: Spacing
+    let layout: UILayout
     
     let clefSettings: ClefSettings
     var accidentalSettings: AccidentalSettings
     
-    init(clef: ClefType, key: Key, spacing: Spacing) {
+    init(clef: ClefType, key: Key, layout: UILayout) {
         self.currentClef = clef
         self.currentKey = key
-        self.spacingData = spacing
+        self.layout = layout
         
         // sets the settings for the clef
         switch currentClef {
@@ -73,7 +73,7 @@ struct KeySignature: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: accidentalSettings.imageWidth)
-                    .offset(y: -accidentalSettings.displayOrder[i] * spacingData.whiteSpaceBetweenNotes + accidentalSettings.yOffset)
+                    .offset(y: -accidentalSettings.displayOrder[i] * layout.spaceBetweenNotes + accidentalSettings.yOffset)
             }
         }
     }
@@ -82,6 +82,6 @@ struct KeySignature: View {
 // previewing staff to be able to align key signature correctly
 #Preview {
     GeometryReader { proxy in
-        Staff(clef: ClefType.treble, key: KeyGenerator(numFlats: 4, isMajor: true).data, spacing: Spacing(width: proxy.size.width, height: proxy.size.height))
+        Staff(clef: ClefType.treble, key: KeyGenerator(numFlats: 4, isMajor: true).data, layout: UILayout(width: proxy.size.width, height: proxy.size.height))
     }
 }

@@ -71,7 +71,7 @@ class UserSettings: ObservableObject {
 
 struct SettingsView: View {
     @ObservedObject var userSettings: UserSettings
-    @State var device: Device
+//    @State var device: Device
     
     // state variables for tracking number of accidentals in a key
     @State var numSharps = 0
@@ -203,29 +203,29 @@ struct SettingsView: View {
                 }
                 
                 // second section allows the user to change the appearance of the graph
-                Section(header: Text("Graph")) {
-                    
-                    // toggle for settings note names
-                    Toggle(isOn: $userSettings.isNoteNamesDisplayed) {
-                        Text("Show Note Names")
-                    }
-                }
+//                Section(header: Text("Graph")) {
+//                    
+//                    // toggle for settings note names
+//                    Toggle(isOn: $userSettings.isNoteNamesDisplayed) {
+//                        Text("Show Note Names")
+//                    }
+//                }
                 
                 // third section allows the user to change the input device
-                Section(header: Text("Input Device")) {
-                
-                    // picker for the input device
-                    Picker("Input:", selection: $device) {
-                        ForEach(getDevices(), id: \.self) {
-                            Text($0.deviceID)
-                        }
-                    }
-                    .pickerStyle(MenuPickerStyle())
-                    .padding()
-                    .onChange(of: device) {
-                        setInputDevice(to: device)
-                    }
-                }
+//                Section(header: Text("Input Device")) {
+//                
+//                    // picker for the input device
+//                    Picker("Input:", selection: $device) {
+//                        ForEach(getDevices(), id: \.self) {
+//                            Text($0.deviceID)
+//                        }
+//                    }
+//                    .pickerStyle(MenuPickerStyle())
+//                    .padding()
+//                    .onChange(of: device) {
+//                        setInputDevice(to: device)
+//                    }
+//                }
             }
             .navigationBarTitle("Settings")
         }

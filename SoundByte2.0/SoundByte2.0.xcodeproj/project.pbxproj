@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F4D296C42C179A2800BB3E9F /* SoundByte2-0-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4D296C32C179A2800BB3E9F /* SoundByte2-0-Info.plist */; };
 		F4D7E7D62C06766C00E8D450 /* SoundByte2_0App.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D7E7D52C06766C00E8D450 /* SoundByte2_0App.swift */; };
 		F4D7E7D82C06766C00E8D450 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D7E7D72C06766C00E8D450 /* ContentView.swift */; };
 		F4D7E7DA2C06766D00E8D450 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4D7E7D92C06766D00E8D450 /* Assets.xcassets */; };
@@ -54,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F4D296C32C179A2800BB3E9F /* SoundByte2-0-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SoundByte2-0-Info.plist"; sourceTree = "<group>"; };
 		F4D7E7D22C06766C00E8D450 /* SoundByte2.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoundByte2.0.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4D7E7D52C06766C00E8D450 /* SoundByte2_0App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundByte2_0App.swift; sourceTree = "<group>"; };
 		F4D7E7D72C06766C00E8D450 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -80,7 +82,6 @@
 		F4FDE31A2C0FEC8E009ACE43 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F4FDE31E2C11173F009ACE43 /* KeyGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyGenerator.swift; sourceTree = "<group>"; };
 		F4FDE3212C113C96009ACE43 /* CentsIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentsIndicator.swift; sourceTree = "<group>"; };
-		F4FDE32B2C12604B009ACE43 /* SoundByte2-0-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SoundByte2-0-Info.plist"; sourceTree = "<group>"; };
 		F4FDE32D2C136A43009ACE43 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,7 +116,7 @@
 		F4D7E7C92C06766C00E8D450 = {
 			isa = PBXGroup;
 			children = (
-				F4FDE32B2C12604B009ACE43 /* SoundByte2-0-Info.plist */,
+				F4D296C32C179A2800BB3E9F /* SoundByte2-0-Info.plist */,
 				F4D7E7D42C06766C00E8D450 /* SoundByte 2.0 */,
 				F4D7E7E52C06766D00E8D450 /* SoundByte 2.0Tests */,
 				F4D7E7EF2C06766D00E8D450 /* SoundByte 2.0UITests */,
@@ -325,6 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4D7E7DD2C06766D00E8D450 /* Preview Assets.xcassets in Resources */,
+				F4D296C42C179A2800BB3E9F /* SoundByte2-0-Info.plist in Resources */,
 				F4D7E7DA2C06766D00E8D450 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
