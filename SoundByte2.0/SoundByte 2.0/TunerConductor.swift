@@ -28,6 +28,9 @@ class TunerConductor: ObservableObject, HasAudioEngine {
     let silence: Fader
     
     var tracker: PitchTap!
+    
+    let smoothingFactor: Float = 0.5
+    var smoothedPitch: Float = 0.0
         
     init() {
         guard let input = engine.input else { fatalError() }
@@ -58,7 +61,9 @@ class TunerConductor: ObservableObject, HasAudioEngine {
             return
         }
         
-        data.pitch = pitch
+        smoothedPitch = smoothingFactor * smoothedPitch + (1.0 - smoothingFactor) * pitch
+        
+        data.pitch = smoothedPitch
         data.amplitude = amp
     }
 }

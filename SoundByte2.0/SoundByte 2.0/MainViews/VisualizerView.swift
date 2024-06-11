@@ -106,8 +106,8 @@ struct History {
 
 // visualizer brings together all of the individual visual elements
 struct VisualizerView: View {
-//    @ObservedObject var conductor = TunerConductor() // observed object for collecting and processing audio data
-    @State var conductor = Dummy() // dummy variable for ease of viewing in preview
+    @ObservedObject var conductor = TunerConductor() // observed object for collecting and processing audio data
+//    @State var conductor = Dummy() // dummy variable for ease of viewing in preview
     
     // object holds all of the user preferences
     @StateObject var userSettings = UserSettings()
@@ -177,7 +177,7 @@ struct VisualizerView: View {
                 
                 // displays the scroll view when recording is paused
                 if !isRecording {
-                    HistoryView(history: history.combine(), shift: shiftBy, layout: layout)
+                    HistoryView(history: history.combine(), shift: shiftBy, layout: $layout)
                     
                         // positions the history view so that it's trailing edge aligns with the pitch indicator
                         .position(x: layout.indicatorX - (layout.indicatorX - layout.endOfAccidentals) / 2, y: layout.height / 2)
@@ -225,9 +225,9 @@ struct VisualizerView: View {
                     HStack {
                         
                         // temporary slider and text for controlling preview
-                        Slider(value: $conductor.data.pitch, in: (200...1100))
-                            .frame(width: 200)
-                        Text("Freq: " + String(format:"%.0f", conductor.data.pitch))
+//                        Slider(value: $conductor.data.pitch, in: (200...1100))
+//                            .frame(width: 200)
+//                        Text("Freq: " + String(format:"%.0f", conductor.data.pitch))
                         
                         Spacer() // moves timer display to the right
                         
@@ -252,12 +252,12 @@ struct VisualizerView: View {
             }
             
             // navigates to settings view when gear icon is pressed
-            .navigationDestination(isPresented: $goToSettings) {
-                SettingsView(userSettings: userSettings)
-            }
 //            .navigationDestination(isPresented: $goToSettings) {
-//                 SettingsView(userSettings: userSettings, device: conductor.initialDevice)
+//                SettingsView(userSettings: userSettings)
 //            }
+            .navigationDestination(isPresented: $goToSettings) {
+                 SettingsView(userSettings: userSettings, device: conductor.initialDevice)
+            }
         }
     }
     
@@ -439,6 +439,7 @@ struct VisualizerView: View {
         // reset history and stop recording
         history.reset()
         elapsedTime = 0
+        layout.indicatorY = layout.height / 2
         conductor.stop()
     }
     

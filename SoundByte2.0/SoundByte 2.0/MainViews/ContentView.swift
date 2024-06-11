@@ -14,7 +14,10 @@ struct ContentView: View {
             let width = proxy.size.width
             let height = proxy.size.height
             
-            VisualizerView(width: width, height: height)
+            ZStack {
+                VisualizerView(width: width, height: height)
+                StartView()
+            }
         }
     }
 }
