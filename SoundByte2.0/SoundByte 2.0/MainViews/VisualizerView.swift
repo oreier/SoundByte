@@ -177,7 +177,7 @@ struct VisualizerView: View {
                 
                 // displays the scroll view when recording is paused
                 if !isRecording {
-                    HistoryView(history: history.combine(), shift: shiftBy, layout: $layout)
+                    HistoryLineView(history: history.combine(), shift: shiftBy, layout: $layout)
                     
                         // positions the history view so that it's trailing edge aligns with the pitch indicator
                         .position(x: layout.indicatorX - (layout.indicatorX - layout.endOfAccidentals) / 2, y: layout.height / 2)
