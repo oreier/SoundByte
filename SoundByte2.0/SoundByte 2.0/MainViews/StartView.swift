@@ -10,8 +10,6 @@ import SwiftUI
 struct StartView: View {
     @State private var showImportOptions = false
 
-    let backgroundColor = Color(red: 250 / 255, green: 248 / 255, blue: 243 / 255)
-
     // Closure to notify when record tapped
     var onRecordTap: () -> Void
 
@@ -126,7 +124,6 @@ struct StartView: View {
                     .offset(x: 16, y: 70)
                 }
             }
-            .background(backgroundColor)
         }
     }
 }
