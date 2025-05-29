@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HistoryView: View {
-    let images = ["background", "2"]
+    let images = ["A_bass", "B_bass"]
 
     // Fixed number of columns
     private let columnsCount = 3

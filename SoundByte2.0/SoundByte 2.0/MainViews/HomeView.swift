@@ -1,5 +1,5 @@
 //
-//  StartView.swift
+//  ContentView.swift
 //  Test2
 //
 //  Created by Samvat Dangol on 5/16/25.
@@ -7,13 +7,8 @@
 
 import SwiftUI
 
-struct StartView: View {
+struct HomeView: View {
     @State private var showImportOptions = false
-
-    let backgroundColor = Color(red: 250 / 255, green: 248 / 255, blue: 243 / 255)
-
-    // Closure to notify when record tapped
-    var onRecordTap: () -> Void
 
     var body: some View {
         NavigationStack {
@@ -21,11 +16,11 @@ struct StartView: View {
                 VStack {
                     // Top bar
                     HStack {
-                        Button {
+                        Button(action: {
                             withAnimation {
                                 showImportOptions.toggle()
                             }
-                        } label: {
+                        }) {
                             Image(systemName: "square.and.arrow.down")
                                 .font(.system(size: 25))
                                 .foregroundColor(.primary)
@@ -33,9 +28,9 @@ struct StartView: View {
 
                         Spacer()
 
-                        Button {
-                            // Settings action here
-                        } label: {
+                        Button(action: {
+                            // Settings action
+                        }) {
                             Image(systemName: "gearshape")
                                 .font(.system(size: 25))
                                 .foregroundColor(.primary)
@@ -45,10 +40,8 @@ struct StartView: View {
 
                     Spacer()
 
-                    // Record Button - triggers fade out of whole StartView
-                    Button {
-                        onRecordTap()
-                    } label: {
+                    // Record Button -> SheetMusicView
+                    
                         ZStack {
                             Circle()
                                 .fill(Color.red)
@@ -58,11 +51,12 @@ struct StartView: View {
                                 .foregroundColor(.white)
                                 .font(.system(size: 40))
                         }
-                    }
+                    
                     .padding()
 
                     // Library and History Buttons
                     HStack(spacing: 40) {
+                        // Library button
                         NavigationLink(destination: LibraryView()) {
                             VStack {
                                 ZStack {
@@ -81,7 +75,8 @@ struct StartView: View {
                             }
                         }
 
-                        NavigationLink(destination: HistoryView()) {
+                        // History button
+                        NavigationLink(destination: HistoryListView()) {
                             VStack {
                                 ZStack {
                                     Circle()
@@ -105,7 +100,7 @@ struct StartView: View {
                 }
                 .padding()
 
-                // Floating dropdown menu
+                // Floating dropdown
                 if showImportOptions {
                     VStack(alignment: .leading, spacing: 10) {
                         Button("Import Sheet Music") {
@@ -126,11 +121,10 @@ struct StartView: View {
                     .offset(x: 16, y: 70)
                 }
             }
-            .background(backgroundColor)
         }
     }
 }
 
 #Preview {
-    StartView(onRecordTap: {})
+    HomeView()
 }
