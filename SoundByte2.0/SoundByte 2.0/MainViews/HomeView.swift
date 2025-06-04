@@ -1,6 +1,6 @@
 //
-//  ContentView.swift
-//  Test2
+//  StartView.swift
+//  SoundByte2.0
 //
 //  Created by Samvat Dangol on 5/16/25.
 //
@@ -10,17 +10,20 @@ import SwiftUI
 struct HomeView: View {
     @State private var showImportOptions = false
 
+    var onRecordTap: () -> Void
+    var onTunerTap: () -> Void
+
     var body: some View {
         NavigationStack {
             ZStack(alignment: .topLeading) {
                 VStack {
                     // Top bar
                     HStack {
-                        Button(action: {
+                        Button {
                             withAnimation {
                                 showImportOptions.toggle()
                             }
-                        }) {
+                        } label: {
                             Image(systemName: "square.and.arrow.down")
                                 .font(.system(size: 25))
                                 .foregroundColor(.primary)
@@ -28,10 +31,10 @@ struct HomeView: View {
 
                         Spacer()
 
-                        Button(action: {
-                            // Settings action
-                        }) {
-                            Image(systemName: "gearshape")
+                        Button {
+                            onTunerTap()
+                        } label: {
+                            Image(systemName: "waveform")
                                 .font(.system(size: 25))
                                 .foregroundColor(.primary)
                         }
@@ -40,23 +43,24 @@ struct HomeView: View {
 
                     Spacer()
 
-                    // Record Button -> SheetMusicView
-                    
+                    // Record Button
+                    Button {
+                        onRecordTap()
+                    } label: {
                         ZStack {
                             Circle()
                                 .fill(Color.red)
                                 .frame(width: 150, height: 150)
                                 .shadow(radius: 10)
-                            Image(systemName: "mic.fill")
+                            Image(systemName: "play.fill")
                                 .foregroundColor(.white)
                                 .font(.system(size: 40))
                         }
-                    
+                    }
                     .padding()
 
-                    // Library and History Buttons
+                    // Library and History
                     HStack(spacing: 40) {
-                        // Library button
                         NavigationLink(destination: LibraryView()) {
                             VStack {
                                 ZStack {
@@ -75,8 +79,7 @@ struct HomeView: View {
                             }
                         }
 
-                        // History button
-                        NavigationLink(destination: HistoryListView()) {
+                        NavigationLink(destination: HistoryView()) {
                             VStack {
                                 ZStack {
                                     Circle()
@@ -100,7 +103,7 @@ struct HomeView: View {
                 }
                 .padding()
 
-                // Floating dropdown
+                // Dropdown menu
                 if showImportOptions {
                     VStack(alignment: .leading, spacing: 10) {
                         Button("Import Sheet Music") {
@@ -126,5 +129,5 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
+    HomeView(onRecordTap: {}, onTunerTap: {})
 }

@@ -8,9 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		F4D296C42C179A2800BB3E9F /* SoundByte2-0-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4D296C32C179A2800BB3E9F /* SoundByte2-0-Info.plist */; };
-		F4D296C62C18A94200BB3E9F /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D296C52C18A94200BB3E9F /* StartView.swift */; };
+		F4D296C62C18A94200BB3E9F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D296C52C18A94200BB3E9F /* HomeView.swift */; };
 		F4D7E7D62C06766C00E8D450 /* SoundByte2_0App.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D7E7D52C06766C00E8D450 /* SoundByte2_0App.swift */; };
-		F4D7E7D82C06766C00E8D450 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D7E7D72C06766C00E8D450 /* ContentView.swift */; };
 		F4D7E7DA2C06766D00E8D450 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4D7E7D92C06766D00E8D450 /* Assets.xcassets */; };
 		F4D7E7DD2C06766D00E8D450 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4D7E7DC2C06766D00E8D450 /* Preview Assets.xcassets */; };
 		F4D7E7F12C06766D00E8D450 /* SoundByte_2_0UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D7E7F02C06766D00E8D450 /* SoundByte_2_0UITests.swift */; };
@@ -36,6 +35,14 @@
 		F4FDE31F2C11173F009ACE43 /* KeyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FDE31E2C11173F009ACE43 /* KeyGenerator.swift */; };
 		F4FDE3222C113C96009ACE43 /* CentsIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FDE3212C113C96009ACE43 /* CentsIndicator.swift */; };
 		F4FDE32E2C136A43009ACE43 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FDE32D2C136A43009ACE43 /* HistoryView.swift */; };
+		F8A3DC922DF0CB2100F03FD6 /* SheetMusicStaff.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A3DC912DF0CB2100F03FD6 /* SheetMusicStaff.swift */; };
+		F8A3DC932DF0CB2100F03FD6 /* HTMLViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A3DC8F2DF0CB2100F03FD6 /* HTMLViewer.swift */; };
+		F8A3DC942DF0CB2100F03FD6 /* indexTest.html in Resources */ = {isa = PBXBuildFile; fileRef = F8A3DC902DF0CB2100F03FD6 /* indexTest.html */; };
+		F8A3DC9B2DF0CB6000F03FD6 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A3DC982DF0CB6000F03FD6 /* RootView.swift */; };
+		F8A3DC9C2DF0CB6000F03FD6 /* HistoryLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A3DC952DF0CB6000F03FD6 /* HistoryLineView.swift */; };
+		F8A3DC9D2DF0CB6000F03FD6 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A3DC972DF0CB6000F03FD6 /* LibraryView.swift */; };
+		F8A3DC9F2DF0CB6000F03FD6 /* SheetMusicContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A3DC992DF0CB6000F03FD6 /* SheetMusicContentView.swift */; };
+		F8A3DCA02DF0CB6000F03FD6 /* TunerContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A3DC9A2DF0CB6000F03FD6 /* TunerContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,10 +64,9 @@
 
 /* Begin PBXFileReference section */
 		F4D296C32C179A2800BB3E9F /* SoundByte2-0-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SoundByte2-0-Info.plist"; sourceTree = "<group>"; };
-		F4D296C52C18A94200BB3E9F /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
+		F4D296C52C18A94200BB3E9F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		F4D7E7D22C06766C00E8D450 /* SoundByte2.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoundByte2.0.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4D7E7D52C06766C00E8D450 /* SoundByte2_0App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundByte2_0App.swift; sourceTree = "<group>"; };
-		F4D7E7D72C06766C00E8D450 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F4D7E7D92C06766D00E8D450 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F4D7E7DC2C06766D00E8D450 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F4D7E7E22C06766D00E8D450 /* SoundByte2.0Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoundByte2.0Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +91,14 @@
 		F4FDE31E2C11173F009ACE43 /* KeyGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyGenerator.swift; sourceTree = "<group>"; };
 		F4FDE3212C113C96009ACE43 /* CentsIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentsIndicator.swift; sourceTree = "<group>"; };
 		F4FDE32D2C136A43009ACE43 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		F8A3DC8F2DF0CB2100F03FD6 /* HTMLViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLViewer.swift; sourceTree = "<group>"; };
+		F8A3DC902DF0CB2100F03FD6 /* indexTest.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = indexTest.html; sourceTree = "<group>"; };
+		F8A3DC912DF0CB2100F03FD6 /* SheetMusicStaff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetMusicStaff.swift; sourceTree = "<group>"; };
+		F8A3DC952DF0CB6000F03FD6 /* HistoryLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryLineView.swift; sourceTree = "<group>"; };
+		F8A3DC972DF0CB6000F03FD6 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		F8A3DC982DF0CB6000F03FD6 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		F8A3DC992DF0CB6000F03FD6 /* SheetMusicContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetMusicContentView.swift; sourceTree = "<group>"; };
+		F8A3DC9A2DF0CB6000F03FD6 /* TunerContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunerContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,8 +198,11 @@
 				F4FDE3092C0FCD54009ACE43 /* PitchIndicator.swift */,
 				F4FDE3212C113C96009ACE43 /* CentsIndicator.swift */,
 				F4FDE30C2C0FCE88009ACE43 /* RecordingIndicator.swift */,
-				F4FDE3102C0FD36C009ACE43 /* Staff.swift */,
 				F4FDE30E2C0FD062009ACE43 /* TimerDisplay.swift */,
+				F8A3DC912DF0CB2100F03FD6 /* SheetMusicStaff.swift */,
+				F8A3DC8F2DF0CB2100F03FD6 /* HTMLViewer.swift */,
+				F8A3DC902DF0CB2100F03FD6 /* indexTest.html */,
+				F4FDE3102C0FD36C009ACE43 /* Staff.swift */,
 				F4FDE3132C0FD960009ACE43 /* StaffElements */,
 			);
 			path = VisualizerViewElements;
@@ -204,12 +221,16 @@
 		F4FDE3202C113360009ACE43 /* MainViews */ = {
 			isa = PBXGroup;
 			children = (
-				F4D7E7D72C06766C00E8D450 /* ContentView.swift */,
-				F4FDE32D2C136A43009ACE43 /* HistoryView.swift */,
-				F4FDE31A2C0FEC8E009ACE43 /* SettingsView.swift */,
-				F4D296C52C18A94200BB3E9F /* StartView.swift */,
+				F8A3DC982DF0CB6000F03FD6 /* RootView.swift */,
+				F4D296C52C18A94200BB3E9F /* HomeView.swift */,
+				F8A3DC992DF0CB6000F03FD6 /* SheetMusicContentView.swift */,
+				F8A3DC9A2DF0CB6000F03FD6 /* TunerContentView.swift */,
 				F4D7E8082C06777000E8D450 /* VisualizerView.swift */,
 				F4FDE30B2C0FCD61009ACE43 /* VisualizerViewElements */,
+				F8A3DC952DF0CB6000F03FD6 /* HistoryLineView.swift */,
+				F4FDE31A2C0FEC8E009ACE43 /* SettingsView.swift */,
+				F4FDE32D2C136A43009ACE43 /* HistoryView.swift */,
+				F8A3DC972DF0CB6000F03FD6 /* LibraryView.swift */,
 			);
 			path = MainViews;
 			sourceTree = "<group>";
@@ -329,6 +350,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4D7E7DD2C06766D00E8D450 /* Preview Assets.xcassets in Resources */,
+				F8A3DC942DF0CB2100F03FD6 /* indexTest.html in Resources */,
 				F4D296C42C179A2800BB3E9F /* SoundByte2-0-Info.plist in Resources */,
 				F4D7E7DA2C06766D00E8D450 /* Assets.xcassets in Resources */,
 			);
@@ -356,12 +378,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4FDE30F2C0FD062009ACE43 /* TimerDisplay.swift in Sources */,
-				F4D296C62C18A94200BB3E9F /* StartView.swift in Sources */,
+				F4D296C62C18A94200BB3E9F /* HomeView.swift in Sources */,
 				F4FAB41F2C0A1F2E00DFE55D /* InputDevicePicker.swift in Sources */,
 				F4D954F22C0E20A100C49D9A /* HistoryPath.swift in Sources */,
 				F4FAB4172C092BD800DFE55D /* NotesToGraphMapper.swift in Sources */,
 				F4FDE31F2C11173F009ACE43 /* KeyGenerator.swift in Sources */,
-				F4D7E7D82C06766C00E8D450 /* ContentView.swift in Sources */,
 				F4FDE3122C0FD57A009ACE43 /* Staff.swift in Sources */,
 				F4FDE32E2C136A43009ACE43 /* HistoryView.swift in Sources */,
 				F4FDE30A2C0FCD54009ACE43 /* PitchIndicator.swift in Sources */,
@@ -373,7 +394,14 @@
 				F4FAB41D2C0A1EB900DFE55D /* TunerConductor.swift in Sources */,
 				F4D7E8092C06777000E8D450 /* VisualizerView.swift in Sources */,
 				F4D7E7D62C06766C00E8D450 /* SoundByte2_0App.swift in Sources */,
+				F8A3DC922DF0CB2100F03FD6 /* SheetMusicStaff.swift in Sources */,
+				F8A3DC932DF0CB2100F03FD6 /* HTMLViewer.swift in Sources */,
 				F4FDE3152C0FD99A009ACE43 /* NoteLine.swift in Sources */,
+				F8A3DC9B2DF0CB6000F03FD6 /* RootView.swift in Sources */,
+				F8A3DC9C2DF0CB6000F03FD6 /* HistoryLineView.swift in Sources */,
+				F8A3DC9D2DF0CB6000F03FD6 /* LibraryView.swift in Sources */,
+				F8A3DC9F2DF0CB6000F03FD6 /* SheetMusicContentView.swift in Sources */,
+				F8A3DCA02DF0CB6000F03FD6 /* TunerContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

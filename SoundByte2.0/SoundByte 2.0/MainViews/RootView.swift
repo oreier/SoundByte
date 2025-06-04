@@ -20,7 +20,7 @@ struct RootView: View {
         ZStack {
             switch currentMode {
             case .start:
-                StartView(
+                HomeView(
                     onRecordTap: {
                         withAnimation(.easeInOut(duration: 0.5)) {
                             currentMode = .sheetMusic
