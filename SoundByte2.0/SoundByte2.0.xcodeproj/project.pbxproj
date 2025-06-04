@@ -566,7 +566,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SoundByte 2.0/Preview Content\"";
-				DEVELOPMENT_TEAM = ZRLJ26H2AQ;
+				DEVELOPMENT_TEAM = FC654L76SN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SoundByte2-0-Info.plist";
@@ -582,7 +582,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "JackDurfee.SoundByte-2-0";
+				PRODUCT_BUNDLE_IDENTIFIER = "SamvatDangol.SoundByte-2-0";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -598,7 +598,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SoundByte 2.0/Preview Content\"";
-				DEVELOPMENT_TEAM = ZRLJ26H2AQ;
+				DEVELOPMENT_TEAM = FC654L76SN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SoundByte2-0-Info.plist";
@@ -614,7 +614,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "JackDurfee.SoundByte-2-0";
+				PRODUCT_BUNDLE_IDENTIFIER = "SamvatDangol.SoundByte-2-0";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

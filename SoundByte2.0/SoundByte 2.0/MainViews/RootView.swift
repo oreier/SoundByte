@@ -35,11 +35,11 @@ struct RootView: View {
                 .transition(.opacity)
 
             case .sheetMusic:
-                SheetMusicContentView()
+                SheetMusicContentView(mode: .sheetMusic)
                     .transition(.opacity)
 
             case .tuner:
-                TunerContentView()
+                TunerContentView(mode: .tuner)
                     .transition(.opacity)
             }
         }

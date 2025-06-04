@@ -17,8 +17,8 @@ struct SheetMusicStaff: View {
             HTMLViewer(fileName: "indexTest")
                 .scaleEffect(4, anchor: .bottomLeading)
                 .frame(width: 800, height: 100)
-                .rotationEffect(Angle(degrees: 90), anchor: .center)
-                .offset(x:-80.0, y: 0.0)
+                // .rotationEffect(Angle(degrees: 90), anchor: .center)
+                .offset(x:-200.0, y: 150.0)
             
         }
         .allowsHitTesting(false)

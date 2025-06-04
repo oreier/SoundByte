@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct TunerContentView: View {
+    let mode: AppMode
+
     var body: some View {
         GeometryReader { proxy in
             let width = proxy.size.width
             let height = proxy.size.height
 
             ZStack {
-                VisualizerView(width: width, height: height)
+                VisualizerView(width: width, height: height, mode: mode)
             }
         }
         .navigationTitle("Tuner")
@@ -22,5 +24,5 @@ struct TunerContentView: View {
 }
 
 #Preview {
-    TunerContentView()
+    TunerContentView(mode: .tuner)
 }

@@ -106,6 +106,8 @@ struct History {
 
 // visualizer brings together all of the individual visual elements
 struct VisualizerView: View {
+    let mode: AppMode // passes mode enum from RootView to visualize either Staff or SheetMusicStaff depending on the mode visualized
+    
     @ObservedObject var conductor = TunerConductor() // observed object for collecting and processing audio data
 //    @State var conductor = Dummy() // dummy variable for ease of viewing in preview
     
@@ -145,9 +147,10 @@ struct VisualizerView: View {
     let buttonSize = 35.0 // size of the buttons
     let backgroundColor = Color(red: 250 / 255, green: 248 / 255, blue: 243 / 255) // color of the background
         
-    // sets up the layout given parent view dimensions
-    init(width: CGFloat, height: CGFloat) {
+    // sets up the layout given parent view dimensions and mode
+    init(width: CGFloat, height: CGFloat, mode: AppMode) {
         self.layout = UILayout(width: width, height: height)
+        self.mode = mode
     }
 
     // pulls together all of the visual elements into one view
@@ -159,8 +162,12 @@ struct VisualizerView: View {
             // zstack allows visual elements to be stacked on top of each other
             ZStack {
                 
-                // displays the staff
-                Staff(clef: userSettings.clef, key: userSettings.key, layout: layout)
+                // displays the staff or the SheetMusicStaff
+                if mode == .tuner {
+                    Staff(clef: userSettings.clef, key: userSettings.key, layout: layout)
+                } else if mode == .sheetMusic {
+                    SheetMusicStaff()
+                }
                 
                 // displays live indicators when recording is in progress
                 if isRecording {
@@ -480,5 +487,5 @@ extension UIColor {
 }
 
 #Preview {
-    VisualizerView(width: 734, height: 372)
+    VisualizerView(width: 734, height: 372, mode: .start)
 }
