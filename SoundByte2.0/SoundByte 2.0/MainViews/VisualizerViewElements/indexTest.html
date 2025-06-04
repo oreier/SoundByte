@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <!-- IMPORTANT: Set the character set to UTF-8. Otherwise you may get weird symbols on the score. -->
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <div id="output"></div>
+    <script src="https://cdn.jsdelivr.net/npm/vexflow@5.0.0/build/cjs/vexflow-core.js"></script>
+    <script>
+    /* global VexFlow */
+    VexFlow.loadFonts('Bravura', 'Academico').then(() => {
+      VexFlow.setFonts('Bravura', 'Academico');
+      const factory = new VexFlow.Factory({
+        renderer: { elementId: 'output', width: 600, height: 200 },
+      });
+      const score = factory.EasyScore();
+      const system1 = factory.System({x: 0, y: 0, width: 300, spaceBetweenStaves: 10});
+      system1
+        .addStave({
+          voices: [
+            score.voice(score.notes('a4/q, b4/q, c5/q, d5/q','C#4/h, C#4')),
+          ],
+        })
+		.addClef('treble')
+        .addTimeSignature('4/4');
+		
+		const system2 = factory.System({x: 300, y: 0, width: 300, spaceBetweenStaves: 10});
+		system2
+		.addStave({
+			voices: [
+				score.voice(score.beam(score.notes('e5/8, e5, e5, e5')).concat(score.notes('e5/q, e5'))),
+			],
+		});
+	
+      factory.draw();
+    });
+    </script>
+  </body>
+</html>

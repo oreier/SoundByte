@@ -1,13 +1,13 @@
 //
-//  ContentView.swift
-//  SoundByte 2.0
+//  SecondContentView.swift
+//  SoundByte2.0
 //
-//  Created by Jack Durfee on 5/28/24.
+//  Created by Samvat Dangol on 6/4/25.
 //
 
 import SwiftUI
 
-struct ContentView: View {
+struct SheetMusicContentView: View {
     var body: some View {
         GeometryReader { proxy in
             let width = proxy.size.width
@@ -22,5 +22,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    SheetMusicContentView()
 }

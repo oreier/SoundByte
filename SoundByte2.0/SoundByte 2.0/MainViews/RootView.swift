@@ -7,25 +7,45 @@
 
 import SwiftUI
 
+enum AppMode {
+    case start
+    case sheetMusic
+    case tuner
+}
+
 struct RootView: View {
-    @State private var showStartView = true
+    @State private var currentMode: AppMode = .start
 
     var body: some View {
         ZStack {
-            if showStartView {
-                StartView {
-                    withAnimation(.easeInOut(duration: 0.5)) {
-                        showStartView = false
+            switch currentMode {
+            case .start:
+                StartView(
+                    onRecordTap: {
+                        withAnimation(.easeInOut(duration: 0.5)) {
+                            currentMode = .sheetMusic
+                        }
+                    },
+                    onTunerTap: {
+                        withAnimation(.easeInOut(duration: 0.5)) {
+                            currentMode = .tuner
+                        }
                     }
-                }
+                )
                 .transition(.opacity)
-            } else {
-                ContentView()
+
+            case .sheetMusic:
+                SheetMusicContentView()
+                    .transition(.opacity)
+
+            case .tuner:
+                TunerContentView()
                     .transition(.opacity)
             }
         }
     }
 }
+
 
 #Preview {
     RootView()

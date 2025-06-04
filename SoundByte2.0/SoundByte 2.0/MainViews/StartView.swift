@@ -1,6 +1,6 @@
 //
 //  StartView.swift
-//  Test2
+//  SoundByte2.0
 //
 //  Created by Samvat Dangol on 5/16/25.
 //
@@ -10,8 +10,8 @@ import SwiftUI
 struct StartView: View {
     @State private var showImportOptions = false
 
-    // Closure to notify when record tapped
     var onRecordTap: () -> Void
+    var onTunerTap: () -> Void
 
     var body: some View {
         NavigationStack {
@@ -32,9 +32,9 @@ struct StartView: View {
                         Spacer()
 
                         Button {
-                            // Settings action here
+                            onTunerTap()
                         } label: {
-                            Image(systemName: "gearshape")
+                            Image(systemName: "waveform")
                                 .font(.system(size: 25))
                                 .foregroundColor(.primary)
                         }
@@ -43,7 +43,7 @@ struct StartView: View {
 
                     Spacer()
 
-                    // Record Button - triggers fade out of whole StartView
+                    // Record Button
                     Button {
                         onRecordTap()
                     } label: {
@@ -52,14 +52,14 @@ struct StartView: View {
                                 .fill(Color.red)
                                 .frame(width: 150, height: 150)
                                 .shadow(radius: 10)
-                            Image(systemName: "mic.fill")
+                            Image(systemName: "play.fill")
                                 .foregroundColor(.white)
                                 .font(.system(size: 40))
                         }
                     }
                     .padding()
 
-                    // Library and History Buttons
+                    // Library and History
                     HStack(spacing: 40) {
                         NavigationLink(destination: LibraryView()) {
                             VStack {
@@ -103,7 +103,7 @@ struct StartView: View {
                 }
                 .padding()
 
-                // Floating dropdown menu
+                // Dropdown menu
                 if showImportOptions {
                     VStack(alignment: .leading, spacing: 10) {
                         Button("Import Sheet Music") {
@@ -129,5 +129,5 @@ struct StartView: View {
 }
 
 #Preview {
-    StartView(onRecordTap: {})
+    StartView(onRecordTap: {}, onTunerTap: {})
 }
