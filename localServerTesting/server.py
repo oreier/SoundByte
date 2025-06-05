@@ -32,4 +32,9 @@ if __name__ == '__main__':
     # You can change port to 5000 or anything else if needed
     app.run(host='0.0.0.0', port=8000, debug=True)
 
-# reactivate server using command: source venv/bin/activate
+# Create python virtual environment with command: python3 -m venv venv
+# Initial python virtual environment activation and reactivation command: source venv/bin/activate
+# Install flask (only required once per virtual environment) using command: pip install flask
+# Upgrade using: pip install --upgrade pip
+# To start running the local server use command: python3 server.py
+# This allows the server to listen for inputs coming from the app, but the app has to have the server's IP address declared
