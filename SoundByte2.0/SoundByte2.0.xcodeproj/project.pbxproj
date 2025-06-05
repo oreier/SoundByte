@@ -199,11 +199,10 @@
 				F4FDE3212C113C96009ACE43 /* CentsIndicator.swift */,
 				F4FDE30C2C0FCE88009ACE43 /* RecordingIndicator.swift */,
 				F4FDE30E2C0FD062009ACE43 /* TimerDisplay.swift */,
-				F8A3DC912DF0CB2100F03FD6 /* SheetMusicStaff.swift */,
-				F8A3DC8F2DF0CB2100F03FD6 /* HTMLViewer.swift */,
-				F8A3DC902DF0CB2100F03FD6 /* indexTest.html */,
 				F4FDE3102C0FD36C009ACE43 /* Staff.swift */,
 				F4FDE3132C0FD960009ACE43 /* StaffElements */,
+				F8A3DC912DF0CB2100F03FD6 /* SheetMusicStaff.swift */,
+				F8A3DCA22DF1DFA900F03FD6 /* SheetMusicStaffElements */,
 			);
 			path = VisualizerViewElements;
 			sourceTree = "<group>";
@@ -233,6 +232,15 @@
 				F8A3DC972DF0CB6000F03FD6 /* LibraryView.swift */,
 			);
 			path = MainViews;
+			sourceTree = "<group>";
+		};
+		F8A3DCA22DF1DFA900F03FD6 /* SheetMusicStaffElements */ = {
+			isa = PBXGroup;
+			children = (
+				F8A3DC8F2DF0CB2100F03FD6 /* HTMLViewer.swift */,
+				F8A3DC902DF0CB2100F03FD6 /* indexTest.html */,
+			);
+			path = SheetMusicStaffElements;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

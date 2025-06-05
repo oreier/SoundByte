@@ -10,3 +10,4 @@ xcuserdata/
 # Build products and DerivedData
 build/
 DerivedData/
+venv/
