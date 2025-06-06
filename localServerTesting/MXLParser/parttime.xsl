@@ -170,7 +170,7 @@
                   Now copy all the descendants using
                   identity transforms.
                 -->
-                <xsl:apply-templates />
+                <xsl:apply-templates/>
               </xsl:element>
             </xsl:if>
           </xsl:for-each>

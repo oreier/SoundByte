@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pyodide Runner</title>
+</head>
+<body>
+    <div id="output">Loading Python runtime...</div>
+
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+    <script>
+        let pyodide = null;
+        let outputElement = document.getElementById("output");
+        let pendingCode = null;
+        let isReady = false;
+
+        function sendOutput(message) {
+            if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.outputHandler) {
+                window.webkit.messageHandlers.outputHandler.postMessage(message);
+            }
+        }
+
+        async function main() {
+            pyodide = await loadPyodide();
+            isReady = true;
+            outputElement.innerText = "Python runtime loaded.";
+
+            // Setup capturing print output to send immediately
+            pyodide.runPython(`
+import sys
+import io
+
+class JSOutput(io.TextIOBase):
+    def write(self, s):
+        if s.strip():
+            js_send(s)
+        return len(s)
+
+sys.stdout = JSOutput()
+sys.stderr = JSOutput()
+`);
+
+            pyodide.globals.set("js_send", (s) => {
+                sendOutput(s);
+                outputElement.innerText = s;
+            });
+
+            // If there was any pending code while loading, run it now
+            if (pendingCode) {
+                runPythonCode(pendingCode);
+                pendingCode = null;
+            }
+        }
+
+        async function runPythonCode(code) {
+            if (!isReady) {
+                outputElement.innerText = "Python runtime not loaded yet. Waiting...";
+                pendingCode = code;
+                return;
+            }
+            outputElement.innerText = "Running python...";
+            try {
+                await pyodide.runPythonAsync(code);
+            } catch (err) {
+                let errorMsg = "Python error: " + err.message;
+                sendOutput(errorMsg);
+                outputElement.innerText = errorMsg;
+            }
+        }
+
+        main();
+    </script>
+</body>
+</html>

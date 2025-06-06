@@ -10,9 +10,23 @@ import UniformTypeIdentifiers
 
 struct HomeView: View {
     @State private var showImportOptions = false
+    @State private var showPyodide = false
+    @State private var pythonCodeToRun = ""
+    // @State private var showFileImporter = false
+    // @State private var selectedFileURL: URL?
+    
+    // New states for file importing and data
     @State private var showFileImporter = false
-    @State private var selectedFileURL: URL?
+    @State private var selectedFileData: Data? = nil
 
+    func loadPythonScript(filename: String) -> String? {
+        guard let fileURL = Bundle.main.url(forResource: filename, withExtension: "py") else {
+            print("Failed to find \(filename).py")
+            return nil
+        }
+        return try? String(contentsOf: fileURL)
+    }
+    
     var onRecordTap: () -> Void
     var onTunerTap: () -> Void
 
@@ -114,7 +128,10 @@ struct HomeView: View {
                             showImportOptions = false
                         }
                         Button("Import Backtrack Audio") {
-                            showFileImporter = true
+                            pythonCodeToRun = """
+                            print("Hello from Pyodide!")
+                            """
+                            showPyodide = true
                             showImportOptions = false
                         }
                     }
@@ -128,60 +145,70 @@ struct HomeView: View {
                 }
             }
         }
+        // File importer for .mxl files (treated as data)
         .fileImporter(
             isPresented: $showFileImporter,
-            allowedContentTypes: [.audio, .pdf, .plainText], // Adjust types as needed
+            allowedContentTypes: [.data],
             allowsMultipleSelection: false
         ) { result in
             switch result {
             case .success(let urls):
                 if let fileURL = urls.first {
-                    selectedFileURL = fileURL
-                    uploadFileToServer(fileURL: fileURL, type: "sheet music")
+                    if fileURL.startAccessingSecurityScopedResource() {
+                        defer { fileURL.stopAccessingSecurityScopedResource() }
+                        do {
+                            selectedFileData = try Data(contentsOf: fileURL)
+                            preparePythonCodeWithMXL()
+                        } catch {
+                            print("Failed to read selected file data: \(error.localizedDescription)")
+                        }
+                    } else {
+                        print("Couldn't access the security scoped resource.")
+                    }
                 }
             case .failure(let error):
                 print("File import failed:", error.localizedDescription)
             }
         }
-    }
+        .fullScreenCover(isPresented: $showPyodide) {
+            VStack {
+                Text("Loading Python…") // Dummy UI while debugging
+                    .padding()
 
-    func uploadFileToServer(fileURL: URL, type: String) {
-        guard let serverURL = URL(string: "http://127.0.0.1:8000/upload") else { return } // Replace with your IP
+                Button("Dismiss") {
+                    showPyodide = false
+                }
+                .padding()
 
-        var request = URLRequest(url: serverURL)
-        request.httpMethod = "POST"
-
-        let boundary = UUID().uuidString
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-
-        var body = Data()
-        let filename = fileURL.lastPathComponent
-        let mimeType = "application/octet-stream"
-
-        body.append("--\(boundary)\r\n".data(using: .utf8)!)
-        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(filename)\"\r\n".data(using: .utf8)!)
-        body.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
-
-        if let fileData = try? Data(contentsOf: fileURL) {
-            body.append(fileData)
-        }
-
-        body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
-
-        request.httpBody = body
-
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let data = data,
-               let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-               let result = json["result"] as? String {
-                print("\(type.capitalized) upload result:", result)
-            } else {
-                print("Upload failed:", error?.localizedDescription ?? "Unknown error")
+                WebView(
+                    htmlFile: "pyodide",
+                    pythonCode: pythonCodeToRun,
+                    onOutput: { output in
+                        print("Python output:", output)
+                        // Uncomment below if you want to auto-dismiss after output:
+                        // showPyodide = false
+                    },
+                    onFinished: {
+                        print("Python runtime finished executing.")
+                        // Auto-dismiss here if you want
+                        showPyodide = false
+                    }
+                )
             }
-        }.resume()
+        }
     }
-}
-
-#Preview {
-    HomeView(onRecordTap: {}, onTunerTap: {})
+    
+    // Prepare the Python code to run with the MXL data injected as base64
+    func preparePythonCodeWithMXL() {
+        guard let mxlData = selectedFileData else { return }
+        let base64MXL = mxlData.base64EncodedString()
+        
+        let testScript = """
+        import base64
+        print("Received base64 length:", \(base64MXL.count))
+        """
+        
+        pythonCodeToRun = testScript
+        showPyodide = true
+    }
 }
