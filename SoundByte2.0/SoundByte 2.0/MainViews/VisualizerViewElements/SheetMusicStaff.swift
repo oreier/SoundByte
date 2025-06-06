@@ -10,7 +10,7 @@ import SwiftUI
 struct SheetMusicStaff: View {
     
     var fileName: String
-    var xOffset = 0.0
+    var xOffset: Double
     
     var body: some View {
         // Placing the HTMLViewer in a group means we can set allowsHitTesting to false, so a user cannot move the staff around
@@ -21,8 +21,8 @@ struct SheetMusicStaff: View {
                 .offset(x: xOffset)
                 .scaleEffect(4, anchor: .bottomLeading)
                 .frame(width: 800, height: 150)
-                .rotationEffect(Angle(degrees: 90), anchor: .center)
-                .offset(x: -220.0)
+                //.rotationEffect(Angle(degrees: 90), anchor: .center)
+                .offset(y: 290.0)
             
         }
         .allowsHitTesting(false)
@@ -30,11 +30,13 @@ struct SheetMusicStaff: View {
     }
     
     mutating func scroll(tempo: Double, increment: Double) {
+        // Assume constant pixel width of measures per song beat
         let pixelsPerBeat = 100.0
+        // Increase offset in correct direction by correct value per increment to scroll sheet music
         xOffset -= ((tempo / 60.0) * increment) * pixelsPerBeat
     }
 }
 
 #Preview {
-    SheetMusicStaff(fileName: "index")
+   SheetMusicStaff(fileName: "index", xOffset: -40.0)
 }
