@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>WebView Test</title>
+    <link rel="shortcut icon" href="#"> <!--just so we don't get the annoying error message (we don't need an icon)-->
+    <script type="module" src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/esm/entry/vexflow.js"></script>
+  </head>
+
+  <body>
+
+    <div id="output"></div> <!--The object we're attaching the staff to-->
+    <script type="module">
+      import { Factory, GraceNote, GraceNoteGroup, TextNote, Barline, BarlineType } from "https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/esm/entry/vexflow.js";
+
+      //the factory is kind of like "home base" for Vexflow, most everything builds on it. The renderer attaches to a div named "output" in the html
+      const vf = new Factory({ renderer: { elementId: "output", width: 4000, height: 150 } }); 
+      const score = vf.EasyScore(); //EasyScore is implemented on top of VexFlow for easier interfacing
+
+      var measureWidthWithInfo = 400;
+      var measureWidth = 300;
+      var lyricLine = 11;
+
+      var _do = new TextNote({
+          text: "do",
+          duration: 'q',
+          line: lyricLine
+      }).setJustification(TextNote.Justification.CENTER);
+      var _re = new TextNote({
+          text: "re",
+          duration: 'q',
+          line: lyricLine
+      }).setJustification(TextNote.Justification.CENTER);
+      var _mi = new TextNote({
+          text: "mi",
+          duration: '8',
+          line: lyricLine
+      }).setJustification(TextNote.Justification.CENTER);
+      var _fa = new TextNote({
+          text: "fa",
+          duration: '8',
+          line: lyricLine
+      }).setJustification(TextNote.Justification.CENTER);
+      var _so = new TextNote({
+          text: "so",
+          duration: '8',
+          line: lyricLine
+      }).setJustification(TextNote.Justification.CENTER);
+      var _la = new TextNote({
+          text: "la",
+          duration: '8',
+          line: lyricLine
+      }).setJustification(TextNote.Justification.CENTER);
+
+      var lyrics = score.voice([_do, _re, _mi, _fa, _so, _la]);
+
+      var expected1 = vf.System({ width: measureWidthWithInfo });
+      expected1.addStave({
+          voices: [
+              score.voice(score.notes("e5/q, b4/q").concat(score.beam(score.notes("a4/8, g4/8, f4/8, e4/8"))), { time: '4/4' }),
+              lyrics
+          ]
+      }).setMeasure(1).addTimeSignature('4/4').addModifier(new Barline(BarlineType.NONE)).addKeySignature('Db').addClef('treble');
+
+      var expected2 = vf.System({ width: measureWidthWithInfo, x: 10 + measureWidthWithInfo });
+      expected2.addStave({
+          voices: [score.voice(score.notes("e5/q, b4/q").concat(score.notes('a4/q, a4/q, b4/q/r')), { time: '5/4' })]
+      }).setMeasure(2).addTimeSignature('5/4');
+
+      var expected3 = vf.System({ width: measureWidth, x: 10 + 2 * (measureWidthWithInfo) });
+      expected3.addStave({
+          voices: [score.voice(score.notes("e5/q, b4/q").concat(score.notes('a4/q, a4/q, b4/q/r')), { time: '5/4' })]
+      }).setMeasure(3);
+
+      var expected4 = vf.System({ width: measureWidthWithInfo, x: 10 + 2 * (measureWidthWithInfo) + measureWidth });
+      expected4.addStave({
+          voices: [score.voice(score.notes("e5/q, b4/q").concat(score.beam(score.notes("e6/8, g#5/8, f#5/8, e5/8"))), { time: '4/4' })]
+      }).setMeasure(4).addTimeSignature('4/4');
+
+      var expected5 = vf.System({ width: measureWidthWithInfo, x: 10 + 3 * (measureWidthWithInfo) + measureWidth });
+      expected5.addStave({
+          voices: [score.voice(score.notes("a4/q, a3/q, b4/q/r").concat(score.tuplet(score.beam(score.notes("g4/8, a4/8, g4/8")), { ratioed: false })), { time: '4/4' })]
+      }).setMeasure(5).addModifier(new Barline(BarlineType.SINGLE)).addKeySignature('F');
+
+      var expected6 = vf.System({ width: measureWidth, x: 10 + 4 * (measureWidthWithInfo) + measureWidth });
+      expected6.addStave({
+          voices: [score.voice(score.notes("a4/h....., a4/64"), { time: '4/4' })]
+      }).setMeasure(6);
+
+      var expected7 = vf.System({ width: measureWidth, x: 10 + 4 * (measureWidthWithInfo) + 2 * (measureWidth) });
+      expected7.addStave({
+          voices: [score.voice(score.notes("e5/8., bb4/16").concat(score.notes('a4/q, a4/q, b4/q/r')), { time: '4/4' })]
+      }).setMeasure(7);
+
+      vf.draw();
+    </script>
+  </body>
+</html>

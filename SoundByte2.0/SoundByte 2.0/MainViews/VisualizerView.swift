@@ -135,6 +135,8 @@ struct VisualizerView: View {
     // sets the number of data elements to display in the pitch history line
     @State var maxData = 0
     
+    @State var sheetMusicStaff = SheetMusicStaff(fileName: "index")
+    
     // tracks the life cycle of the app (sent to background or inactive)
     @Environment(\.scenePhase) var scenePhase
     
@@ -166,7 +168,7 @@ struct VisualizerView: View {
                 if mode == .tuner {
                     Staff(clef: userSettings.clef, key: userSettings.key, layout: layout)
                 } else if mode == .sheetMusic {
-                    SheetMusicStaff()
+                    sheetMusicStaff
                 }
                 
                 // displays live indicators when recording is in progress
@@ -457,6 +459,7 @@ struct VisualizerView: View {
         // creates timer that updates with a specified increment
         timer = Timer.scheduledTimer(withTimeInterval: increment, repeats: true) { _ in
             updateHistory(pitch: Double(conductor.data.pitch), cents: cents)
+            sheetMusicStaff.scroll(tempo: 120.0, increment: increment)
             elapsedTime += increment
         }
     }

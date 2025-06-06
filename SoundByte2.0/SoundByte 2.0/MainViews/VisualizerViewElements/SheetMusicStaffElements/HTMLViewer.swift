@@ -10,7 +10,7 @@ import UIKit
 import WebKit
 
 struct HTMLViewer: UIViewRepresentable {
-    let fileName: String
+    var fileName: String
     
     func makeUIView(context: Context) -> WKWebView {
         return WKWebView()
@@ -20,11 +20,12 @@ struct HTMLViewer: UIViewRepresentable {
         // Get url for music HTML
         guard let htmlurl = Bundle.main.url(forResource: fileName, withExtension: "html") else { return }
         // Load HTML url
-        webView.loadFileURL(htmlurl, allowingReadAccessTo: htmlurl.deletingLastPathComponent())
+        webView.load(URLRequest(url: htmlurl))
+        //webView.loadFileURL(htmlurl, allowingReadAccessTo: htmlurl.deletingLastPathComponent())
         
     }
 }
 
 #Preview {
-    HTMLViewer(fileName: "indexTest")
+    HTMLViewer(fileName: "index")
 }

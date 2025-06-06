@@ -9,23 +9,32 @@ import SwiftUI
 
 struct SheetMusicStaff: View {
     
+    var fileName: String
+    var xOffset = 0.0
+    
     var body: some View {
         // Placing the HTMLViewer in a group means we can set allowsHitTesting to false, so a user cannot move the staff around
         Group {
             
             // Set up HTMLViewer with correct filename, scale+rotate+position correctly
-            HTMLViewer(fileName: "indexTest")
+            HTMLViewer(fileName: fileName)
+                .offset(x: xOffset)
                 .scaleEffect(4, anchor: .bottomLeading)
-                .frame(width: 800, height: 100)
-                // .rotationEffect(Angle(degrees: 90), anchor: .center)
-                .offset(x:-200.0, y: 150.0)
+                .frame(width: 800, height: 150)
+                .rotationEffect(Angle(degrees: 90), anchor: .center)
+                .offset(x: -220.0)
             
         }
         .allowsHitTesting(false)
         
     }
+    
+    mutating func scroll(tempo: Double, increment: Double) {
+        let pixelsPerBeat = 100.0
+        xOffset -= ((tempo / 60.0) * increment) * pixelsPerBeat
+    }
 }
 
 #Preview {
-    SheetMusicStaff()
+    SheetMusicStaff(fileName: "index")
 }
