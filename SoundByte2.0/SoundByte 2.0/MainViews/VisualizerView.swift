@@ -135,7 +135,7 @@ struct VisualizerView: View {
     // sets the number of data elements to display in the pitch history line
     @State var maxData = 0
     
-    @State var sheetMusicStaff = SheetMusicStaff(fileName: "index", xOffset: 0.0)
+    @State var sheetMusicStaff = SheetMusicStaff(fileName: "index", xOffset: -40.0)
     
     // tracks the life cycle of the app (sent to background or inactive)
     @Environment(\.scenePhase) var scenePhase
