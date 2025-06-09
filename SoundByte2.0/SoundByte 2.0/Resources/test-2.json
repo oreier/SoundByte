@@ -1,0 +1,50 @@
+[
+    {
+        "note": "E",
+        "octave": 5
+    },
+    {
+        "note": "B♭",
+        "octave": 4
+    },
+    {
+        "note": "A♭",
+        "octave": 4
+    },
+    {
+        "note": "G♭",
+        "octave": 4
+    },
+    {
+        "note": "F",
+        "octave": 4
+    },
+    {
+        "note": "E",
+        "octave": 4
+    },
+    {
+        "note": "E",
+        "octave": 5
+    },
+    {
+        "note": "B♭",
+        "octave": 4
+    },
+    {
+        "note": "A♭",
+        "octave": 5
+    },
+    {
+        "note": "G♯",
+        "octave": 5
+    },
+    {
+        "note": "F♯",
+        "octave": 5
+    },
+    {
+        "note": "E",
+        "octave": 5
+    }
+]

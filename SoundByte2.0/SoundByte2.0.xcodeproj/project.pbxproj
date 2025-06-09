@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		638019D72DF6A27500872880 /* SongGrader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638019D62DF6A27500872880 /* SongGrader.swift */; };
 		638019D92DF6A28B00872880 /* SongGraderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638019D82DF6A28B00872880 /* SongGraderTests.swift */; };
+		638019DB2DF7368500872880 /* TestSongGraderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638019DA2DF7368500872880 /* TestSongGraderView.swift */; };
+		638019E02DF74D0800872880 /* test.json in Resources */ = {isa = PBXBuildFile; fileRef = 638019DF2DF74D0800872880 /* test.json */; };
+		638019E22DF7525500872880 /* test-2.json in Resources */ = {isa = PBXBuildFile; fileRef = 638019E12DF7525500872880 /* test-2.json */; };
+		638019E42DF7606F00872880 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 638019E32DF7606F00872880 /* index.html */; };
 		F4D296C62C18A94200BB3E9F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D296C52C18A94200BB3E9F /* HomeView.swift */; };
 		F4D7E7D62C06766C00E8D450 /* SoundByte2_0App.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D7E7D52C06766C00E8D450 /* SoundByte2_0App.swift */; };
 		F4D7E7DA2C06766D00E8D450 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4D7E7D92C06766D00E8D450 /* Assets.xcassets */; };
@@ -70,6 +74,10 @@
 /* Begin PBXFileReference section */
 		638019D62DF6A27500872880 /* SongGrader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongGrader.swift; sourceTree = "<group>"; };
 		638019D82DF6A28B00872880 /* SongGraderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongGraderTests.swift; sourceTree = "<group>"; };
+		638019DA2DF7368500872880 /* TestSongGraderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSongGraderView.swift; sourceTree = "<group>"; };
+		638019DF2DF74D0800872880 /* test.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test.json; sourceTree = "<group>"; };
+		638019E12DF7525500872880 /* test-2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "test-2.json"; sourceTree = "<group>"; };
+		638019E32DF7606F00872880 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		F4D296C32C179A2800BB3E9F /* SoundByte2-0-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SoundByte2-0-Info.plist"; sourceTree = "<group>"; };
 		F4D296C52C18A94200BB3E9F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		F4D7E7D22C06766C00E8D450 /* SoundByte2.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoundByte2.0.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -140,6 +148,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		638019DC2DF737D900872880 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				638019DF2DF74D0800872880 /* test.json */,
+				638019E12DF7525500872880 /* test-2.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		F4D7E7C92C06766C00E8D450 = {
 			isa = PBXGroup;
 			children = (
@@ -164,6 +181,7 @@
 		F4D7E7D42C06766C00E8D450 /* SoundByte 2.0 */ = {
 			isa = PBXGroup;
 			children = (
+				638019DC2DF737D900872880 /* Resources */,
 				638019D62DF6A27500872880 /* SongGrader.swift */,
 				F874637B2DF39C4700508ACE /* parser.py */,
 				F87463792DF39A4000508ACE /* take_me_to_church.mxl */,
@@ -174,6 +192,7 @@
 				F4D7E7D92C06766D00E8D450 /* Assets.xcassets */,
 				F4FDE3202C113360009ACE43 /* MainViews */,
 				F4D7E7DB2C06766D00E8D450 /* Preview Content */,
+				638019DA2DF7368500872880 /* TestSongGraderView.swift */,
 			);
 			path = "SoundByte 2.0";
 			sourceTree = "<group>";
@@ -256,6 +275,7 @@
 			children = (
 				F8A3DC8F2DF0CB2100F03FD6 /* HTMLViewer.swift */,
 				F8A3DC902DF0CB2100F03FD6 /* indexTest.html */,
+				638019E32DF7606F00872880 /* index.html */,
 			);
 			path = SheetMusicStaffElements;
 			sourceTree = "<group>";
@@ -376,9 +396,12 @@
 			files = (
 				F874637A2DF39A4000508ACE /* take_me_to_church.mxl in Resources */,
 				F87463762DF3905400508ACE /* pyodide.html in Resources */,
+				638019E22DF7525500872880 /* test-2.json in Resources */,
+				638019E42DF7606F00872880 /* index.html in Resources */,
 				F4D7E7DD2C06766D00E8D450 /* Preview Assets.xcassets in Resources */,
 				F8A3DC942DF0CB2100F03FD6 /* indexTest.html in Resources */,
 				F4D7E7DA2C06766D00E8D450 /* Assets.xcassets in Resources */,
+				638019E02DF74D0800872880 /* test.json in Resources */,
 				F874637C2DF39C4700508ACE /* parser.py in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -426,6 +449,7 @@
 				F8A3DC922DF0CB2100F03FD6 /* SheetMusicStaff.swift in Sources */,
 				F8A3DC932DF0CB2100F03FD6 /* HTMLViewer.swift in Sources */,
 				F4FDE3152C0FD99A009ACE43 /* NoteLine.swift in Sources */,
+				638019DB2DF7368500872880 /* TestSongGraderView.swift in Sources */,
 				F8A3DC9B2DF0CB6000F03FD6 /* RootView.swift in Sources */,
 				F8A3DC9C2DF0CB6000F03FD6 /* HistoryLineView.swift in Sources */,
 				F8A3DC9D2DF0CB6000F03FD6 /* LibraryView.swift in Sources */,

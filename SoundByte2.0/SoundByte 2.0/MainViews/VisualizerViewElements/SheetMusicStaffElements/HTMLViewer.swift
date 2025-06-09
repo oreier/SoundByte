@@ -21,7 +21,7 @@ struct HTMLViewer: UIViewRepresentable {
         guard let htmlurl = Bundle.main.url(forResource: fileName, withExtension: "html") else { return }
         // Load HTML url
         webView.load(URLRequest(url: htmlurl))
-        //webView.loadFileURL(htmlurl, allowingReadAccessTo: htmlurl.deletingLastPathComponent())
+
         
     }
 }

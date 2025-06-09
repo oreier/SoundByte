@@ -29,7 +29,8 @@ class NotesToGraphMapper {
     var spacing = 0.0
     
     // frequencies of all 0th octave notes
-    private let frequencies = ["C♭" : 15.40, "C"  : 16.35, "C♯" : 17.32,
+    private let frequencies = ["0" : 0,
+                               "C♭" : 15.40, "C"  : 16.35, "C♯" : 17.32,
                                "D♭" : 17.32, "D"  : 18.35, "D♯" : 19.45,
                                "E♭" : 19.45, "E"  : 20.60, "E♯" : 21.83,
                                "F♭" : 20.60, "F"  : 21.83, "F♯" : 23.12,

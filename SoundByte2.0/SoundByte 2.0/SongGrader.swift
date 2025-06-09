@@ -29,16 +29,23 @@ class SongGrader {
         }
     }
     
-    func updateHistoryPitches(currentPitch: Double) {
+    private func updateHistoryPitches(currentPitch: Double) {
         historyPitches.append(currentPitch)
     }
     
-    func graderCentHelper(historyPitch: Double, targetPitch: Double) -> Double {
-        return 1200 * log2(targetPitch / historyPitch)
+    func graderCentHelper(historyPitch: Double) -> Double {
+        let targetPitch = targetPitches[historyPitches.count - 1]
+        if historyPitch != 0 {
+            return 1200 * log2(targetPitch / historyPitch)
+        }
+        return 0.0
     }
     
-    func gradeCurrentInterval(cents: Double) -> Double {
-        if cents < 40 {
+    func gradeCurrentInterval(historyPitch: Double) -> Double {
+        var cents = graderCentHelper(historyPitch: historyPitch)
+        let centLimit = 40.0
+        // If cents are within centLimit, then note was hit
+        if abs(cents) < centLimit {
             return 1.0
         }
         return 0.0
@@ -46,22 +53,30 @@ class SongGrader {
     
     func updateGrading(currentPitch: Double) {
         updateHistoryPitches(currentPitch: currentPitch)
-        // Get cent difference to grade current interval
-        let cents = abs(graderCentHelper(historyPitch: currentPitch, targetPitch: targetPitches[historyPitches.count - 1]))
-        let intervalGrade = gradeCurrentInterval(cents: cents)
+        // Grade current interval
+        let intervalGrade = gradeCurrentInterval(historyPitch: currentPitch)
         // Update grading variables and array
         sumCorrectPitches += intervalGrade
         correctPitches.append(intervalGrade)
         sumTotalPitches += 1.0
         currentGrade = 100 * sumCorrectPitches / sumTotalPitches
     }
-
+    
+    func reset() {
+        intervalNotes = []
+        targetPitches = []
+        historyPitches = []
+        correctPitches = []
+        currentGrade = 0.0
+        sumCorrectPitches = 0.0
+        sumTotalPitches = 0.0
+    }
 }
 
 func load<T: Decodable>(_ filename: String) -> T {
     let data: Data
     
-    guard let file = Bundle.main.url(forResource: filename, withExtension: nil)
+    guard let file = Bundle.main.url(forResource: filename, withExtension: "json")
     else {
         fatalError("Couldn't find \(filename) in main bundle.")
     }

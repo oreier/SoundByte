@@ -21,7 +21,6 @@ struct SheetMusicStaff: View {
                 .offset(x: xOffset)
                 .scaleEffect(4, anchor: .bottomLeading)
                 .frame(width: 800, height: 150)
-                //.rotationEffect(Angle(degrees: 90), anchor: .center)
                 .offset(y: 290.0)
             
         }

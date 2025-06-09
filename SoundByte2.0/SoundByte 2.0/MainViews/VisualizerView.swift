@@ -136,6 +136,7 @@ struct VisualizerView: View {
     @State var maxData = 0
     
     @State var sheetMusicStaff = SheetMusicStaff(fileName: "index", xOffset: -40.0)
+    @State var songGrader: SongGrader = SongGrader()
     
     // tracks the life cycle of the app (sent to background or inactive)
     @Environment(\.scenePhase) var scenePhase
@@ -455,11 +456,20 @@ struct VisualizerView: View {
     // starts the timer
     func playTimer() {
         let increment = 0.02
+        var intervalGrade = 0.0
         
         // creates timer that updates with a specified increment
         timer = Timer.scheduledTimer(withTimeInterval: increment, repeats: true) { _ in
+            intervalGrade = songGrader.gradeCurrentInterval(historyPitch: Double(conductor.data.pitch))
             updateHistory(pitch: Double(conductor.data.pitch), cents: cents)
-            sheetMusicStaff.scroll(tempo: 120.0, increment: increment)
+            if intervalGrade > 0 {
+                sheetMusicStaff.scroll(tempo: 120.0, increment: increment)
+                songGrader.updateGrading(currentPitch: Double(conductor.data.pitch))
+            }
+            else {
+                sheetMusicStaff.scroll(tempo: 120.0, increment: increment)
+                songGrader.updateGrading(currentPitch: Double(conductor.data.pitch))
+            }
             elapsedTime += increment
         }
     }
