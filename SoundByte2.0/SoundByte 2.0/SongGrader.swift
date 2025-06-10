@@ -34,15 +34,17 @@ class SongGrader {
     }
     
     func graderCentHelper(historyPitch: Double) -> Double {
-        let targetPitch = targetPitches[historyPitches.count - 1]
-        if historyPitch != 0 {
-            return 1200 * log2(targetPitch / historyPitch)
+        if targetPitches.count >= historyPitches.count {
+            let targetPitch = targetPitches[historyPitches.count - 1]
+            if historyPitch != 0 {
+                return 1200 * log2(targetPitch / historyPitch)
+            }
         }
         return 0.0
     }
     
     func gradeCurrentInterval(historyPitch: Double) -> Double {
-        var cents = graderCentHelper(historyPitch: historyPitch)
+        let cents = graderCentHelper(historyPitch: historyPitch)
         let centLimit = 40.0
         // If cents are within centLimit, then note was hit
         if abs(cents) < centLimit {

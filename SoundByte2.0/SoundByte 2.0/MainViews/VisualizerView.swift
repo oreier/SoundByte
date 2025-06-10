@@ -122,6 +122,7 @@ struct VisualizerView: View {
     // variables to control the timer
     @State var timer: Timer?
     @State var elapsedTime: Double = 0.0
+    @State var currentGrade: Double = 0.0
     
     // layout is determined by the parent view
     @State var layout: UILayout
@@ -138,7 +139,7 @@ struct VisualizerView: View {
     @State var maxData = 0
     
     @State var sheetMusicStaff = SheetMusicStaff(fileName: "index", xOffset: -40.0)
-    @State var songGrader: SongGrader = SongGrader()
+    @State var songGrader = SongGrader()
     
     // tracks the life cycle of the app (sent to background or inactive)
     @Environment(\.scenePhase) var scenePhase
@@ -157,6 +158,7 @@ struct VisualizerView: View {
         self.layout = UILayout(width: width, height: height)
         self.mode = mode
         self.gradeMode = gradeMode
+        self.songGrader.loadNotes(filename: "test")
     }
 
     // pulls together all of the visual elements into one view
@@ -244,7 +246,7 @@ struct VisualizerView: View {
                         
                         Spacer() // moves timer display to the right
                         if gradeMode == .playing {
-                            GraderDisplay(songGrade: songGrader.currentGrade, fontSize: buttonSize)
+                            GraderDisplay(songGrade: currentGrade, fontSize: buttonSize)
                         }
                         
                         TimerDisplay(time: elapsedTime, size: buttonSize, isRecording: $isRecording)
@@ -471,6 +473,7 @@ struct VisualizerView: View {
             if gradeMode == .playing || (gradeMode == .learning && intervalGrade > 0)  {
                 sheetMusicStaff.scroll(tempo: 120.0, increment: increment)
                 songGrader.updateGrading(currentPitch: Double(conductor.data.pitch))
+                currentGrade = songGrader.currentGrade
             }
 
             elapsedTime += increment
