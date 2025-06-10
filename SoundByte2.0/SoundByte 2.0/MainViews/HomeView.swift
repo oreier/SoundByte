@@ -18,6 +18,8 @@ struct HomeView: View {
     // New states for file importing and data
     @State private var showFileImporter = false
     @State private var selectedFileData: Data? = nil
+    
+    @State var isLearning: Bool = false
 
     func loadPythonScript(filename: String) -> String? {
         guard let fileURL = Bundle.main.url(forResource: filename, withExtension: "py") else {
@@ -29,6 +31,7 @@ struct HomeView: View {
     
     var onRecordTap: () -> Void
     var onTunerTap: () -> Void
+    var onLearningTap: () -> Void
 
     var body: some View {
         NavigationStack {
@@ -44,6 +47,18 @@ struct HomeView: View {
                             Image(systemName: "square.and.arrow.down")
                                 .font(.system(size: 25))
                                 .foregroundColor(.primary)
+                        }
+                        
+                        Spacer()
+                        
+                        Button {
+                            isLearning.toggle()
+                            onLearningTap()
+                        } label: {
+                            Label("Toggle Learning Mode", systemImage: isLearning ? "brain.fill" : "brain")
+                                .labelStyle(.iconOnly)
+                                .foregroundColor(isLearning ? .blue : .primary)
+                                .font(.system(size: 40))
                         }
 
                         Spacer()

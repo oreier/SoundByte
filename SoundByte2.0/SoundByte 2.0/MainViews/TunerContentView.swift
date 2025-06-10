@@ -16,7 +16,7 @@ struct TunerContentView: View {
             let height = proxy.size.height
 
             ZStack {
-                VisualizerView(width: width, height: height, mode: mode)
+                VisualizerView(width: width, height: height, mode: mode, gradeMode: .tuning)
             }
         }
         .navigationTitle("Tuner")

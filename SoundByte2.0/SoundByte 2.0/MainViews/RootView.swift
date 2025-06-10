@@ -13,8 +13,15 @@ enum AppMode {
     case tuner
 }
 
+enum GradeMode {
+    case tuning
+    case learning
+    case playing
+}
+
 struct RootView: View {
     @State private var currentMode: AppMode = .start
+    @State private var currentGradeMode: GradeMode = .playing
 
     var body: some View {
         ZStack {
@@ -30,12 +37,25 @@ struct RootView: View {
                         withAnimation(.easeInOut(duration: 0.5)) {
                             currentMode = .tuner
                         }
+                    },
+                    onLearningTap: {
+                        withAnimation(
+                            .easeInOut(duration: 0.5)) {
+                                switch currentGradeMode {
+                                case .learning:
+                                    currentGradeMode = .playing
+                                case .playing:
+                                    currentGradeMode = .learning
+                                case .tuning:
+                                    currentGradeMode = .playing
+                                }
+                            }
                     }
                 )
                 .transition(.opacity)
 
             case .sheetMusic:
-                SheetMusicContentView(mode: .sheetMusic)
+                SheetMusicContentView(mode: .sheetMusic, gradeMode: currentGradeMode)
                     .transition(.opacity)
 
             case .tuner:

@@ -108,6 +108,8 @@ struct History {
 struct VisualizerView: View {
     let mode: AppMode // passes mode enum from RootView to visualize either Staff or SheetMusicStaff depending on the mode visualized
     
+    let gradeMode: GradeMode
+    
     @ObservedObject var conductor = TunerConductor() // observed object for collecting and processing audio data
 //    @State var conductor = Dummy() // dummy variable for ease of viewing in preview
     
@@ -151,9 +153,10 @@ struct VisualizerView: View {
     let backgroundColor = Color(red: 250 / 255, green: 248 / 255, blue: 243 / 255) // color of the background
         
     // sets up the layout given parent view dimensions and mode
-    init(width: CGFloat, height: CGFloat, mode: AppMode) {
+    init(width: CGFloat, height: CGFloat, mode: AppMode, gradeMode: GradeMode) {
         self.layout = UILayout(width: width, height: height)
         self.mode = mode
+        self.gradeMode = gradeMode
     }
 
     // pulls together all of the visual elements into one view
@@ -240,6 +243,9 @@ struct VisualizerView: View {
 //                        Text("Freq: " + String(format:"%.0f", conductor.data.pitch))
                         
                         Spacer() // moves timer display to the right
+                        if gradeMode == .playing {
+                            GraderDisplay(songGrade: songGrader.currentGrade, fontSize: buttonSize)
+                        }
                         
                         TimerDisplay(time: elapsedTime, size: buttonSize, isRecording: $isRecording)
                     }
@@ -462,14 +468,11 @@ struct VisualizerView: View {
         timer = Timer.scheduledTimer(withTimeInterval: increment, repeats: true) { _ in
             intervalGrade = songGrader.gradeCurrentInterval(historyPitch: Double(conductor.data.pitch))
             updateHistory(pitch: Double(conductor.data.pitch), cents: cents)
-            if intervalGrade > 0 {
+            if gradeMode == .playing || (gradeMode == .learning && intervalGrade > 0)  {
                 sheetMusicStaff.scroll(tempo: 120.0, increment: increment)
                 songGrader.updateGrading(currentPitch: Double(conductor.data.pitch))
             }
-            else {
-                sheetMusicStaff.scroll(tempo: 120.0, increment: increment)
-                songGrader.updateGrading(currentPitch: Double(conductor.data.pitch))
-            }
+
             elapsedTime += increment
         }
     }
@@ -500,5 +503,5 @@ extension UIColor {
 }
 
 #Preview {
-    VisualizerView(width: 734, height: 372, mode: .start)
+    VisualizerView(width: 734, height: 372, mode: .start, gradeMode: .playing)
 }

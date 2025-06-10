@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SheetMusicContentView: View {
     let mode: AppMode
+    let gradeMode: GradeMode
 
     var body: some View {
         GeometryReader { proxy in
@@ -16,7 +17,7 @@ struct SheetMusicContentView: View {
             let height = proxy.size.height
 
             ZStack {
-                VisualizerView(width: width, height: height, mode: mode)
+                VisualizerView(width: width, height: height, mode: mode, gradeMode: gradeMode)
             }
         }
         .navigationTitle("Sheet Music")
@@ -24,5 +25,5 @@ struct SheetMusicContentView: View {
 }
 
 #Preview {
-    SheetMusicContentView(mode: .sheetMusic)
+    SheetMusicContentView(mode: .sheetMusic, gradeMode: .playing)
 }
