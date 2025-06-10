@@ -139,14 +139,13 @@ struct HomeView: View {
                 if showImportOptions {
                     VStack(alignment: .leading, spacing: 10) {
                         Button("Import Sheet Music") {
-                            showFileImporter = true
+                            // Instead of showing file importer, load bundled MXL
+                            loadBundledMXL(named: "take_me_to_church")
                             showImportOptions = false
                         }
                         Button("Import Backtrack Audio") {
-                            pythonCodeToRun = """
-                            print("Hello from Pyodide!")
-                            """
-                            showPyodide = true
+                            // Instead of running a simple print, also load bundled MXL
+                            loadBundledMXL(named: "take_me_to_church")
                             showImportOptions = false
                         }
                     }
@@ -225,5 +224,19 @@ struct HomeView: View {
         
         pythonCodeToRun = testScript
         showPyodide = true
+    }
+    
+    // New helper to load bundled .mxl file instead of using fileImporter
+    func loadBundledMXL(named filename: String) {
+        guard let fileURL = Bundle.main.url(forResource: filename, withExtension: "mxl") else {
+            print("Failed to find \(filename).mxl in bundle")
+            return
+        }
+        do {
+            selectedFileData = try Data(contentsOf: fileURL)
+            preparePythonCodeWithMXL()
+        } catch {
+            print("Failed to load data from bundle: \(error.localizedDescription)")
+        }
     }
 }
