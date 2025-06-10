@@ -17,6 +17,7 @@ class SongGrader {
     var sumCorrectPitches: Double = 0.0
     var sumTotalPitches: Double = 0.0
     var notesToGraphMapper = NotesToGraphMapper()
+    var targetIndex = 0
     
     func loadNotes(filename: String) {
         intervalNotes = load(filename)
@@ -34,8 +35,8 @@ class SongGrader {
     }
     
     func graderCentHelper(historyPitch: Double) -> Double {
-        if targetPitches.count >= historyPitches.count {
-            let targetPitch = targetPitches[historyPitches.count - 1]
+        if targetPitches.count > 0 && targetPitches.count < targetIndex {
+            let targetPitch = targetPitches[targetIndex]
             if historyPitch != 0 {
                 return 1200 * log2(targetPitch / historyPitch)
             }
@@ -62,6 +63,7 @@ class SongGrader {
         correctPitches.append(intervalGrade)
         sumTotalPitches += 1.0
         currentGrade = 100 * sumCorrectPitches / sumTotalPitches
+        targetIndex += 1
     }
     
     func reset() {
@@ -72,6 +74,7 @@ class SongGrader {
         currentGrade = 0.0
         sumCorrectPitches = 0.0
         sumTotalPitches = 0.0
+        targetIndex = 0
     }
 }
 
