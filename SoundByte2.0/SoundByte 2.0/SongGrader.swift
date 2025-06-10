@@ -35,13 +35,16 @@ class SongGrader {
     }
     
     func graderCentHelper(historyPitch: Double) -> Double {
-        if targetPitches.count > 0 && targetPitches.count < targetIndex {
+        if targetPitches.count > 0 {
             let targetPitch = targetPitches[targetIndex]
-            if historyPitch > 0.0 {
+            if historyPitch > 0.1 && targetPitch > 0.1 {
                 return 1200 * log2(targetPitch / historyPitch)
             }
-            else if targetPitch > 0 && abs(historyPitch - 0.0) < 0.1 {
-                return 800000000.0
+            else if targetPitch > 0.1 && historyPitch < 0.1 {
+                return 400.0
+            }
+            else if targetPitch < 0.1 && historyPitch > 0.1 {
+                return 400.0
             }
         }
         return 0.0

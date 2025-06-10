@@ -19,6 +19,7 @@ final class graderTests: XCTestCase {
     var E: Note = Note(note: "E", octave: 5)
     var F: Note = Note(note: "F", octave: 5)
     var G: Note = Note(note: "G", octave: 5)
+    var Z: Note = Note(note: "0", octave: 0)
     
     override func setUpWithError() throws {
         currentSongGrader = SongGrader()
@@ -46,6 +47,8 @@ final class graderTests: XCTestCase {
         for i in 0..<currentNotes.count {
             currentSongGrader.updateGrading(currentPitch: historyFreqs[i])
         }
+        XCTAssertEqual(currentSongGrader.targetPitches.count, 7)
+        XCTAssertEqual(currentSongGrader.historyPitches.count, 7)
         XCTAssertEqual(currentSongGrader.currentGrade, 100.0, accuracy: 0.00001)
     }
     
@@ -57,6 +60,8 @@ final class graderTests: XCTestCase {
         for i in 0..<currentNotes.count {
             currentSongGrader.updateGrading(currentPitch: historyFreqs[i])
         }
+        XCTAssertEqual(currentSongGrader.targetPitches.count, 7)
+        XCTAssertEqual(currentSongGrader.historyPitches.count, 7)
         XCTAssertEqual(currentSongGrader.currentGrade, 100.0*4.0/7.0, accuracy: 0.00001)
     }
     
@@ -68,13 +73,38 @@ final class graderTests: XCTestCase {
         for i in 0..<currentNotes.count {
             currentSongGrader.updateGrading(currentPitch: historyFreqs[i])
         }
+        XCTAssertEqual(currentSongGrader.targetPitches.count, 7)
+        XCTAssertEqual(currentSongGrader.historyPitches.count, 7)
         XCTAssertEqual(currentSongGrader.currentGrade, 0.0, accuracy: 0.00001)
     }
     
-    // Tests that the song grader calculates cent difference correctly
+    // Tests that the calculation of cents is correct
     func testCentCalculation() throws {
-        XCTAssertEqual(currentSongGrader.graderCentHelper(historyPitch: 493.92, targetPitch: 440.0), 200.1286, accuracy: 0.0001)
-        XCTAssertEqual(currentSongGrader.graderCentHelper(historyPitch: 784.0, targetPitch: 440.0), 1000.02015, accuracy: 0.0001)
-        XCTAssertEqual(currentSongGrader.graderCentHelper(historyPitch: 493.92, targetPitch: 698.56), -600.12798, accuracy: 0.0001)
+        currentNotes = [A, B, C, D, E, F, G]
+        var historyFreqs = [440.0, 493.92, 523.2, 587.2, 659.2, 698.56, 784.0]
+        currentSongGrader.calculateTargetPitches(targetNotes: currentNotes)
+        for i in 0..<historyFreqs.count {
+            XCTAssertEqual(currentSongGrader.graderCentHelper(historyPitch: historyFreqs[i]), 0.0, accuracy: 0.00001)
+            currentSongGrader.targetIndex += 1
+        }
+        currentSongGrader.targetIndex = 0
+        historyFreqs = [493.92, 523.2, 587.2, 659.2, 698.56, 784.0, 880.0]
+        let centDiffs = [-200.13, -99.702, -199.79, -200.24, -100.401, -199.76, -199.98]
+        for i in 0..<historyFreqs.count {
+            XCTAssertEqual(currentSongGrader.graderCentHelper(historyPitch: historyFreqs[i]), centDiffs[i], accuracy: 0.1)
+            currentSongGrader.targetIndex += 1
+        }
+    }
+    
+    // Tests that intervals are graded correctly
+    func testIntervalGrader() throws {
+        currentNotes = [A, Z, C, Z]
+        let historyFreqs = [440.0, 493.92, 0, 0]
+        currentSongGrader.calculateTargetPitches(targetNotes: currentNotes)
+        let expectedGrades = [1.0, 0.0, 0.0, 1.0]
+        for i in 0..<historyFreqs.count {
+            XCTAssertEqual(currentSongGrader.gradeCurrentInterval(historyPitch: historyFreqs[i]), expectedGrades[i], accuracy: 0.1)
+            currentSongGrader.targetIndex += 1
+        }
     }
 }

@@ -50,8 +50,8 @@ struct TestSongGraderView: View {
         songGrader.loadNotes(filename: filename)
         songGrader.calculateTargetPitches(targetNotes: songGrader.intervalNotes)
         for i in 0..<songGrader.targetPitches.count {
-            songGrader.updateGrading(currentPitch: songGrader.targetPitches[i])
-            //songGrader.updateGrading(currentPitch: 200000.0)
+            //songGrader.updateGrading(currentPitch: songGrader.targetPitches[i])
+            songGrader.updateGrading(currentPitch: 200000.0)
         }
     }
 }
