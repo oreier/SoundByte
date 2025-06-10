@@ -717,6 +717,7 @@
 		F4FDE31F2C11173F009ACE43 /* KeyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FDE31E2C11173F009ACE43 /* KeyGenerator.swift */; };
 		F4FDE3222C113C96009ACE43 /* CentsIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FDE3212C113C96009ACE43 /* CentsIndicator.swift */; };
 		F4FDE32E2C136A43009ACE43 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FDE32D2C136A43009ACE43 /* HistoryView.swift */; };
+		F86EAAD02DF8AE6B0038489A /* test.json in Resources */ = {isa = PBXBuildFile; fileRef = 638019DF2DF74D0800872880 /* test.json */; };
 		F87463742DF3903D00508ACE /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87463732DF3903A00508ACE /* WebView.swift */; };
 		F87463762DF3905400508ACE /* pyodide.html in Resources */ = {isa = PBXBuildFile; fileRef = F87463752DF3904D00508ACE /* pyodide.html */; };
 		F874637C2DF39C4700508ACE /* parser.py in Resources */ = {isa = PBXBuildFile; fileRef = F874637B2DF39C4700508ACE /* parser.py */; };
@@ -2451,6 +2452,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F86EAAD02DF8AE6B0038489A /* test.json in Resources */,
 				F87463762DF3905400508ACE /* pyodide.html in Resources */,
 				638027342DF8A3D500872880 /* pydoc_data-1.0.0-cp312-cp312-pyodide_2024_0_wasm32.whl.metadata in Resources */,
 				638027352DF8A3D500872880 /* fiona-1.9.5-cp312-cp312-pyodide_2024_0_wasm32.whl.metadata in Resources */,

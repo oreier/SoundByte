@@ -30,7 +30,7 @@ struct SheetMusicStaff: View {
     
     mutating func scroll(tempo: Double, increment: Double) {
         // Assume constant velocity of html
-        let htmlVelocity = 100.0
+        let htmlVelocity = 10.0
         // Increase offset in correct direction by correct value per increment to scroll sheet music
         xOffset -= ((tempo / 60.0) * increment) * htmlVelocity
     }
