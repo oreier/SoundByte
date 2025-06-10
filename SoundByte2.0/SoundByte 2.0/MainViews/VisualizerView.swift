@@ -122,7 +122,7 @@ struct VisualizerView: View {
     // variables to control the timer
     @State var timer: Timer?
     @State var elapsedTime: Double = 0.0
-    @State var currentGrade: Double = 0.0
+    @State var currentGrade: String = "0.0"
     
     // layout is determined by the parent view
     @State var layout: UILayout
@@ -246,10 +246,10 @@ struct VisualizerView: View {
                         
                         Spacer() // moves timer display to the right
                         if gradeMode == .playing {
-                            GraderDisplay(songGrade: currentGrade, fontSize: buttonSize)
+                            GraderDisplay(songGrade: currentGrade,  fontSize: buttonSize)
                         }
                         
-                        TimerDisplay(time: elapsedTime, size: buttonSize, isRecording: $isRecording)
+                        //TimerDisplay(time: elapsedTime, size: buttonSize, isRecording: $isRecording)
                     }
                 }
                 .padding([.top, .bottom, .trailing]) // padding applies to the tool bar
@@ -474,7 +474,7 @@ struct VisualizerView: View {
                 sheetMusicStaff.scroll(tempo: 120.0, increment: increment)
                 songGrader.updateGrading(currentPitch: Double(conductor.data.pitch))
             }
-            currentGrade = songGrader.currentGrade //+ Double(songGrader.targetIndex)
+            currentGrade = String(songGrader.targetPitches.count) + " " + String(songGrader.currentGrade) + " " + String(Double(songGrader.targetPitches[songGrader.targetIndex])) + " " + String(conductor.data.pitch)
             elapsedTime += increment
         }
     }
