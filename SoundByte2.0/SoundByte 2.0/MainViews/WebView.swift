@@ -20,15 +20,19 @@ struct WebView: UIViewRepresentable {
 
     func makeUIView(context: Context) -> WKWebView {
         let config = WKWebViewConfiguration()
+        // Optional, but can be helpful:
+        config.preferences.setValue(true, forKey: "allowFileAccessFromFileURLs")
+        let userContentController = WKUserContentController()
+        userContentController.add(context.coordinator, name: "outputHandler")
+        userContentController.add(context.coordinator, name: "finishedHandler")
+        config.userContentController = userContentController
+
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.navigationDelegate = context.coordinator
 
         if let url = Bundle.main.url(forResource: htmlFile, withExtension: "html") {
-            webView.loadFileURL(url, allowingReadAccessTo: url.deletingLastPathComponent())
+            webView.loadFileURL(url, allowingReadAccessTo: Bundle.main.resourceURL!)
         }
-
-        webView.configuration.userContentController.add(context.coordinator, name: "outputHandler")
-        webView.configuration.userContentController.add(context.coordinator, name: "finishedHandler")
 
         return webView
     }
