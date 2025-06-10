@@ -474,7 +474,7 @@ struct VisualizerView: View {
                 sheetMusicStaff.scroll(tempo: 120.0, increment: increment)
                 songGrader.updateGrading(currentPitch: Double(conductor.data.pitch))
             }
-            currentGrade = songGrader.currentGrade + Double(songGrader.targetIndex)
+            currentGrade = songGrader.currentGrade //+ Double(songGrader.targetIndex)
             elapsedTime += increment
         }
     }
