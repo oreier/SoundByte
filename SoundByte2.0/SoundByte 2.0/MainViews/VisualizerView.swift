@@ -467,16 +467,23 @@ struct VisualizerView: View {
     func playTimer() {
         let increment = 0.02
         var intervalGrade = 0.0
+        var currentPitch = 0.0
+        var currentCents = 0.0
         
         // creates timer that updates with a specified increment
         timer = Timer.scheduledTimer(withTimeInterval: increment, repeats: true) { _ in
-            intervalGrade = songGrader.gradeCurrentInterval(historyPitch: Double(conductor.data.pitch))
-            updateHistory(pitch: Double(conductor.data.pitch), cents: cents)
-            if gradeMode == .playing || (gradeMode == .learning && intervalGrade > 0)  {
+            currentPitch = Double(conductor.data.pitch)
+            currentCents = songGrader.graderCentHelper(historyPitch: currentPitch)
+            intervalGrade = songGrader.gradeCurrentInterval(historyPitch: currentPitch)
+            if gradeMode == .playing || (gradeMode == .learning && intervalGrade > 0.1) {
+                updateHistory(pitch: currentPitch, cents: currentCents)
                 sheetMusicStaff.scroll(tempo: tempo, increment: increment)
-                songGrader.updateGrading(currentPitch: Double(conductor.data.pitch))
+                songGrader.updateGrading(currentPitch: currentPitch)
             }
-            currentGrade = String(songGrader.targetPitches.count) + " " + String(songGrader.currentGrade) + " " +  String(songGrader.targetPitches[songGrader.targetIndex]) + " " + String(Double(conductor.data.pitch))
+            else if gradeMode == .tuning  {
+                updateHistory(pitch: currentPitch, cents: cents)
+            }
+            currentGrade = String(songGrader.targetPitches.count) + " " + String(songGrader.currentGrade) + " " +  String(songGrader.targetPitches[songGrader.targetIndex]) + " " + String(currentPitch)
             elapsedTime += increment
         }
     }
