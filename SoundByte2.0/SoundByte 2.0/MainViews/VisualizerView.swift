@@ -483,7 +483,9 @@ struct VisualizerView: View {
             else if gradeMode == .tuning  {
                 updateHistory(pitch: currentPitch, cents: cents)
             }
-            currentGrade = String(songGrader.currentGrade) // String(songGrader.targetPitches.count) + " " + String(songGrader.currentGrade) + " " +  String(songGrader.targetPitches[songGrader.targetIndex]) + " " + String(currentPitch)
+            if songGrader.targetPitches.count > songGrader.targetIndex {
+                currentGrade = String(songGrader.targetPitches.count) + " " + String(songGrader.currentGrade) + " " +  String(songGrader.targetPitches[songGrader.targetIndex]) + " " + String(currentPitch)
+            }
             elapsedTime += increment
         }
     }

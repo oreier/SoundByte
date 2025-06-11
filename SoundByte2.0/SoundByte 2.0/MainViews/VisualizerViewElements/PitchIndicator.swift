@@ -26,7 +26,7 @@ struct PitchIndicator: View {
         Image(systemName: "music.note")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(width: dotSize)
+            .frame(width: 50)
             .position(x: xPosition, y: yPosition)
             .offset(x: dotSize / 4, y: -15) // offset is to align music note dot to lines
     }
