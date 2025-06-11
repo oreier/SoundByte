@@ -14,7 +14,7 @@ struct HistoryPath: View {
     let xStart: Double
     
     // constants set the stroke and width of each history line segment
-    let lineStroke = 3.5
+    let lineStroke = 7.5
     
     // constructor for the history path
     init(points: [CGPoint], colors: [Color], xStart: Double) {
