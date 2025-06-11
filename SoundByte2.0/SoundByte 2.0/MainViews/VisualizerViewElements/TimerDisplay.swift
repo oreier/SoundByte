@@ -60,6 +60,7 @@ struct TimerDisplay: View {
                     .font(.system(size: fontSize))
                     .frame(width: fontSize * widthMultiplier / 2)
             }
+            .foregroundStyle(Color(.black))
         }
     }
     

@@ -19,11 +19,11 @@ struct GraderDisplay: View {
 //                .frame(width: 4*fontSize , height: fontSize)
             Text(songGrade + "%")
                 .font(.system(size: fontSize))
+                .foregroundStyle(Color(.black))
         }
     }
 }
 
 #Preview {
-    var graderDisplay = GraderDisplay(songGrade: String(100.0), fontSize: 48.0)
-    graderDisplay
+    GraderDisplay(songGrade: String(100.0), fontSize: 48.0)
 }
