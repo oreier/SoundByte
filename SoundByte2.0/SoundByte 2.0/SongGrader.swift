@@ -21,6 +21,7 @@ class SongGrader {
     
     func loadNotes(filename: String) {
         intervalNotes = load(filename)
+        self.calculateTargetPitches(targetNotes: intervalNotes)
     }
     
     func calculateTargetPitches(targetNotes: [Note]) {
