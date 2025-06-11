@@ -17,7 +17,7 @@ class SongGrader {
     var sumCorrectPitches: Double = 0.0
     var sumTotalPitches: Double = 0.0
     var notesToGraphMapper = NotesToGraphMapper()
-    var targetIndex = 0
+    var targetIndex: Int = 0
     
     func loadNotes(filename: String) {
         intervalNotes = load(filename)

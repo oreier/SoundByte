@@ -138,7 +138,7 @@ struct VisualizerView: View {
     // sets the number of data elements to display in the pitch history line
     @State var maxData = 0
     
-    @State var sheetMusicStaff = SheetMusicStaff(fileName: "index", xOffset: -40.0)
+    @State var sheetMusicStaff = SheetMusicStaff(fileName: "index", xOffset: -40.0) // Loads sheet music from "fileName".html
     @State var songGrader = SongGrader()
     
     // tracks the life cycle of the app (sent to background or inactive)
@@ -149,7 +149,8 @@ struct VisualizerView: View {
         return ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
     }
     
-    let shiftBy = 2.0 // size of each "mini" path in the history line
+    var tempo: Double = 120.0 // Song tempo in BPM
+    var shiftBy: Double // size of each "mini" path in the history line
     let buttonSize = 35.0 // size of the buttons
     let backgroundColor = Color(red: 250 / 255, green: 248 / 255, blue: 243 / 255) // color of the background
         
@@ -158,6 +159,7 @@ struct VisualizerView: View {
         self.layout = UILayout(width: width, height: height)
         self.mode = mode
         self.gradeMode = gradeMode
+        self.shiftBy = tempo / 60.0
         self.songGrader.loadNotes(filename: "test")
     }
 
@@ -471,10 +473,10 @@ struct VisualizerView: View {
             intervalGrade = songGrader.gradeCurrentInterval(historyPitch: Double(conductor.data.pitch))
             updateHistory(pitch: Double(conductor.data.pitch), cents: cents)
             if gradeMode == .playing || (gradeMode == .learning && intervalGrade > 0)  {
-                sheetMusicStaff.scroll(tempo: 120.0, increment: increment)
+                sheetMusicStaff.scroll(tempo: tempo, increment: increment)
                 songGrader.updateGrading(currentPitch: Double(conductor.data.pitch))
             }
-            currentGrade =  String(songGrader.currentGrade)
+            currentGrade = String(songGrader.targetPitches.count) + " " + String(songGrader.currentGrade) + " " +  String(songGrader.targetPitches[songGrader.targetIndex]) + " " + String(Double(conductor.data.pitch))
             elapsedTime += increment
         }
     }
