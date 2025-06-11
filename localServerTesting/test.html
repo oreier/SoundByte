@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>VexFlow Tests</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mocha/mocha.css" />
+  <link rel="shortcut icon" href="#"> <!--just so we don't get the annoying error message-->
+</head>
+<body>
+  <div id="mocha"></div>
+  <div id="output"></div> <!--The object we're attaching the staff to--> 
+
+  <!-- Mocha Chai and Sinon as plain global scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/mocha/mocha.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.3.7/chai.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/15.0.0/sinon.min.js"></script>
+
+  <script>
+    mocha.setup('bdd');
+  </script>
+
+  <script type="module" src="./test/assembleNotes_tests.js"></script>
+  <script type="module" src="./test/assembleMeasure_tests.js"></script>
+  <script type="module" src="./test/assembleSlur_tests.js"></script>
+  <script type="module" src="./test/assembleLyrics_tests.js"></script>
+  <script type="module" src="./test/assembleGraceNotes_tests.js"></script>
+  <script type="module", src="./test/assembleHairpin_tests.js"></script>
+  <script type="module", src="./test/assembleDynamics_test.js"></script>
+  <script type="module", src="./test/storePitches_tests.js"></script>
+
+</body>
+</html>
