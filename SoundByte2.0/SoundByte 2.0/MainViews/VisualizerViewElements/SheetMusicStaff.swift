@@ -22,9 +22,7 @@ struct SheetMusicStaff: View {
                 .scaleEffect(4, anchor: .bottomLeading)
                 .frame(width: 800, height: 150)
                 .offset(y: 290.0)
-            
         }
-        .allowsHitTesting(false)
         
     }
     

@@ -718,6 +718,8 @@
 		F4FDE3222C113C96009ACE43 /* CentsIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FDE3212C113C96009ACE43 /* CentsIndicator.swift */; };
 		F4FDE32E2C136A43009ACE43 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FDE32D2C136A43009ACE43 /* HistoryView.swift */; };
 		F86EAAD02DF8AE6B0038489A /* test.json in Resources */ = {isa = PBXBuildFile; fileRef = 638019DF2DF74D0800872880 /* test.json */; };
+		F86EAAD62DFA345D0038489A /* rendererTest.html in Resources */ = {isa = PBXBuildFile; fileRef = F86EAAD52DFA34520038489A /* rendererTest.html */; };
+		F86EAADA2DFA392A0038489A /* output.json in Resources */ = {isa = PBXBuildFile; fileRef = F86EAAD92DFA392A0038489A /* output.json */; };
 		F87463742DF3903D00508ACE /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87463732DF3903A00508ACE /* WebView.swift */; };
 		F87463762DF3905400508ACE /* pyodide.html in Resources */ = {isa = PBXBuildFile; fileRef = F87463752DF3904D00508ACE /* pyodide.html */; };
 		F874637C2DF39C4700508ACE /* parser.py in Resources */ = {isa = PBXBuildFile; fileRef = F874637B2DF39C4700508ACE /* parser.py */; };
@@ -1466,6 +1468,8 @@
 		F4FDE31E2C11173F009ACE43 /* KeyGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyGenerator.swift; sourceTree = "<group>"; };
 		F4FDE3212C113C96009ACE43 /* CentsIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentsIndicator.swift; sourceTree = "<group>"; };
 		F4FDE32D2C136A43009ACE43 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		F86EAAD52DFA34520038489A /* rendererTest.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = rendererTest.html; sourceTree = "<group>"; };
+		F86EAAD92DFA392A0038489A /* output.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = output.json; sourceTree = "<group>"; };
 		F87463732DF3903A00508ACE /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		F87463752DF3904D00508ACE /* pyodide.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = pyodide.html; sourceTree = "<group>"; };
 		F874637B2DF39C4700508ACE /* parser.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = parser.py; sourceTree = "<group>"; };
@@ -1513,6 +1517,7 @@
 			children = (
 				638019DF2DF74D0800872880 /* test.json */,
 				638019E12DF7525500872880 /* test-2.json */,
+				F86EAAD92DFA392A0038489A /* output.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -2331,6 +2336,7 @@
 		F8A3DCA22DF1DFA900F03FD6 /* SheetMusicStaffElements */ = {
 			isa = PBXGroup;
 			children = (
+				F86EAAD52DFA34520038489A /* rendererTest.html */,
 				F8A3DC8F2DF0CB2100F03FD6 /* HTMLViewer.swift */,
 				F8A3DC902DF0CB2100F03FD6 /* indexTest.html */,
 				638019E32DF7606F00872880 /* index.html */,
@@ -2933,6 +2939,7 @@
 				638029102DF8A3D500872880 /* threadpoolctl-3.5.0-py3-none-any.whl.metadata in Resources */,
 				638029112DF8A3D500872880 /* tzdata-2024.1-py2.py3-none-any.whl.metadata in Resources */,
 				638029122DF8A3D500872880 /* beautifulsoup4-tests.tar in Resources */,
+				F86EAAD62DFA345D0038489A /* rendererTest.html in Resources */,
 				638029132DF8A3D500872880 /* tblib-3.0.0-py3-none-any.whl.metadata in Resources */,
 				638029142DF8A3D500872880 /* DejaVuSerif.ttf in Resources */,
 				638029152DF8A3D500872880 /* wordcloud-1.9.3-cp312-cp312-pyodide_2024_0_wasm32.whl.metadata in Resources */,
@@ -3004,6 +3011,7 @@
 				638029572DF8A3D500872880 /* DejaVuSansMono-Oblique.ttf in Resources */,
 				638029582DF8A3D500872880 /* STIXGeneralBolIta.ttf in Resources */,
 				638029592DF8A3D500872880 /* clarabel-0.9.0-cp37-abi3-pyodide_2024_0_wasm32.whl in Resources */,
+				F86EAADA2DFA392A0038489A /* output.json in Resources */,
 				6380295A2DF8A3D500872880 /* DejaVuSansMono-BoldOblique.ttf in Resources */,
 				6380295B2DF8A3D500872880 /* zfpy-1.0.1-cp312-cp312-pyodide_2024_0_wasm32.whl.metadata in Resources */,
 				6380295C2DF8A3D500872880 /* matplotlib_pyodide-0.2.3-py3-none-any.whl.metadata in Resources */,

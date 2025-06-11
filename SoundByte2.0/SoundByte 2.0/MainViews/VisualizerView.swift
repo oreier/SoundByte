@@ -138,7 +138,7 @@ struct VisualizerView: View {
     // sets the number of data elements to display in the pitch history line
     @State var maxData = 0
     
-    @State var sheetMusicStaff = SheetMusicStaff(fileName: "index", xOffset: -40.0) // Loads sheet music from "fileName".html
+    @State var sheetMusicStaff = SheetMusicStaff(fileName: "rendererTest", xOffset: -40.0) // Loads sheet music from "fileName".html
     @State var songGrader = SongGrader()
     
     // tracks the life cycle of the app (sent to background or inactive)
