@@ -22,9 +22,11 @@ enum GradeMode {
 struct RootView: View {
     @State private var currentMode: AppMode = .start
     @State private var currentGradeMode: GradeMode = .playing
+    @State private var showStartScreen: Bool = true
 
     var body: some View {
         ZStack {
+            // Main app content
             switch currentMode {
             case .start:
                 HomeView(
@@ -39,17 +41,16 @@ struct RootView: View {
                         }
                     },
                     onLearningTap: {
-                        withAnimation(
-                            .easeInOut(duration: 0.5)) {
-                                switch currentGradeMode {
-                                case .learning:
-                                    currentGradeMode = .playing
-                                case .playing:
-                                    currentGradeMode = .learning
-                                case .tuning:
-                                    currentGradeMode = .playing
-                                }
+                        withAnimation(.easeInOut(duration: 0.5)) {
+                            switch currentGradeMode {
+                            case .learning:
+                                currentGradeMode = .playing
+                            case .playing:
+                                currentGradeMode = .learning
+                            case .tuning:
+                                currentGradeMode = .playing
                             }
+                        }
                     }
                 )
                 .transition(.opacity)
@@ -62,10 +63,35 @@ struct RootView: View {
                 TunerContentView(mode: .tuner)
                     .transition(.opacity)
             }
+
+            // Start screen overlay
+            // Start screen overlay
+            if showStartScreen {
+                Color.white
+                    .ignoresSafeArea()
+                    .overlay(
+                        VStack(spacing: 20) {
+                            Image("Soundbyte_Logo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 150, height: 150)
+
+                            Text("Tap Screen to Start")
+                                .font(.title2)
+                                .foregroundColor(.black)
+                                .padding(.top, 10)
+                        }
+                    )
+                    .onTapGesture {
+                        withAnimation(.easeOut(duration: 0.5)) {
+                            showStartScreen = false
+                        }
+                    }
+                    .transition(.opacity)
+            }
         }
     }
 }
-
 
 #Preview {
     RootView()
