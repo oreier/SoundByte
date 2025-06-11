@@ -159,7 +159,7 @@ struct VisualizerView: View {
         self.layout = UILayout(width: width, height: height)
         self.mode = mode
         self.gradeMode = gradeMode
-        self.shiftBy = tempo / 60.0
+        self.shiftBy = 2.5 * (tempo / 60.0)
         self.songGrader.loadNotes(filename: "test")
     }
 
