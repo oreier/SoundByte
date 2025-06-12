@@ -251,7 +251,7 @@ struct VisualizerView: View {
                             GraderDisplay(songGrade: currentGrade,  fontSize: buttonSize)
                         }
                         
-                        //TimerDisplay(time: elapsedTime, size: buttonSize, isRecording: $isRecording)
+                        TimerDisplay(time: elapsedTime, size: buttonSize, isRecording: $isRecording)
                     }
                 }
                 .padding([.top, .bottom, .trailing]) // padding applies to the tool bar

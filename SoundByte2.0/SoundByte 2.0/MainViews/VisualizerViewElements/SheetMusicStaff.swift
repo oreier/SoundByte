@@ -23,6 +23,7 @@ struct SheetMusicStaff: View {
                 .frame(width: 800, height: 150)
                 .offset(y: 290.0)
         }
+        .allowsHitTesting(false)
         
     }
     
@@ -35,5 +36,5 @@ struct SheetMusicStaff: View {
 }
 
 #Preview {
-   SheetMusicStaff(fileName: "index", xOffset: -40.0)
+   SheetMusicStaff(fileName: "rendererTest", xOffset: -40.0)
 }
