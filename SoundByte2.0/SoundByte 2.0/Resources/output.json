@@ -1,0 +1,1667 @@
+{
+    "song": {
+        "clef": "treble",
+        "time_sig": "3/4",
+        "measures": [
+            {
+                "time_sig": "3/4",
+                "key_sig": "Db",
+                "note_groups": [
+                    {
+                        "notes": "b4/8/r, f4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, d4/q, e4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, b3/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "1",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d4/q, b3/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a3/q, b3/q, d4/q, b3/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "2",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/16/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a3/q, e4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a4/q, f4/q, e4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, d4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        8,
+                        9
+                    ]
+                ],
+                "measure_number": "3",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/16/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a3/q, d4/q, b3/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a3/q, b3/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "4",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, d4/q, e4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, b3/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "5",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d4/q, b3/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a3/q, b3/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        3,
+                        4
+                    ]
+                ],
+                "measure_number": "6",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a4/q, f4/q, e4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, e4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        8,
+                        9
+                    ]
+                ],
+                "measure_number": "7",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d4/q, b3/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a3/q, b3/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, e4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        3,
+                        4
+                    ]
+                ],
+                "measure_number": "8",
+                "divisions": "12"
+            },
+            {
+                "time_sig": "4/4",
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "f4/q, e4/q, e4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/16/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a3/q, d4/q, e4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, d4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        3,
+                        4
+                    ],
+                    [
+                        10,
+                        11
+                    ]
+                ],
+                "measure_number": "9",
+                "divisions": "12"
+            },
+            {
+                "time_sig": "3/4",
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, d4/q, e4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, d4/q, b3/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        5,
+                        6
+                    ]
+                ],
+                "measure_number": "10",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b3/q, c4/q, d4/q, b3/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a3/q, b3/q, d4/q, b3/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "11",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/16/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d4/q, e4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a4/q, f4/q, e4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, e4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        9,
+                        10
+                    ]
+                ],
+                "measure_number": "12",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/16/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b3/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a3/q, b3/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, e4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "13",
+                "divisions": "12"
+            },
+            {
+                "time_sig": "4/4",
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, e4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d4/q, e4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, d4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        8,
+                        9
+                    ]
+                ],
+                "measure_number": "14",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/16/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d4/q, e4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "f4/q, e4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": true
+                    },
+                    {
+                        "notes": "d4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a3/q, b3/q, d4/q, e4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "15",
+                "divisions": "12"
+            },
+            {
+                "time_sig": "3/4",
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "f4/q, e4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": true
+                    },
+                    {
+                        "notes": "b4/8/r, b4/q/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "g4/q, a4/q, b4/q, a4/q, g4/q",
+                        "is_beamed": true,
+                        "is_tuplet": true
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "16",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "g4/q, f4/q.",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, f4/q, g4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        3,
+                        5
+                    ]
+                ],
+                "measure_number": "17",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "g4/q, f4/q.",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, f4/q, e4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        0,
+                        1
+                    ],
+                    [
+                        3,
+                        6
+                    ]
+                ],
+                "measure_number": "18",
+                "divisions": "12"
+            },
+            {
+                "time_sig": "4/4",
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d4/q, e4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d4/q, b4/q/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d5/q, c5/q, b4/q, b4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        1,
+                        3
+                    ],
+                    [
+                        2,
+                        3
+                    ]
+                ],
+                "measure_number": "19",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/q, b4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "f4/q, f4/q, b4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, f4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "c5/q, d5/q, c5/q, c5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "20",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "c5/q, c5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "c5/q, b4/q, c5/q, c5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "c5/q, b4/q, c5/q, b4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "c5/q, b4/q, c5/q, d5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "21",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/q, d5/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a4/q, b4/q, d5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "f5/q, b4/q, b4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, a4/q, d5/q, d5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "22",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/q, b4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a4/q, b4/q, d5/q, d5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d5/q, b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d5/q, c5/q, b4/q, b4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "23",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/q, b4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "f4/q, f4/q, b4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, f4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "c5/q, d5/q, c5/q, c5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "24",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "c5/q, c5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "c5/q, b4/q, c5/q, c5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "c5/q, b4/q, c5/q, b4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "c5/q, b4/q, c5/q, d5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "25",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/q, d5/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a4/q, b4/q, d5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "f5/q, a4/q, b4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, a4/q, d5/q, d5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        3,
+                        4
+                    ]
+                ],
+                "measure_number": "26",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/q, b4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a4/q, b4/q, d5/q, d5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d5/q, b4/8/r, b4/q/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "27",
+                "divisions": "12"
+            },
+            {
+                "time_sig": "3/4",
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/16/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "f4/q, b4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, f4/q, f4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a4/q, b4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "28",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, f4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a4/q, b4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        1,
+                        2
+                    ]
+                ],
+                "measure_number": "29",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/16/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "f4/q, d5/q, c5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d5/q, c5/q, b4/q, c5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "c5/q, a4/q.",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        4,
+                        5
+                    ]
+                ],
+                "measure_number": "30",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d5/q, c5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d5/q, c5/q, b4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "c5/q, a4/q.",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "31",
+                "divisions": "12"
+            },
+            {
+                "time_sig": "4/4",
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/16/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a4/q, a4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, d5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/16/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a4/q, a4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, d5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "32",
+                "divisions": "12"
+            },
+            {
+                "time_sig": "3/4",
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, f4/q, f4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a4/q, b4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "33",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, f4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a4/q, b4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "34",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "c5/q, c5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d5/q, c5/q, b4/q, c5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "c5/q, b4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        8,
+                        9
+                    ]
+                ],
+                "measure_number": "35",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, f4/q, f4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a4/q, b4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "36",
+                "divisions": "12"
+            },
+            {
+                "time_sig": "4/4",
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, d5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, d5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "37",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/16/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": true
+                    },
+                    {
+                        "notes": "b4/q, a4/q, b4/q",
+                        "is_beamed": true,
+                        "is_tuplet": true
+                    },
+                    {
+                        "notes": "b4/8/r, d5/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "c5/q, b4/q, b4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "38",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/8/r., g4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "g4/q, f4/q, e4/q",
+                        "is_beamed": true,
+                        "is_tuplet": true
+                    },
+                    {
+                        "notes": "f4/q.",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "f4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "39",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "a4/q, f4/q, f4/q, e4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d4/q, e4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d4/q, b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        2,
+                        4
+                    ]
+                ],
+                "measure_number": "40",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "g4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "g4/q, f4/q, f4/q, e4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": true
+                    },
+                    {
+                        "notes": "d4/q, f4/q, e4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, d4/q, e4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": true
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        1,
+                        2
+                    ],
+                    [
+                        3,
+                        5
+                    ],
+                    [
+                        10,
+                        12
+                    ]
+                ],
+                "measure_number": "41",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "e4/q., e4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, c4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "c4/q, d4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "42",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "g4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a4/q., a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a4/q, b4/16/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "g4/q, d5/q",
+                        "is_beamed": true,
+                        "is_tuplet": true
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "43",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "c5/q, d5/q, c5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "c5/q, b4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": true
+                    },
+                    {
+                        "notes": "b4/q, b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        1,
+                        3
+                    ]
+                ],
+                "measure_number": "44",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "g4/q., a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a4/q, g4/q, f4/q, e4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "f4/q, f4/q.",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/8/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        1,
+                        3
+                    ],
+                    [
+                        4,
+                        5
+                    ]
+                ],
+                "measure_number": "45",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "e4/q., e4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, d4/q.",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d4/q, d4/q, e4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        5,
+                        7
+                    ]
+                ],
+                "measure_number": "46",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/q/r, b4/8/r, f4/q, f4/q, e4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        2,
+                        4
+                    ]
+                ],
+                "measure_number": "47",
+                "divisions": "12"
+            },
+            {
+                "time_sig": "2/4",
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/q/r, b4/8/r, a4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "48",
+                "divisions": "12"
+            },
+            {
+                "time_sig": "3/4",
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "a4/q, b4/8/r, d5/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d5/q., b4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "49",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "a4/q, d5/q.",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "b4/q/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d5/q, b4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        3,
+                        5
+                    ]
+                ],
+                "measure_number": "50",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "f4/q, g4/q, f4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "f4/q, e4/q, e4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "e4/q, f4/q, g4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        0,
+                        4
+                    ],
+                    [
+                        5,
+                        9
+                    ]
+                ],
+                "measure_number": "51",
+                "divisions": "12"
+            },
+            {
+                "time_sig": "4/4",
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "f4/q, e4/q, e4/q, f4/q, e4/q",
+                        "is_beamed": true,
+                        "is_tuplet": true
+                    },
+                    {
+                        "notes": "d4/q, b4/q/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d5/q, c5/q, b4/q, b4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [
+                    [
+                        0,
+                        5
+                    ]
+                ],
+                "measure_number": "52",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/q, b4/q, a4/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "a4/q, b4/q, d5/q, d5/q",
+                        "is_beamed": true,
+                        "is_tuplet": false
+                    },
+                    {
+                        "notes": "d5/q, b4/8/r, b4/q/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "53",
+                "divisions": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d4/w/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "slur_indices": [],
+                "measure_number": "54",
+                "divisions": "12"
+            }
+        ]
+    }
+}

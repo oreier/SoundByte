@@ -690,6 +690,9 @@
 		638029D62DF8A3D500872880 /* cssselect-1.2.0-py2.py3-none-any.whl.metadata in Resources */ = {isa = PBXBuildFile; fileRef = 638025302DF8A3D500872880 /* cssselect-1.2.0-py2.py3-none-any.whl.metadata */; };
 		638029D72DF8A3D500872880 /* jedi-0.19.1-py2.py3-none-any.whl in Resources */ = {isa = PBXBuildFile; fileRef = 6380258F2DF8A3D500872880 /* jedi-0.19.1-py2.py3-none-any.whl */; };
 		638029D82DF8A3D500872880 /* tzdata-2024.1-py2.py3-none-any.whl in Resources */ = {isa = PBXBuildFile; fileRef = 638027052DF8A3D500872880 /* tzdata-2024.1-py2.py3-none-any.whl */; };
+		638029DA2DFA3DA300872880 /* rendererTest.html in Resources */ = {isa = PBXBuildFile; fileRef = 638029D92DFA3D9900872880 /* rendererTest.html */; };
+		638029DC2DFA3E6000872880 /* output.json in Resources */ = {isa = PBXBuildFile; fileRef = 638029DB2DFA3E6000872880 /* output.json */; };
+		638029DE2DFA44CA00872880 /* Renderer.js in Resources */ = {isa = PBXBuildFile; fileRef = 638029DD2DFA44B800872880 /* Renderer.js */; };
 		F4D296C62C18A94200BB3E9F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D296C52C18A94200BB3E9F /* HomeView.swift */; };
 		F4D7E7D62C06766C00E8D450 /* SoundByte2_0App.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D7E7D52C06766C00E8D450 /* SoundByte2_0App.swift */; };
 		F4D7E7DA2C06766D00E8D450 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4D7E7D92C06766D00E8D450 /* Assets.xcassets */; };
@@ -1438,6 +1441,9 @@
 		638027302DF8A3D500872880 /* zfpy-1.0.1-cp312-cp312-pyodide_2024_0_wasm32.whl.metadata */ = {isa = PBXFileReference; lastKnownFileType = text; path = "zfpy-1.0.1-cp312-cp312-pyodide_2024_0_wasm32.whl.metadata"; sourceTree = "<group>"; };
 		638027312DF8A3D500872880 /* zstandard-0.22.0-cp312-cp312-pyodide_2024_0_wasm32.whl */ = {isa = PBXFileReference; lastKnownFileType = file; path = "zstandard-0.22.0-cp312-cp312-pyodide_2024_0_wasm32.whl"; sourceTree = "<group>"; };
 		638027322DF8A3D500872880 /* zstandard-0.22.0-cp312-cp312-pyodide_2024_0_wasm32.whl.metadata */ = {isa = PBXFileReference; lastKnownFileType = text; path = "zstandard-0.22.0-cp312-cp312-pyodide_2024_0_wasm32.whl.metadata"; sourceTree = "<group>"; };
+		638029D92DFA3D9900872880 /* rendererTest.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = rendererTest.html; sourceTree = "<group>"; };
+		638029DB2DFA3E6000872880 /* output.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = output.json; sourceTree = "<group>"; };
+		638029DD2DFA44B800872880 /* Renderer.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Renderer.js; sourceTree = "<group>"; };
 		F4D296C32C179A2800BB3E9F /* SoundByte2-0-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SoundByte2-0-Info.plist"; sourceTree = "<group>"; };
 		F4D296C52C18A94200BB3E9F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		F4D7E7D22C06766C00E8D450 /* SoundByte2.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoundByte2.0.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1513,6 +1519,7 @@
 			children = (
 				638019DF2DF74D0800872880 /* test.json */,
 				638019E12DF7525500872880 /* test-2.json */,
+				638029DB2DFA3E6000872880 /* output.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -2331,6 +2338,8 @@
 		F8A3DCA22DF1DFA900F03FD6 /* SheetMusicStaffElements */ = {
 			isa = PBXGroup;
 			children = (
+				638029DD2DFA44B800872880 /* Renderer.js */,
+				638029D92DFA3D9900872880 /* rendererTest.html */,
 				F8A3DC8F2DF0CB2100F03FD6 /* HTMLViewer.swift */,
 				F8A3DC902DF0CB2100F03FD6 /* indexTest.html */,
 				638019E32DF7606F00872880 /* index.html */,
@@ -2456,6 +2465,7 @@
 				F87463762DF3905400508ACE /* pyodide.html in Resources */,
 				638027342DF8A3D500872880 /* pydoc_data-1.0.0-cp312-cp312-pyodide_2024_0_wasm32.whl.metadata in Resources */,
 				638027352DF8A3D500872880 /* fiona-1.9.5-cp312-cp312-pyodide_2024_0_wasm32.whl.metadata in Resources */,
+				638029DC2DFA3E6000872880 /* output.json in Resources */,
 				638027362DF8A3D500872880 /* urllib3-2.2.3-py3-none-any.whl.metadata in Resources */,
 				638027372DF8A3D500872880 /* requests-2.31.0-py3-none-any.whl.metadata in Resources */,
 				638027382DF8A3D500872880 /* pyyaml-6.0.2-cp312-cp312-pyodide_2024_0_wasm32.whl.metadata in Resources */,
@@ -2893,6 +2903,7 @@
 				638028E82DF8A3D500872880 /* six-1.16.0-py2.py3-none-any.whl in Resources */,
 				638028E92DF8A3D500872880 /* tskit-0.6.0-cp312-cp312-pyodide_2024_0_wasm32.whl.metadata in Resources */,
 				638028EA2DF8A3D500872880 /* orjson-3.10.1-cp312-cp312-pyodide_2024_0_wasm32.whl.metadata in Resources */,
+				638029DE2DFA44CA00872880 /* Renderer.js in Resources */,
 				638028EB2DF8A3D500872880 /* memory_allocator-0.1.4-cp312-cp312-pyodide_2024_0_wasm32.whl.metadata in Resources */,
 				638028EC2DF8A3D500872880 /* pillow-10.2.0-cp312-cp312-pyodide_2024_0_wasm32.whl.metadata in Resources */,
 				638028ED2DF8A3D500872880 /* duckdb-1.1.2-cp312-cp312-pyodide_2024_0_wasm32.whl.metadata in Resources */,
@@ -2933,6 +2944,7 @@
 				638029102DF8A3D500872880 /* threadpoolctl-3.5.0-py3-none-any.whl.metadata in Resources */,
 				638029112DF8A3D500872880 /* tzdata-2024.1-py2.py3-none-any.whl.metadata in Resources */,
 				638029122DF8A3D500872880 /* beautifulsoup4-tests.tar in Resources */,
+				638029DA2DFA3DA300872880 /* rendererTest.html in Resources */,
 				638029132DF8A3D500872880 /* tblib-3.0.0-py3-none-any.whl.metadata in Resources */,
 				638029142DF8A3D500872880 /* DejaVuSerif.ttf in Resources */,
 				638029152DF8A3D500872880 /* wordcloud-1.9.3-cp312-cp312-pyodide_2024_0_wasm32.whl.metadata in Resources */,
