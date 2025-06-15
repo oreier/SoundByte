@@ -4,23 +4,25 @@
 //
 //  Created by Samvat Dangol on 5/16/25.
 //
+//  This is the view for the main menu that uses the RootView modes to change what views are visualized on screen
+//
 
 import SwiftUI
 import UniformTypeIdentifiers
 
 struct HomeView: View {
+    // UI state flags
     @State private var showImportOptions = false
     @State private var showPyodide = false
     @State private var pythonCodeToRun = ""
-    // @State private var showFileImporter = false
-    // @State private var selectedFileURL: URL?
     
-    // New states for file importing and data
+    // File importing state
     @State private var showFileImporter = false
     @State private var selectedFileData: Data? = nil
-    
+
     @State var isLearning: Bool = false
 
+    // Load a Python script from the app bundle
     func loadPythonScript(filename: String) -> String? {
         guard let fileURL = Bundle.main.url(forResource: filename, withExtension: "py") else {
             print("Failed to find \(filename).py")
@@ -28,7 +30,8 @@ struct HomeView: View {
         }
         return try? String(contentsOf: fileURL)
     }
-    
+
+    // Callback closures passed in from parent view
     var onRecordTap: () -> Void
     var onTunerTap: () -> Void
     var onLearningTap: () -> Void
@@ -37,7 +40,7 @@ struct HomeView: View {
         NavigationStack {
             ZStack(alignment: .topLeading) {
                 VStack {
-                    // Top bar
+                    // Top toolbar with import, learning, and tuner controls
                     HStack {
                         Button {
                             withAnimation {
@@ -45,20 +48,16 @@ struct HomeView: View {
                             }
                         } label: {
                             Image(systemName: "square.and.arrow.down")
-                                .font(.system(size: 25))
-                                .foregroundColor(.primary)
                         }
-                        
+
                         Spacer()
-                        
+
                         Button {
                             isLearning.toggle()
                             onLearningTap()
                         } label: {
                             Label("Toggle Learning Mode", systemImage: isLearning ? "brain.fill" : "brain")
                                 .labelStyle(.iconOnly)
-                                .foregroundColor(isLearning ? .blue : .primary)
-                                .font(.system(size: 40))
                         }
 
                         Spacer()
@@ -67,15 +66,13 @@ struct HomeView: View {
                             onTunerTap()
                         } label: {
                             Image(systemName: "waveform")
-                                .font(.system(size: 25))
-                                .foregroundColor(.primary)
                         }
                     }
                     .padding()
 
                     Spacer()
 
-                    // Record Button
+                    // Large red record button
                     Button {
                         onRecordTap()
                     } label: {
@@ -83,49 +80,33 @@ struct HomeView: View {
                             Circle()
                                 .fill(Color.red)
                                 .frame(width: 150, height: 150)
-                                .shadow(radius: 10)
                             Image(systemName: "play.fill")
                                 .foregroundColor(.white)
-                                .font(.system(size: 40))
                         }
                     }
                     .padding()
 
-                    // Library and History
+                    // Navigation buttons for Library and History
                     HStack(spacing: 40) {
                         NavigationLink(destination: LibraryView()) {
                             VStack {
-                                ZStack {
-                                    Circle()
-                                        .fill(Color.white)
-                                        .frame(width: 60, height: 60)
-                                        .shadow(radius: 4)
-                                    Image(systemName: "books.vertical")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 28, height: 28)
-                                        .foregroundColor(.black)
-                                }
+                                Circle()
+                                    .fill(Color.white)
+                                    .frame(width: 60, height: 60)
+                                    .shadow(radius: 4)
+                                Image(systemName: "books.vertical")
                                 Text("Library")
-                                    .foregroundColor(.primary)
                             }
                         }
 
                         NavigationLink(destination: HistoryView()) {
                             VStack {
-                                ZStack {
-                                    Circle()
-                                        .fill(Color.white)
-                                        .frame(width: 60, height: 60)
-                                        .shadow(radius: 4)
-                                    Image(systemName: "clock.arrow.circlepath")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 28, height: 28)
-                                        .foregroundColor(.black)
-                                }
+                                Circle()
+                                    .fill(Color.white)
+                                    .frame(width: 60, height: 60)
+                                    .shadow(radius: 4)
+                                Image(systemName: "clock.arrow.circlepath")
                                 Text("History")
-                                    .foregroundColor(.primary)
                             }
                         }
                     }
@@ -135,16 +116,14 @@ struct HomeView: View {
                 }
                 .padding()
 
-                // Dropdown menu
+                // Dropdown menu for import options
                 if showImportOptions {
                     VStack(alignment: .leading, spacing: 10) {
                         Button("Import Sheet Music") {
-                            // Instead of showing file importer, load bundled MXL
                             loadBundledMXL(named: "take_me_to_church")
                             showImportOptions = false
                         }
                         Button("Import Backtrack Audio") {
-                            // Instead of running a simple print, also load bundled MXL
                             loadBundledMXL(named: "take_me_to_church")
                             showImportOptions = false
                         }
@@ -159,7 +138,7 @@ struct HomeView: View {
                 }
             }
         }
-        // File importer for .mxl files (treated as data)
+        // iOS file importer for loading external .mxl files
         .fileImporter(
             isPresented: $showFileImporter,
             allowedContentTypes: [.data],
@@ -184,49 +163,45 @@ struct HomeView: View {
                 print("File import failed:", error.localizedDescription)
             }
         }
+
+        // Full-screen modal for running Python in WebView (Pyodide)
         .fullScreenCover(isPresented: $showPyodide) {
             VStack {
-                Text("Loading Python…") // Dummy UI while debugging
-                    .padding()
+                Text("Loading Python…")
 
                 Button("Dismiss") {
                     showPyodide = false
                 }
-                .padding()
 
                 WebView(
-                    htmlFile: "pyodide",
-                    pythonCode: pythonCodeToRun,
+                    htmlFile: "pyodide",               // Loads local Pyodide HTML
+                    pythonCode: pythonCodeToRun,       // Injects dynamic code
                     onOutput: { output in
                         print("Python output:", output)
-                        // Uncomment below if you want to auto-dismiss after output:
-                        // showPyodide = false
                     },
                     onFinished: {
                         print("Python runtime finished executing.")
-                        // Auto-dismiss here if you want
                         showPyodide = false
                     }
                 )
             }
         }
     }
-    
-    // Prepare the Python code to run with the MXL data injected as base64
+
+    // Encode MXL data as base64 and inject it into a Python script
     func preparePythonCodeWithMXL() {
         guard let mxlData = selectedFileData else { return }
         let base64MXL = mxlData.base64EncodedString()
-        
+
         let testScript = """
         import base64
         print("Received base64 length:", \(base64MXL.count))
         """
-        
         pythonCodeToRun = testScript
         showPyodide = true
     }
-    
-    // New helper to load bundled .mxl file instead of using fileImporter
+
+    // Load a .mxl file bundled with the app (used instead of file importer)
     func loadBundledMXL(named filename: String) {
         guard let fileURL = Bundle.main.url(forResource: filename, withExtension: "mxl") else {
             print("Failed to find \(filename).mxl in bundle")
@@ -241,7 +216,8 @@ struct HomeView: View {
     }
 }
 
-/*
+
+/* fileImporter and uploadFileToServer functions for running parser with server method
  .fileImporter(
              isPresented: $showFileImporter,
              allowedContentTypes: [.audio, .pdf, .plainText], // Adjust types as needed
@@ -260,7 +236,7 @@ struct HomeView: View {
      }
 
      func uploadFileToServer(fileURL: URL, type: String) {
-         guard let serverURL = URL(string: "http://127.0.0.1:8000/upload") else { return } // Replace with your IP
+         guard let serverURL = URL(string: "http://IP address:8000/upload") else { return } // Replace with your IP address
 
          var request = URLRequest(url: serverURL)
          request.httpMethod = "POST"

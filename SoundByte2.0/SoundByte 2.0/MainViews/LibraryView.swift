@@ -4,6 +4,8 @@
 //
 //  Created by Samvat Dangol on 5/22/25.
 //
+//  Hard coded and disconnected library section for the app
+//
 
 import SwiftUI
 
