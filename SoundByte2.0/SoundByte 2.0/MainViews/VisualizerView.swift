@@ -139,6 +139,7 @@ struct VisualizerView: View {
     @State var maxData = 0
     
     @State var sheetMusicStaff = SheetMusicStaff(fileName: "index", xOffset: -40.0) // Loads sheet music html from renderer. Uses -40 offset, though this may need more tuning to align with the starting position of the pitch indicator
+
     @State var songGrader = SongGrader()
     
     // tracks the life cycle of the app (sent to background or inactive)

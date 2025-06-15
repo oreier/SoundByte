@@ -23,8 +23,6 @@ struct SheetMusicStaff: View {
                 .scaleEffect(4.0, anchor: .topLeading)
                 .frame(maxWidth: .infinity)
                 .offset(y: -25.0)
-                
-            
         }
         .allowsHitTesting(false) // Used to disallow user scrolling of sheet music
     }
@@ -51,5 +49,5 @@ struct SheetMusicStaff: View {
 }
 
 #Preview {
-   SheetMusicStaff(fileName: "index", xOffset: -40.0)
+   SheetMusicStaff(fileName: "rendererTest", xOffset: -40.0)
 }

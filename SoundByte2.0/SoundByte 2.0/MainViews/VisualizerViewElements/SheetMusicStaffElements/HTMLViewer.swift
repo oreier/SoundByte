@@ -33,5 +33,5 @@ struct HTMLViewer: UIViewRepresentable {
 }
 
 #Preview {
-    HTMLViewer(fileName: "index")
+    HTMLViewer(fileName: "rendererTest")
 }
