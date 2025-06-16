@@ -1,3 +1,8 @@
+/*
+Main entry point for program, loads in json from parser,
+renders the music on the screen, and logs the target pitches
+*/
+
 import * as Renderer from './renderer.js';
 
 //grab the data and create the song object out of it
@@ -13,9 +18,9 @@ function render() { //called when the file changes
         var data = JSON.parse(fileContent); //turn it into an object
         var song = data.song; //grab the song object
 
-        console.log(song);
-
         Renderer.renderSong(song); 
+
+        console.log(Renderer.pitches); //the output to be used by the grader, not sure how to best output for the app to read yet        
     }
 
     reader.readAsText(selectedFile); //actually read the file, triggering onload()

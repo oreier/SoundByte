@@ -1,0 +1,1559 @@
+{
+    "song": {
+        "clef": "treble",
+        "time_sig": "4/4",
+        "total_beats": 128,
+        "key_sig": null,
+        "measures": [
+            {
+                "time_sig": "4/4",
+                "key_sig": "C",
+                "note_groups": [
+                    {
+                        "notes": "f4/q, f4/q, a4/q, a4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "A",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "p",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "pp",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "ppp",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "1"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "f4/q, g4/q, a4/q, g4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                    "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "pppp",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "ppppp",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "2"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "f4/q, a4/q, b4/q, a4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "pppppp",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "f",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "3"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "f4/q, g4/q, a4/q, b4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "ff",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "fff",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "4"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "g4/q, a4/q, g4/q, g4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "ffff",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "fffff",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "5"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "f4/q, a4/q, b4/q, c5/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "ffffff",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "6"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "f4/q, b4/q/r, a4/q, b4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "fp",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "mp",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "7"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "g4/q, f4/q, a4/q, c5/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "mf",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "sf",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "8"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "e5/q, c5/q, a4/q, g4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "sfz",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "9"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "e4/q, f4/q, g4/q, a4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "sffz",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "sfp",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "10"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "g4/q, c5/q, g4/q, e4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "rfz",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "rf",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "11"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "f4/q, b4/q, g4/q, b4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "fz",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "12"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "f4/q, a4/q, c5/q, e5/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "13"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "c5/q, a4/q, g4/q, f4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "sfpp",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "14"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "f4/q, g4/q, a4/q, b4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "15"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "e5/q, d5/q, d5/q, b4/q",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "16"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "b4/8, b4/8, b4/8",
+                        "is_beamed": true,
+                        "is_tuplet": true
+                    },
+                    {
+                        "notes": "b4/q/r, b4/h/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "8",
+                        "notes_in_tuplet": 3
+                    },
+                    {
+                        "text": "",
+                        "duration": "8",
+                        "notes_in_tuplet": 3
+                    },
+                    {
+                        "text": "",
+                        "duration": "8",
+                        "notes_in_tuplet": 3
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "h",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "8",
+                        "notes_in_tuplet": 3
+                    },
+                    {
+                        "text": "p",
+                        "duration": "8",
+                        "notes_in_tuplet": 3
+                    },
+                    {
+                        "text": "",
+                        "duration": "8",
+                        "notes_in_tuplet": 3
+                    },
+                    {
+                        "text": "",
+                        "duration": "q",
+                        "notes_in_tuplet": 0
+                    },
+                    {
+                        "text": "",
+                        "duration": "h",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "17"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/w/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "18"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/w/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "19"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/w/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "20"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/w/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "21"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/w/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "22"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/w/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "23"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/w/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "24"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/w/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "25"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/w/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "26"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/w/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "27"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/w/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "28"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/w/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "29"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/w/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "30"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/w/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "31"
+            },
+            {
+                "time_sig": null,
+                "key_sig": null,
+                "note_groups": [
+                    {
+                        "notes": "d5/w/r",
+                        "is_beamed": false,
+                        "is_tuplet": false
+                    }
+                ],
+                "lyrics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "grace_notes": [],
+                "slur_indices": [],
+                "is_repeat_start": false,
+                "is_repeat_end": false,
+                "hairpins": [],
+                "dynamics": [
+                    {
+                        "text": "",
+                        "duration": "w",
+                        "notes_in_tuplet": 0
+                    }
+                ],
+                "measure_rests": 0,
+                "measure_number": "32"
+            }
+        ]
+    }
+}

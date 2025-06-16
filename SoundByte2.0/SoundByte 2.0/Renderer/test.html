@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>VexFlow Tests</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mocha/mocha.css" />
+  <link rel="shortcut icon" href="#"> <!--just so we don't get the annoying error message-->
+</head>
+<body>
+  <div id="mocha"></div>
+  <div id="output"></div> <!--The object we're attaching the staff to--> 
+
+  <!-- Mocha and Chai as plain global scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/mocha/mocha.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.3.7/chai.min.js"></script>
+
+  <script>
+    mocha.setup('bdd');
+  </script>
+
+  <script type="module" src="./tests/assembleNotes_tests.js"></script>
+  <script type="module" src="./tests/assembleMeasure_tests.js"></script>
+  <script type="module" src="./tests/assembleSlur_tests.js"></script>
+  <script type="module" src="./tests/assembleLyrics_tests.js"></script>
+  <script type="module" src="./tests/assembleGraceNotes_tests.js"></script>
+  <script type="module", src="./tests/assembleHairpin_tests.js"></script>
+  <script type="module", src="./tests/assembleDynamics_test.js"></script>
+  <script type="module", src="./tests/storePitches_tests.js"></script>
+
+</body>
+</html>

@@ -1,3 +1,7 @@
+/*
+Testing ways to put renderer into app by modifying the html
+*/
+
 import fs from 'fs';
 
 export function construct(inputFilename, outputFilename) {

@@ -1,13 +1,17 @@
-//import necessary EasyScore types
+/*
+The functions to actually render the music
+*/
+
+//import necessary VexFlow / EasyScore types
 import * as Vex from 'https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/esm/entry/vexflow.js';
 
-//EasyScore Objects
+//VexFlow Objects
 export var vf;
 export var score;
 
 //variables to keep track of the current state
-export var currentX = 10;
-export var pixelsPerBeat = 150;
+export var currentX = 10; //where the next measure will be rendered
+export var pixelsPerBeat = 150; //the next three are arbitrarily hardcoded, modify to the desired format
 export var lyricLine = 11;
 export var hairpinShift = -110;
 
@@ -15,11 +19,8 @@ export var hairpinShift = -110;
 export var pitches = [];
 var timeStep = 0.02;
 var tempo = 120;
-var beatsToQuantity = (1 / tempo) * (60 / 1) * (1 / timeStep
-
-);
-var previousIndex = 0;
-
+var beatsToQuantity = (1 / tempo) * (60 / 1) * (1 / timeStep); //convert beats to number of entries in pitches array
+var previousIndex = 0; //used to keep track of the current index for smoothing out half indices
 
 //unfortunately needed to reset between tests (exports are read only)
 export function reset(newX) {
@@ -28,65 +29,60 @@ export function reset(newX) {
 }
 
 //create values for vf and score
-export function initialize(rendererWidth) {
-    vf = new Vex.Factory({ renderer: { elementId: "output", width: rendererWidth, height: 150 } });
+export function initialize(numBeats) {
+    vf = new Vex.Factory({ renderer: { elementId: "output", width: pixelsPerBeat * numBeats + 15, height: 150 } });
     score = vf.EasyScore();
 }
 
 //turn a measure"s contents into a renderable StemmableNote[] array
 //take each chunk, add it's respective characteristics (tuplet, beam, etc.) and concatenate it to the overall notes to be renderred
 export function assembleNotes(note_groups) {
-    //handle null input
-    if (!note_groups) { return null; }
+    if(!note_groups) { throw new Error("note_groups are null"); } //no try catch, since no notes is too problematic
 
-    try {
-        var notes = score.notes("");
-        note_groups.forEach(function (note_group) {
-            if (note_group.is_tuplet) {
-                notes = notes.concat(score.tuplet(score.beam(score.notes(note_group.notes), { autoStem: true }), { ratioed: false })); //no ratio over tuplets, like 5:2
-            }
-            else if (note_group.is_beamed) {
-                notes = notes.concat(score.beam(score.notes(note_group.notes), { autoStem: true })); //autoStem so beams go right direction
-            } else {
-                notes = notes.concat(score.notes(note_group.notes));
-            }
-        });
+    var notes = score.notes("");
+    note_groups.forEach(function (note_group) {
+        if (note_group.is_tuplet) {
+            notes = notes.concat(score.tuplet(score.beam(score.notes(note_group.notes), { autoStem: true }), { ratioed: false })); //no ratio over tuplets, like 5:2
+        }
+        else if (note_group.is_beamed) {
+            notes = notes.concat(score.beam(score.notes(note_group.notes), { autoStem: true })); //autoStem so beams go right direction
+        } else {
+            notes = notes.concat(score.notes(note_group.notes));
+        }
+    });
 
-        return notes;
-    }
-    catch (error) {
-        console.log(error);
-        return null;
-    }
+    return notes;
 }
 
-//construct an array of Lyrics so we can create a voice
+//construct an array of Lyrics so we can create a voice in assembleMeasure()
 export function assembleLyrics(lyrics) {
-    if (!lyrics) { return null; }
-
     try {
+        if(!lyrics) { throw new Error("lyrics are null"); }
+
         var assembled_lyrics = [];
         lyrics.forEach(function (lyric) {
 
+            //lyrics cannot have dotted rhythms by default, we have to manually update the ticks
+            //durations are given to us in the same format as regular notes, so we have to extract any dots
             var duration;
             var dotIndex = lyric.duration.indexOf('.');
-            if(dotIndex < 0) { duration = lyric.duration; }
-            else { duration = lyric.duration.substring(0, dotIndex); }
+            if(dotIndex < 0) { duration = lyric.duration; } //if no dots, just use the given duration
+            else { duration = lyric.duration.substring(0, dotIndex); } //if dots, grab everything but the dots ('q', '8', '32', etc.)
 
             var text = new Vex.TextNote({
                 text: lyric.text,
-                duration: duration,
-                line: lyricLine //vertical placement, higher number = lower
+                duration: duration, 
+                line: lyricLine //vertical placement, higher number = lower on screen
             }).setJustification(Vex.TextNote.Justification.CENTER);
 
-            if(lyric.notes_in_tuplet != 0) { //adjust tick duration to match tuplet
-                var multiplier = new Vex.Fraction(2, lyric.notes_in_tuplet)
-                text.applyTickMultiplier(multiplier);
+            if(lyric.notes_in_tuplet != 0) { //adjust tick duration to match tuplet   
+                text.applyTickMultiplier(2, lyric.notes_in_tuplet); 
             }
 
-            if(dotIndex > 0) {
-                var multiplier = new Vex.Fraction(Math.pow(3, 1), Math.pow(2, 1));
-                text.applyTickMultiplier(multiplier);
+            if(dotIndex > 0) { //adjust tick duration to account for any dots
+                var numDots = lyric.duration.substring(dotIndex, lyric.duration.length).length;
+                var numerator = 2 - Math.pow(0.5, numDots); //sum the geometric series to find multiplier, i.e. 1 dot = 1, 2 dots = 1.5, 3 is 1.75...
+                text.applyTickMultiplier(numerator, 1);
             }
 
             assembled_lyrics.push(text);
@@ -100,22 +96,34 @@ export function assembleLyrics(lyrics) {
     }
 }
 
-//construct an array to be turned into a voice for the dynamics
+//construct an array to be turned into a voice for the dynamics, very similar to assembling lyrics
 export function assembleDynamics(dynamics) {
-    if (!dynamics) { return null; }
+    if (!dynamics) { return null; } //dynamics can be null, no need to throw an error
 
     try {
         var assembledDynamics = [];
         dynamics.forEach(function (dynamic) {
 
+            //dynamics, like lyrics cannot have dotted rhythms by default, we have to manually update the ticks
+            //durations are given to us in the same format as regular notes, so we have to extract any dots
+            var duration;
+            var dotIndex = dynamic.duration.indexOf('.');
+            if(dotIndex < 0) { duration = dynamic.duration; } //no dots, so use given duration
+            else { duration = dynamic.duration.substring(0, dotIndex); } //dots, so only grab base duration
+
             var text = new Vex.TextDynamics({
                 text: dynamic.text,
-                duration: dynamic.duration
+                duration: duration
             });
 
-            if(dynamic.notes_in_tuplet != 0) {
-                var multiplier = new Vex.Fraction(2, dynamic.notes_in_tuplet);
-                text.applyTickMultiplier(multiplier);
+            if(dynamic.notes_in_tuplet != 0) { //handle tupleted rhythms
+                text.applyTickMultiplier(2, dynamic.notes_in_tuplet);
+            }
+
+            if(dotIndex > 0) { //handle dotted rhythms
+                var numDots = dynamic.duration.substring(dotIndex, dynamic.duration.length).length;
+                var numerator = 2 - Math.pow(0.5, numDots);
+                text.applyTickMultiplier(numerator, 1);
             }
 
             assembledDynamics.push(text);
@@ -129,55 +137,26 @@ export function assembleDynamics(dynamics) {
     }
 }
 
-//attach any grace notes to their respective notes from the measure
-export function assembleGraceNotes(grace_notes, notes) {
-    if (!grace_notes || !notes) { return null; }
-
-    try {
-        grace_notes.forEach(function (grace_note) {
-            if (grace_note.index < 0 || grace_note.index >= notes.length) { throw new Error("invalid grace note index"); }
-
-            var pitch = grace_note.keys[0].split('/')[0];
-
-            var grace = new Vex.GraceNote({
-                keys: grace_note.keys,
-                duration: grace_note.duration,
-                slash: true
-            });
-
-            if(pitch.length > 1) {
-                grace.addModifier(new Vex.Accidental(pitch.substring(1, pitch.length)));
-            }
-
-            var group = new Vex.GraceNoteGroup([grace], true);
-
-            notes[grace_note.index].addModifier(group);
-        });
-    }
-    catch (error) {
-        console.log(error);
-        return null;
-    }
-}
-
 //actually construct the measure with all it's modifiers
 export function assembleMeasure(song, measure) {
     //handle null input
     if (!song) { throw new Error("song is null"); } //this one is too problematic to continue
-    if (!measure) { return null; } //this one can be fine
+    if (!measure) { throw new Error("measure is null"); } 
 
     try {
         //grab information to render voices
-        var notes = assembleNotes(measure.note_groups);
-        assembleGraceNotes(measure.grace_notes, notes);
+        var notes = null;
+        if(measure.measure_rests == 0) {
+            notes = assembleNotes(measure.note_groups);
+        }
         var lyrics = assembleLyrics(measure.lyrics);
         var dynamics = assembleDynamics(measure.dynamics);
 
-        //set the system width based on number of beats (if no time signature visible, default to 4/4 measure width
+        //set the system width based on number of beats (if no time signature visible, error)
         var calculatedWidth = pixelsPerBeat;
         if (measure.time_sig) { calculatedWidth *= measure.time_sig[0]; } //multiply by number of beats in the measure
         else if (song.time_sig) { calculatedWidth *= song.time_sig[0]; } //or grab whatever the current time signture is
-        else { calculatedWidth *= 4; }
+        else { throw new Error("no time signature available"); }
         if (measure.measure_rests != 0) { calculatedWidth *= measure.measure_rests; }
 
         //handle whole measure rests (centering, must be 4/4 but not display time sig)
@@ -197,7 +176,7 @@ export function assembleMeasure(song, measure) {
         if (dynamics && dynamics.length != 0) { assembledVoices.push(score.voice(dynamics, voiceOptions)); }
 
         //make system and attach stave + voices
-        var system = vf.System({ width: calculatedWidth, x: currentX })
+        var system = vf.System({ width: calculatedWidth, x: currentX });
         const stave = system.addStave({
             voices: assembledVoices
         });
@@ -205,8 +184,9 @@ export function assembleMeasure(song, measure) {
         currentX += system.options.width; //update where we render the next measure
 
         addStaveModifiers(stave, song, measure);
+        assembleGraceNotes(measure.grace_notes, notes);
 
-        //grab slurs/ties (stored back in the list they're indexed from for easy access later)
+        //grab slurs/ties (stored back in the list they're indexed from for easy access later when drawing)
         if (measure.slur_indices) {
             for (let i = 0; i < measure.slur_indices.length; i++) {
                 measure.slur_indices[i] = assembleSlur(notes, measure.slur_indices[i][0], measure.slur_indices[i][1]);
@@ -235,10 +215,11 @@ export function assembleMeasure(song, measure) {
 //add to pitches for grading purposes
 //The app saves the user's pitch at a regular interval, defined here in timeStep. While rendering a song we construct a similar array
 //of the target pitches, adding notes multiple times depending on their duration for easy comparison later.
+//no try catch because if done improperly, this messes up grading
 function storePitches(song, measure, notes, isWholeRest) {
-    if (song.key_sig == null) { throw new Error("song.key_sig is null"); }
+    if (song.key_sig == null) { throw new Error("song.key_sig is null"); } //song key sig should be set to measure key sig by now, if not, we have a problem, and cannot do grading
 
-    var key = new Vex.KeyManager(song.key_sig).scaleMap; //maps note values to accidentals
+    var key = new Vex.KeyManager(song.key_sig).scaleMap; //maps note values to accidentals based on key signature
 
     if (notes && notes.length != 0) {
         notes.forEach(function (note) { 
@@ -274,17 +255,18 @@ function storePitches(song, measure, notes, isWholeRest) {
             }
 
             var wholeTicks = 16384; //ticks for a whole note
-            var ticksPerBeat = wholeTicks / song.time_sig[2];
+            var ticksPerBeat = wholeTicks / song.time_sig[2]; // (whole) * (timeSigNum / timeSigDen) = ticks in the measure, divide by timeSigNum (the number of beats) to get ticks/beat
             var noteTicks = note.ticks.numerator / note.ticks.denominator;
 
             var beats;
-            if (isWholeRest) {
+            if (isWholeRest) { 
                 beats = song.time_sig[0]; //since the ticks will be stuck at a whole note in 4/4 otherwise
             }
             else {
                 beats = noteTicks / ticksPerBeat; //using the ticks, calculate the number of beats the note takes up
             }
-            var numPitches = beats * beatsToQuantity; //convert from beats to number of times we need to add it to the work array
+
+            var numPitches = beats * beatsToQuantity; //convert from beats to number of entries in the pitches array
 
             //clamp the number of times added so even if individual notes are off (from being added 0.5 times for instance)
             //we still have the right number of items within 1 index. 
@@ -311,7 +293,7 @@ function storePitches(song, measure, notes, isWholeRest) {
 
 //attach modifiers like time signature, key signature, measure number, repeats, and full measure rests
 function addStaveModifiers(stave, song, measure) {
-    if(!stave) { throw new Error("stave is null"); }
+    if(!stave) { throw new Error("stave is null"); } //we've already checked song and measure
 
     stave.setMeasure(measure.measure_number)
 
@@ -343,20 +325,51 @@ function addStaveModifiers(stave, song, measure) {
     }
 }
 
-//create and format a slur, has functionality for ties across bars
-export function assembleSlur(notes, startIndex, endIndex) {
-    if (!notes) { return null; } //handle null input 
-    if (startIndex < 0 || startIndex >= notes.length) { throw new Error("invalid curve indices"); } //or invalid indices
-    if (endIndex < 0 || endIndex >= notes.length) { throw new Error("invalid curve indices"); }
-    if (startIndex == endIndex) { throw new Error("curve indices cannot be the same"); } //or same index
-
-    if (startIndex > endIndex && endIndex != null) { //make sure starting and ending indices are in correct order
-        var temp = startIndex;
-        startIndex = endIndex;
-        endIndex = temp;
-    }
+//attach any grace notes to their respective notes from the measure
+export function assembleGraceNotes(grace_notes, notes) {
+    if (!grace_notes || !notes) { return null; }
 
     try {
+        grace_notes.forEach(function (grace_note) {
+            if (grace_note.index < 0 || grace_note.index >= notes.length) { throw new Error("invalid grace note index"); }
+
+            var pitch = grace_note.keys[0].split('/')[0]; //keys will be in form "pitch/octave"
+
+            var grace = new Vex.GraceNote({
+                keys: grace_note.keys,
+                duration: grace_note.duration,
+                slash: true
+            });
+
+            if(pitch.length > 1) { //regardless of the key, we have to manually add the accidentals if any
+                grace.addModifier(new Vex.Accidental(pitch.substring(1, pitch.length)));
+            }
+
+            var group = new Vex.GraceNoteGroup([grace], true);
+
+            notes[grace_note.index].addModifier(group);
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+//create and format a slur, has functionality for ties across bars
+export function assembleSlur(notes, startIndex, endIndex) {
+    try { //slurs are non essential, so we catch it here
+        if (!notes) { return null; } 
+        if (startIndex < 0 || startIndex >= notes.length) { throw new Error("invalid curve indices"); } //or invalid indices
+        if (endIndex < 0 || endIndex >= notes.length) { throw new Error("invalid curve indices"); }
+        if (startIndex == endIndex) { throw new Error("curve indices cannot be the same"); } //or same index
+
+        if (startIndex > endIndex && endIndex != null) { //make sure starting and ending indices are in correct order
+            var temp = startIndex;
+            startIndex = endIndex;
+            endIndex = temp;
+        }
+
         var endNote;
 
         if (!endIndex) { //this indicates a tie to the next bar
@@ -407,7 +420,7 @@ export function assembleSlur(notes, startIndex, endIndex) {
 
 //create crescendo/decrescendo, similar to slurs, just attach the start and endpoint plus the type
 export function assembleHairpin(notes, hairpin) {
-    if (!notes || !hairpin) { return null; }
+    if (!hairpin || !notes) { return null; }
 
     try {
         var staveHairpin;
@@ -430,7 +443,7 @@ export function assembleHairpin(notes, hairpin) {
 //assemble each measure one at a time, then draw each one
 export function renderSong(song) {
 
-    initialize(pixelsPerBeat * song.total_beats + 15); //initialize renderer with dynamic width
+    initialize(song.total_beats); //initialize renderer with dynamic width
 
     song.measures.forEach(function (measure) { //iteratively render each measure and it's features
         try {
