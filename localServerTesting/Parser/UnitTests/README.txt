@@ -1,0 +1,1 @@
+To run the test_suite.py the parser needs to be in the same directory as all of the unit test files and test suite file

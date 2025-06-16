@@ -1,0 +1,1 @@
+The parttime.xsl file can be used to convert a time-wise mxl file into a part-wise file, while there is not current functionality implemented, this can be achieved using the lxml python library.

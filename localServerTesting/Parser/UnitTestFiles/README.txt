@@ -1,0 +1,1 @@
+This directory hold non-custom mxl files for testing along with some example musicxml files in both part-wise and time-wise for understanding the file structure of each.

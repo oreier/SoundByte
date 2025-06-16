@@ -1,0 +1,1 @@
+All custom mxl files created by Cade LaVanchy are found in two file formats, .mxl and .mscz. The .mxl format is used for testing while the .mscz file can be used to view the sheet music in MuseScore Studio.
