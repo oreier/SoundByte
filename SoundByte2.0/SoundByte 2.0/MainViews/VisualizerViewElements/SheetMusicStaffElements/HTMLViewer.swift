@@ -11,21 +11,27 @@ import WebKit
 
 struct HTMLViewer: UIViewRepresentable {
     var fileName: String
+    var url: URL?
     
     func makeUIView(context: Context) -> WKWebView {
-        return WKWebView()
+        let wkWebView = WKWebView()
+        let request = URLRequest(url: url!)
+        wkWebView.load(request)
+        return wkWebView
     }
     
-    func updateUIView(_ webView: WKWebView, context: Context) {
-        // Get url for music HTML
-        guard let htmlurl = Bundle.main.url(forResource: fileName, withExtension: "html") else { return }
-        // Load HTML url
-        webView.load(URLRequest(url: htmlurl))
-
+    init(fileName: String) {
+        self.fileName = fileName
         
+        // Get url for music HTML
+        self.url = Bundle.main.url(forResource: fileName, withExtension: "html")
+    }
+    
+    // This function needs to exist for a UIViewRepresentable object
+    func updateUIView(_ webView: WKWebView, context: Context) {
     }
 }
 
 #Preview {
-    HTMLViewer(fileName: "index")
+    HTMLViewer(fileName: "rendererTest")
 }

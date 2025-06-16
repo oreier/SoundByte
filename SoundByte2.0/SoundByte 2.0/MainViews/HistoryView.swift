@@ -4,13 +4,14 @@
 //
 //  Created by Samvat Dangol on 5/22/25.
 //
+//  Hard coded and disconnected history section for the app
+//
 
 import SwiftUI
 
 struct HistoryView: View {
     let images = ["A_bass", "B_bass"]
 
-    // Fixed number of columns
     private let columnsCount = 3
 
     var body: some View {
@@ -26,7 +27,6 @@ struct HistoryView: View {
                         .clipped()
                         .cornerRadius(8)
                         .shadow(radius: 2)
-                        // No tap gesture here — images are just displayed
                 }
             }
             .padding(.horizontal)

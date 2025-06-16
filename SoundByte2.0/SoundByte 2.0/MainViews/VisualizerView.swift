@@ -122,7 +122,7 @@ struct VisualizerView: View {
     // variables to control the timer
     @State var timer: Timer?
     @State var elapsedTime: Double = 0.0
-    @State var currentGrade: String = "0.0"
+    @State var currentGrade: String = "100.0" // Current grade is saved as a string, and modified when updating song grader
     
     // layout is determined by the parent view
     @State var layout: UILayout
@@ -138,7 +138,8 @@ struct VisualizerView: View {
     // sets the number of data elements to display in the pitch history line
     @State var maxData = 0
     
-    @State var sheetMusicStaff = SheetMusicStaff(fileName: "index", xOffset: -40.0) // Loads sheet music from "fileName".html
+    @State var sheetMusicStaff = SheetMusicStaff(fileName: "index", xOffset: -40.0) // Loads sheet music html from renderer. Uses -40 offset, though this may need more tuning to align with the starting position of the pitch indicator
+
     @State var songGrader = SongGrader()
     
     // tracks the life cycle of the app (sent to background or inactive)
@@ -159,8 +160,8 @@ struct VisualizerView: View {
         self.layout = UILayout(width: width, height: height)
         self.mode = mode
         self.gradeMode = gradeMode
-        self.shiftBy = tempo / 60.0
-        self.songGrader.loadNotes(filename: "test")
+        self.shiftBy = 2.5 * (tempo / 60.0)
+        self.songGrader.loadNotes(filename: "test") // Loads interval notes json from renderer for grading
     }
 
     // pulls together all of the visual elements into one view
@@ -246,12 +247,12 @@ struct VisualizerView: View {
 //                            .frame(width: 200)
 //                        Text("Freq: " + String(format:"%.0f", conductor.data.pitch))
                         
-                        Spacer() // moves timer display to the right
+                        Spacer() // moves timer and grade display to the right
                         if gradeMode == .playing {
                             GraderDisplay(songGrade: currentGrade,  fontSize: buttonSize)
                         }
                         
-                        //TimerDisplay(time: elapsedTime, size: buttonSize, isRecording: $isRecording)
+                        TimerDisplay(time: elapsedTime, size: buttonSize, isRecording: $isRecording)
                     }
                 }
                 .padding([.top, .bottom, .trailing]) // padding applies to the tool bar
@@ -458,6 +459,7 @@ struct VisualizerView: View {
         
         // reset history and stop recording
         history.reset()
+        songGrader.reset()
         elapsedTime = 0
         layout.indicatorY = layout.height / 2
         conductor.stop()
@@ -472,23 +474,26 @@ struct VisualizerView: View {
         
         // creates timer that updates with a specified increment
         timer = Timer.scheduledTimer(withTimeInterval: increment, repeats: true) { _ in
+            // Get current pitch for history display and grading
             currentPitch = Double(conductor.data.pitch)
+            // Get current cent difference between target pitch and sung pitch
             currentCents = songGrader.graderCentHelper(historyPitch: currentPitch)
+            // Interval grade for learning mode
             intervalGrade = songGrader.gradeCurrentInterval(historyPitch: currentPitch)
+            // If playing or learning mode + singing correct pitch
             if gradeMode == .playing || (gradeMode == .learning && intervalGrade > 0.1) {
+                // Update history, grading, and scroll
                 updateHistory(pitch: currentPitch, cents: currentCents)
                 sheetMusicStaff.scroll(tempo: tempo, increment: increment)
                 songGrader.updateGrading(currentPitch: currentPitch)
+                // Set current grade for display
+                currentGrade = String(round(songGrader.currentGrade))
             }
             else if gradeMode == .tuning  {
+                // Preserving tuner functionality
                 updateHistory(pitch: currentPitch, cents: cents)
             }
-            currentGrade = String(round(songGrader.currentGrade))
-            /*
-            if songGrader.targetPitches.count > songGrader.targetIndex {
-                currentGrade = String(songGrader.targetPitches.count) + " " + String(songGrader.currentGrade) + " " +  String(songGrader.targetPitches[songGrader.targetIndex]) + " " + String(currentPitch)
-            }
-            */
+
             elapsedTime += increment
         }
     }

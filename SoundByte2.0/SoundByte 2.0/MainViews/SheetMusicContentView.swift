@@ -4,6 +4,8 @@
 //
 //  Created by Samvat Dangol on 6/4/25.
 //
+//  This view is used with VisualizerView to show the playing/learning mode depending on which mode is set by the toggle
+//
 
 import SwiftUI
 

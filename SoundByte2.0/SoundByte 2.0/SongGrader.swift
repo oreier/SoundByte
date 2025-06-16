@@ -62,15 +62,18 @@ class SongGrader {
     }
     
     func updateGrading(currentPitch: Double) {
-        updateHistoryPitches(currentPitch: currentPitch)
-        // Grade current interval
-        let intervalGrade = gradeCurrentInterval(historyPitch: currentPitch)
-        // Update grading variables and array
-        sumCorrectPitches += intervalGrade
-        correctPitches.append(intervalGrade)
-        sumTotalPitches += 1.0
-        currentGrade = 100 * sumCorrectPitches / sumTotalPitches
-        targetIndex += 1
+        if targetIndex < targetPitches.count {
+            updateHistoryPitches(currentPitch: currentPitch)
+            // Grade current interval
+            let intervalGrade = gradeCurrentInterval(historyPitch: currentPitch)
+            
+            // Update grading variables and array
+            sumCorrectPitches += intervalGrade
+            correctPitches.append(intervalGrade)
+            sumTotalPitches += 1.0
+            currentGrade = 100 * sumCorrectPitches / sumTotalPitches
+            targetIndex += 1
+        }
     }
     
     func reset() {

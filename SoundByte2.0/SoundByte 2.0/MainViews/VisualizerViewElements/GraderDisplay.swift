@@ -13,10 +13,10 @@ struct GraderDisplay: View {
     
     var body: some View {
         ZStack {
-//            RoundedRectangle(cornerRadius: 5)
-//                .stroke(Color.primary, lineWidth: 4)
-//                .foregroundStyle(.clear)
-//                .frame(width: 4*fontSize , height: fontSize)
+            RoundedRectangle(cornerRadius: 5)
+                .stroke(Color.primary, lineWidth: 4)
+                .foregroundStyle(.clear)
+                .frame(width: 4*fontSize , height: fontSize)
             Text(songGrade + "%")
                 .font(.system(size: fontSize))
                 .foregroundStyle(Color(.black))

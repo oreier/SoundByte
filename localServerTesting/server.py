@@ -6,7 +6,7 @@ from process_file import process_uploaded_file
 
 app = Flask(__name__)
 
-# Folder where uploaded files will be saved
+# Create upload directory if it doesn't exist
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
@@ -19,17 +19,18 @@ def upload_file():
     if file.filename == '':
         return jsonify({"error": "No file selected"}), 400
 
+    # Sanitize and save the uploaded file
     filename = secure_filename(file.filename)
     filepath = os.path.join(UPLOAD_FOLDER, filename)
     file.save(filepath)
 
-    # Call your custom file processing function
+    # Process the saved file
     result = process_uploaded_file(filepath)
 
     return jsonify({"result": result}), 200
 
 if __name__ == '__main__':
-    # You can change port to 5000 or anything else if needed
+    # Start the Flask development server
     app.run(host='0.0.0.0', port=8000, debug=True)
 
 # Create python virtual environment with command: python3 -m venv venv
